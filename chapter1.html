@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>פרק 1 — הרמוניה מתקדמת | מאסטרקלאס לירון</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Heebo:wght@300;400;500;700&family=Frank+Ruhl+Libre:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── TOKENS ── */
+:root {
+  --gold:     #C9A84C;
+  --gold-lt:  #E8D08A;
+  --gold-dk:  #7A5F2A;
+  --bg:       #0A0A08;
+  --bg2:      #111109;
+  --bg3:      #181814;
+  --bg4:      #1E1C16;
+  --border:   rgba(201,168,76,0.18);
+  --text:     #E8E4D8;
+  --muted:    #8A8470;
+  --dim:      #5A5748;
+  --teal:     #2E9E85;
+  --blue:     #3A7BC8;
+  --purple:   #8A5ACA;
+  --red:      #C84040;
+  --sans:  'Heebo', sans-serif;
+  --serif: 'Frank Ruhl Libre', serif;
+  --mono:  'IBM Plex Mono', monospace;
+}
+
+/* ── BASE ── */
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-weight: 300;
+  line-height: 1.85;
+  direction: rtl;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+body { padding: 0 0 8rem; }
+
+/* ── TOP NAV ── */
+.topnav {
+  background: rgba(10,10,8,0.94);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  padding: 0.7rem clamp(1rem, 4vw, 2.5rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.topnav-back {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--gold-dk);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: color 0.15s;
+}
+.topnav-back:hover { color: var(--gold); }
+.topnav-title {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  color: var(--dim);
+}
+.chapter-badge {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  padding: 0.25rem 0.65rem;
+  background: rgba(46,158,133,0.12);
+  border: 1px solid rgba(46,158,133,0.3);
+  border-radius: 2px;
+  color: var(--teal);
+}
+
+/* ── CENTER WRAPPER ── */
+.page {
+  max-width: 960px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 clamp(1rem, 4vw, 2.5rem);
+}
+
+/* ── HERO ── */
+.hero {
+  padding: 4rem 0 3.5rem;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(201,168,76,0.07) 0%, transparent 70%),
+    repeating-linear-gradient(0deg, transparent, transparent 48px,
+      rgba(201,168,76,0.025) 48px, rgba(201,168,76,0.025) 49px);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  color: var(--gold-dk);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+.hero-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--gold-dk); }
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(2.2rem, 6vw, 3.8rem);
+  font-weight: 900;
+  color: var(--gold-lt);
+  line-height: 1.12;
+  position: relative;
+}
+.hero h1 em { font-style: normal; color: var(--text); font-weight: 300; }
+.hero-sub {
+  font-size: 1rem;
+  color: var(--muted);
+  max-width: 640px;
+  margin: 1rem 0 0;
+  font-weight: 300;
+  position: relative;
+}
+.toc-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 2rem;
+  position: relative;
+}
+.toc-chip {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  padding: 0.28rem 0.7rem;
+  background: rgba(201,168,76,0.07);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  color: var(--gold-dk);
+}
+
+/* ── TOPIC SECTION ── */
+.topic {
+  margin-top: 5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+.topic-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+  flex-direction: row-reverse;
+  flex-wrap: wrap;
+}
+.topic-num-badge {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  color: var(--gold-dk);
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  padding: 0.35rem 0.6rem;
+  border-radius: 2px;
+  flex-shrink: 0;
+  margin-top: 5px;
+  text-align: center;
+}
+.topic-num-badge span {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--gold);
+  line-height: 1;
+  letter-spacing: 0;
+}
+.topic-title {
+  font-family: var(--serif);
+  font-size: clamp(1.4rem, 3.5vw, 2rem);
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.2;
+}
+.topic-title em { color: var(--gold-lt); font-style: normal; }
+.topic-en {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  margin-top: 0.35rem;
+  direction: ltr;
+  text-align: right;
+}
+
+/* ── CONTENT BLOCKS ── */
+p { font-size: 0.96rem; margin-bottom: 1.2rem; font-weight: 300; line-height: 1.85; }
+p:last-child { margin-bottom: 0; }
+strong { color: var(--gold-lt); font-weight: 500; }
+em     { color: var(--muted); font-style: italic; }
+
+.section-head {
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  color: var(--gold);
+  margin: 2.5rem 0 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-direction: row-reverse;
+}
+.section-head::before { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* ── CALLOUTS ── */
+.callout {
+  margin: 1.25rem 0;
+  padding: 0.9rem 1.15rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  line-height: 1.8;
+}
+.callout.gold   { background: rgba(201,168,76,0.07);  border: 1px solid rgba(201,168,76,0.25);  color: var(--gold-lt); }
+.callout.teal   { background: rgba(46,158,133,0.07);  border: 1px solid rgba(46,158,133,0.25);  color: #7DD4C0; }
+.callout.blue   { background: rgba(58,123,200,0.07);  border: 1px solid rgba(58,123,200,0.25);  color: #90BFEE; }
+.callout.red    { background: rgba(200,64,64,0.07);   border: 1px solid rgba(200,64,64,0.25);   color: #E09090; }
+.callout.purple { background: rgba(138,90,202,0.07);  border: 1px solid rgba(138,90,202,0.25);  color: #C0A0E8; }
+.callout strong { font-weight: 600; }
+.callout-lbl {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  opacity: 0.65;
+  margin-bottom: 0.35rem;
+  display: block;
+}
+
+/* ── EXAMPLE BOX ── */
+.example-box {
+  background: var(--bg3);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-right: 3px solid var(--gold);
+  border-radius: 0 4px 4px 0;
+  padding: 1rem 1.25rem;
+  margin: 1rem 0;
+  font-size: 0.875rem;
+  line-height: 1.8;
+}
+.example-box .ex-lbl {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  color: var(--gold-dk);
+  margin-bottom: 0.5rem;
+  display: block;
+}
+.example-box strong { color: var(--gold-lt); font-weight: 500; }
+.example-box ol, .example-box ul { padding-right: 1.2rem; margin-top: 0.3rem; }
+.example-box li { margin-bottom: 0.45rem; font-size: 0.86rem; }
+
+/* ── SUNO PROMPT BLOCK ── */
+.prompt-block {
+  background: var(--bg4);
+  border: 1px solid rgba(138,90,202,0.3);
+  border-radius: 4px;
+  padding: 1rem 1.25rem;
+  margin: 1rem 0;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  line-height: 1.75;
+  color: #C0A8E8;
+  direction: ltr;
+  text-align: left;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+.prompt-block .p-lbl {
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  color: var(--purple);
+  margin-bottom: 0.4rem;
+  display: block;
+  text-align: right;
+  direction: rtl;
+}
+.prompt-block .s { color: #9060C0; }   /* style line  */
+.prompt-block .l { color: #D4A843; }   /* lyric line  */
+.prompt-block .c { color: #3A7BC8; font-style: italic; }  /* comment */
+.prompt-block .d { color: #2EB8A0; font-weight: 600; }    /* directive */
+
+/* ── GRID CARDS ── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+  gap: 1rem;
+  margin: 1.25rem 0;
+}
+.info-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1.15rem;
+}
+.ic-tag {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: var(--gold-dk);
+  margin-bottom: 0.4rem;
+  display: block;
+  direction: ltr;
+  text-align: right;
+}
+.ic-name { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.35rem; }
+.ic-desc { font-size: 0.83rem; color: var(--muted); line-height: 1.65; font-weight: 300; }
+.ic-suno {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--purple);
+  margin-top: 0.6rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+  direction: ltr;
+  text-align: left;
+}
+/* Mode card colors */
+.m-dorian   .ic-name { color: var(--teal); }
+.m-phrygian .ic-name { color: var(--red); }
+.m-lydian   .ic-name { color: var(--blue); }
+.m-mixo     .ic-name { color: var(--gold-lt); }
+.m-phdom    .ic-name { color: #E08050; }
+.m-aeolian  .ic-name { color: var(--purple); }
+.m-ionian   .ic-name { color: #90D890; }
+
+/* ── TABLES ── */
+.tbl-wrap {
+  overflow-x: auto;
+  width: 100%;
+  -webkit-overflow-scrolling: touch;
+  margin: 1rem 0;
+}
+table {
+  width: 100%;
+  min-width: 480px;
+  border-collapse: collapse;
+  font-size: 0.855rem;
+}
+th {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: var(--gold-dk);
+  text-align: right;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--border);
+  font-weight: 400;
+}
+td {
+  padding: 0.65rem 0.75rem;
+  border-bottom: 1px solid rgba(201,168,76,0.06);
+  vertical-align: top;
+  font-weight: 300;
+}
+tr:hover td { background: rgba(201,168,76,0.025); }
+
+/* ── STEP LIST ── */
+.steps { list-style: none; margin: 1.25rem 0; }
+.steps li {
+  display: grid;
+  grid-template-columns: 1fr 2rem;
+  gap: 0.9rem;
+  margin-bottom: 1.1rem;
+  align-items: start;
+}
+.sn {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--gold-dk);
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  width: 2rem; height: 2rem;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 2px;
+  flex-shrink: 0;
+  order: 2;
+  margin-top: 2px;
+}
+.st { font-size: 0.91rem; order: 1; line-height: 1.8; }
+.st strong { color: var(--gold-lt); font-weight: 500; }
+
+/* ── PROGRESS COMPARISON ── */
+.compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 1.25rem 0;
+}
+.cmp-box {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1rem;
+}
+.cmp-box.bad  { border-color: rgba(200,64,64,0.3); }
+.cmp-box.good { border-color: rgba(46,158,133,0.3); }
+.cmp-label {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+.cmp-box.bad  .cmp-label { color: var(--red); }
+.cmp-box.good .cmp-label { color: var(--teal); }
+.cmp-box p { font-size: 0.83rem; margin: 0; }
+
+/* ── VOICE LEADING VISUAL ── */
+.vl-diagram {
+  display: flex;
+  gap: 0;
+  direction: ltr;
+  margin: 1.25rem 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.vl-chord {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 90px;
+  padding: 0.75rem;
+}
+.vl-chord-name {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--gold);
+  text-align: center;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+}
+.vl-note {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 3px;
+  text-align: center;
+}
+.vl-note.common { background: rgba(46,158,133,0.2); color: var(--teal); border: 1px solid rgba(46,158,133,0.35); }
+.vl-note.move   { background: rgba(201,168,76,0.15); color: var(--gold-lt); border: 1px solid rgba(201,168,76,0.3); }
+.vl-arrow {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  padding: 0 0.25rem;
+  color: var(--dim);
+  font-size: 0.75rem;
+  margin-top: 1.8rem;
+}
+
+/* ── CHAPTER NAV FOOTER ── */
+.chapter-nav {
+  margin-top: 5rem;
+  padding: 1.75rem 0;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.cnav-link {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--gold-dk);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.cnav-link:hover { color: var(--gold); }
+.cnav-label { font-family: var(--mono); font-size: 0.58rem; color: var(--dim); letter-spacing: 0.12em; }
+
+/* ── CODE ── */
+code {
+  font-family: var(--mono);
+  font-size: 0.82em;
+  background: rgba(201,168,76,0.1);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+  color: var(--gold-lt);
+  direction: ltr;
+  display: inline-block;
+  word-break: break-word;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  .topic-header { flex-direction: column; gap: 0.5rem; }
+  .card-grid { grid-template-columns: 1fr; }
+  .compare { grid-template-columns: 1fr; }
+  .steps li { grid-template-columns: 1fr; }
+  .sn { order: 0; width: 1.75rem; height: 1.75rem; }
+  .prompt-block { font-size: 0.7rem; }
+  .vl-chord { min-width: 75px; padding: 0.5rem; }
+  .hero h1 { font-size: 2rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ TOP NAV ══ -->
+<nav class="topnav">
+  <a href="index.html" class="topnav-back">← חזרה למרכז השליטה הראשי</a>
+  <span class="topnav-title">ADVANCED MUSIC PRODUCTION MASTERCLASS</span>
+  <span class="chapter-badge">CHAPTER 01 · HARMONY</span>
+</nav>
+
+<div class="page">
+
+<!-- ══ HERO ══ -->
+<div class="hero">
+  <div class="hero-eyebrow">CHAPTER 01 OF 05 · HARMONIC FOUNDATIONS</div>
+  <h1>הרמוניה <em>מתקדמת</em><br>ותיאוריה מוזיקלית</h1>
+  <p class="hero-sub">מהמודים הרגשיים דרך ניהול קולות כירורגי ועד לפרוגרסיות השאולות ששוברות את הגנריות — כֹּל כלי תיאורטי מתורגם ישירות לפרומפטים ב-SUNO.</p>
+  <div class="toc-row">
+    <span class="toc-chip">1.1 · מודים רגשיים</span>
+    <span class="toc-chip">1.2 · Voice Leading</span>
+    <span class="toc-chip">1.3 · פרוגרסיות מורכבות</span>
+    <span class="toc-chip">1.4 · עיוותים הרמוניים</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- TOPIC 1.1 -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="topic" id="t1">
+  <div class="topic-header">
+    <div class="topic-num-badge"><span>1.1</span>נושא</div>
+    <div>
+      <div class="topic-title">מודים רגשיים<br>ו<em>הצפנת אווירה ב-AI</em></div>
+      <div class="topic-en">Emotional Modes &amp; Atmosphere Encoding in SUNO</div>
+    </div>
+  </div>
+
+  <p>מוד מוזיקלי הוא לא רק "סולם אחר" — הוא <strong>פרופיל רגשי שלם</strong>. כֹּל מוד נושא מרחק אינטרוולי ייחודי שמפעיל תגובה עצבית-שמיעתית מוגדרת. מפיק שבוחר מוד באינטואיציה ("זה נשמע טוב") מוותר על שליטה. מפיק שבוחר מוד <em>בכוונה</em> — מנחה את המאזין.</p>
+
+  <div class="callout gold">
+    <span class="callout-lbl">העיקרון המנחה</span>
+    <strong>כֹּל מוד = כֹּל הוראת בימוי.‎</strong> כשאתה כותב <code>Dorian mode</code> ב-SUNO Style Tag, אתה לא מגדיר "סולם" — אתה מגדיר <em>מרחב רגשי</em>: כמה מלנכוליה, כמה תקווה, היכן הפיק הדרמטי. ה-AI יבנה את המלודיה, הפרוגרסיה והכלים בהתאם.
+  </div>
+
+  <div class="section-head">שבעת המודים — מדריך רגשי מלא</div>
+
+  <div class="card-grid">
+    <div class="info-card m-ionian">
+      <span class="ic-tag">IONIAN · W-W-H-W-W-W-H</span>
+      <div class="ic-name">Ionian — מז'ור טהור</div>
+      <div class="ic-desc">בהיר, פתור, מנצח, חגיגי. ♮7 יוצר רזולוציה מוחלטת. המוד הכי "מוכר" ולכן הכי צפוי. שימוש לדרופים מנצחים, כורוסים אנתמיים.</div>
+      <div class="ic-suno">"triumphant, bright, major anthem"</div>
+    </div>
+    <div class="info-card m-dorian">
+      <span class="ic-tag">DORIAN · W-H-W-W-W-H-W</span>
+      <div class="ic-name">Dorian — המינור עם תקווה</div>
+      <div class="ic-desc">מינור עם ♮6 — עצוב אך לא חסר תקווה. ♮6 מונע שקיעה לדיכאון. Daft Punk, Radiohead, כֹּל טראנס רגשי. אידיאלי לברייקדאונים שמרגישים "ריחוף".</div>
+      <div class="ic-suno">"melancholic hopeful, Dorian mode, emotional trance"</div>
+    </div>
+    <div class="info-card m-phrygian">
+      <span class="ic-tag">PHRYGIAN · H-W-W-W-H-W-W</span>
+      <div class="ic-name">Phrygian — מתח וחשכה</div>
+      <div class="ic-desc">♭2 יוצר אי-נוחות, מסתורין, מאיים. פלמנקו, מטאל, ז'אנרים דרמטיים. שימוש לפרה-דרופ, מבנים שדורשים מתח לפני שחרור.</div>
+      <div class="ic-suno">"dark tension, mysterious, before the drop, Phrygian"</div>
+    </div>
+    <div class="info-card m-lydian">
+      <span class="ic-tag">LYDIAN · W-W-W-H-W-W-H</span>
+      <div class="ic-name">Lydian — חלומי וצף</div>
+      <div class="ic-desc">♯4 מבטל את כוח הכובד של הרזולוציה. נשמע "מחוץ לזמן", אתרי, קולנועי. John Williams, ציוני קולנוע. אידיאלי לברייקדאונים אמביינטיים.</div>
+      <div class="ic-suno">"dreamy, ethereal, floating, cinematic, Lydian"</div>
+    </div>
+    <div class="info-card m-mixo">
+      <span class="ic-tag">MIXOLYDIAN · W-W-H-W-W-H-W</span>
+      <div class="ic-name">Mixolydian — בלוז וגרוב</div>
+      <div class="ic-desc">מז'ור עם ♭7 — "הבטחה שלא מתקיימת במלואה". בלוז, ג'אז, פרוגרסיב-האוס. האוזן צופה לרזולוציה מז'ורית ומקבלת מינורי. יוצר גרוב ייחודי.</div>
+      <div class="ic-suno">"bluesy, groovy, unresolved, warm, Mixolydian"</div>
+    </div>
+    <div class="info-card m-aeolian">
+      <span class="ic-tag">AEOLIAN · W-H-W-W-H-W-W</span>
+      <div class="ic-name">Aeolian — מינור טבעי</div>
+      <div class="ic-desc">המינור הטבעי — עצוב, כבד, "ארצי". ♭6 ו-♭7 יוצרים כובד רגשי ללא מוצא. בסיס כֹּל מוזיקת פופ עצובה. מדויק, אבל פחות ייחודי מ-Dorian.</div>
+      <div class="ic-suno">"dark emotional, natural minor, heavy, melancholic"</div>
+    </div>
+    <div class="info-card m-phdom">
+      <span class="ic-tag">PHRYGIAN DOMINANT · H-W½-H-W-H-W-W</span>
+      <div class="ic-name">Phrygian Dominant</div>
+      <div class="ic-desc">♭2 + ♮3 = ה"ריח" המזרח-תיכוני הגלובלי. שנייה מוגדלת (Aug2nd) בין ♭2 ל-♮3 — זה בדיוק מקאם חיג'אז. כֹּל זיהוי אתני מיידי. פלמנקו, ערבי, ישראלי.</div>
+      <div class="ic-suno">"Middle Eastern, ethnic tension, Hijaz, Phrygian Dominant"</div>
+    </div>
+  </div>
+
+  <div class="section-head">תרגום מודים לפרומפטי SUNO — טבלת מפתח</div>
+
+  <div class="tbl-wrap">
+    <table>
+      <tr>
+        <th>מוד</th>
+        <th>אינטרוול ייחודי</th>
+        <th>רגש מרכזי</th>
+        <th>Style Tag ל-SUNO</th>
+        <th>שימוש מומלץ בשיר</th>
+      </tr>
+      <tr>
+        <td><strong>Dorian</strong></td>
+        <td>♮6</td>
+        <td>מלנכוליה + תקווה</td>
+        <td><code>melancholic hopeful, Dorian</code></td>
+        <td>ברייקדאון, ורס ראשי</td>
+      </tr>
+      <tr>
+        <td><strong>Phrygian</strong></td>
+        <td>♭2</td>
+        <td>מסתורי, מאיים</td>
+        <td><code>dark tension, Phrygian, before drop</code></td>
+        <td>פרה-דרופ, ברידג' מתוח</td>
+      </tr>
+      <tr>
+        <td><strong>Lydian</strong></td>
+        <td>♯4</td>
+        <td>חלומי, צף</td>
+        <td><code>dreamy ethereal floating Lydian</code></td>
+        <td>ברייקדאון אמביינטי, אינטרו</td>
+      </tr>
+      <tr>
+        <td><strong>Mixolydian</strong></td>
+        <td>♭7</td>
+        <td>בלוז, גרובי</td>
+        <td><code>bluesy warm groovy Mixolydian</code></td>
+        <td>ורס פופ-האוס, ג'אם</td>
+      </tr>
+      <tr>
+        <td><strong>Phrygian Dom.</strong></td>
+        <td>♭2+♮3</td>
+        <td>מזרח-תיכוני, עתיק</td>
+        <td><code>Middle Eastern ethnic Hijaz tension</code></td>
+        <td>אינטרו עוד, מלודיית ליד</td>
+      </tr>
+      <tr>
+        <td><strong>Ionian</strong></td>
+        <td>♮7</td>
+        <td>ניצחון, אור</td>
+        <td><code>triumphant bright major uplifting</code></td>
+        <td>דרופ ניצחון, כורוס שיא</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="section-head">פרומפטים מלאים לפי מוד</div>
+
+  <div class="prompt-block">
+    <span class="p-lbl">DORIAN — ברייקדאון רגשי טראנס</span>
+<span class="s">STYLE: emotional trance, Dorian mode on A,</span>
+<span class="s">melancholic hopeful, minor with uplift,</span>
+<span class="s">oud breakdown, smooth voice leading pads,</span>
+<span class="s">138 BPM, cinematic, no major resolution</span>
+
+<span class="d">[Extended Emotional Breakdown — Dorian pads, no drums]</span>
+<span class="l">נוֹשֵׂא בְּתוֹכִי אֶת הַלַּיְלָה / גַּם בַּבֹּקֶר אֲנִי עוֹד שָׁם</span>
+  </div>
+
+  <div class="prompt-block">
+    <span class="p-lbl">PHRYGIAN DOMINANT — מלודיית עוד לפני דרופ</span>
+<span class="s">STYLE: pop-house trance fusion, Phrygian Dominant on D,</span>
+<span class="s">Middle Eastern tension, ethnic electronic,</span>
+<span class="s">oud lead melody, maqam Hijaz character,</span>
+<span class="s">dark pre-drop energy, 134 BPM</span>
+
+<span class="d">[Oud Taqsim — Phrygian Dominant — no drums — 8 bars]</span>
+<span class="l">(instrumental)</span>
+<span class="d">[Heavy Electronic Drop — maximum energy]</span>
+  </div>
+
+  <div class="callout teal">
+    <span class="callout-lbl">INPAINT — תיקון מוד שגוי</span>
+    אם SUNO ייצר פרוגרסיה שמחליקה ל-Ionian (מז'ור) בזמן שרצית Dorian — בצע Inpaint על הקטע הספציפי עם: <code>keep Dorian mode, no major resolution, preserve minor 6th character, avoid bright lift</code>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- TOPIC 1.2 -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="topic" id="t2">
+  <div class="topic-header">
+    <div class="topic-num-badge"><span>1.2</span>נושא</div>
+    <div>
+      <div class="topic-title"><em>Voice Leading</em> כירורגי<br>בתוך SUNO</div>
+      <div class="topic-en">Surgical Voice Leading — Smooth Harmonic Motion</div>
+    </div>
+  </div>
+
+  <p>Voice Leading — ניהול קולות — הוא אמנות הזזת כֹּל קול הרמוני בצורה מינימלית ומכוונת בין אקורדים. זה לא "בחירת אקורדים" — זה שאלת <strong>כיצד הצלילים עוברים</strong> ממקום למקום. ההבדל בין מיקס "בוצי" ומיקס "נושם" לרוב טמון כאן.</p>
+
+  <div class="callout gold">
+    <span class="callout-lbl">הכלל הבסיסי</span>
+    <strong>שלושה חוקים:</strong> (1) שמור על צלילים משותפים בין אקורדים — הם לא זזים. (2) הצלילים שכן זזים — זזים בצעד (חצי-טון או טון) ולא בקפיצה. (3) הימנע מקווינטות מקבילות — שני קולות שזזים יחד במרחק קווינטה יוצרים צליל "ריק".
+  </div>
+
+  <div class="section-head">Em7 → A7 — דוגמה כירורגית מלאה</div>
+
+  <p>זוהי פרוגרסיה קלאסית בטראנס ובפופ-האוס. הנה כיצד Voice Leading מושלם נראה:</p>
+
+  <div class="vl-diagram">
+    <div class="vl-chord">
+      <div class="vl-chord-name">Em7</div>
+      <div class="vl-note common">E</div>
+      <div class="vl-note common">G</div>
+      <div class="vl-note move">B</div>
+      <div class="vl-note move">D</div>
+    </div>
+    <div class="vl-arrow">
+      <span>→</span>
+      <span>→</span>
+      <span>↓W</span>
+      <span>↓H</span>
+    </div>
+    <div class="vl-chord">
+      <div class="vl-chord-name">A7</div>
+      <div class="vl-note common">E</div>
+      <div class="vl-note common">G</div>
+      <div class="vl-note move">A</div>
+      <div class="vl-note move">C♯</div>
+    </div>
+  </div>
+
+  <div class="example-box">
+    <span class="ex-lbl">פירוש הדיאגרמה</span>
+    <ul>
+      <li><strong>E ו-G (ירוק):</strong> צלילים משותפים לשני האקורדים — <em>לא זזים</em>. נשארים באותה אוקטבה בדיוק.</li>
+      <li><strong>B → A (זהב):</strong> יורד טון שלם. תנועה מינימלית.</li>
+      <li><strong>D → C♯ (זהב):</strong> יורד חצי-טון. הצעד הקטן ביותר האפשרי.</li>
+      <li><strong>תוצאה:</strong> מעבר של 4 קולות שבו רק 2 זזים — <em>מקסימום חלקות, מינימום שבר רגשי</em>.</li>
+    </ul>
+  </div>
+
+  <div class="section-head">Voice Leading בפאדי SUNO — 3 טכניקות</div>
+
+  <ul class="steps">
+    <li>
+      <div class="st"><strong>Drop-2 Voicing:</strong> קח אקורד ב-Close Position → הורד את הקול השני מלמעלה אוקטבה אחת. יוצר "רוחב" בפאד — נשמע "מאורר" יותר. ב-SUNO Style: <code>open voicing pads, wide harmonic spread, airy chord texture</code></div>
+      <div class="sn">A</div>
+    </li>
+    <li>
+      <div class="st"><strong>Pedal Point:</strong> בס-צליל קבוע בזמן שהאקורדים מעליו מתחלפים. יוצר מתח בנייה מצוין לפני דרופ. ב-SUNO: <code>[Pedal tone on [note], chords shifting above, rising tension]</code></div>
+      <div class="sn">B</div>
+    </li>
+    <li>
+      <div class="st"><strong>Contrary Motion:</strong> בס עולה בזמן שהסופרן יורד (או להפך). יוצר תחושת "פרישה" שמלאה במרחב. ב-SUNO Style: <code>contrary motion voicing, bass ascending, melody descending, rich harmonic texture</code></div>
+      <div class="sn">C</div>
+    </li>
+  </ul>
+
+  <div class="section-head">השוואה: Voice Leading נכון מול שגוי</div>
+
+  <div class="compare">
+    <div class="cmp-box bad">
+      <span class="cmp-label">✗ Voice Leading גרוע</span>
+      <p>קפיצות גדולות בין אקורדים — כֹּל קול קופץ לאיזה צליל שמתחשק לו. תוצאה: מיקס "בוצי", פאדים שנשמעים כאילו "נשברים", תחושת חוסר-רציפות. מאזין לא ידע מדוע אבל ירגיש אי-נוחות.</p>
+    </div>
+    <div class="cmp-box good">
+      <span class="cmp-label">✓ Voice Leading נכון</span>
+      <p>צלילים משותפים נשמרים, תנועה בצעדים קטנים. תוצאה: מיקס "נושם", פאדים שזורמים, רגשות שבונים בצורה חלקה. המאזין מרגיש את ההרמוניה מבלי "לתפוס" אותה.</p>
+    </div>
+  </div>
+
+  <div class="prompt-block">
+    <span class="p-lbl">SUNO — Voice Leading חלק בפאד ברייקדאון</span>
+<span class="s">STYLE: emotional trance breakdown,</span>
+<span class="s">smooth chord transitions, connected legato pad,</span>
+<span class="s">flowing harmonic movement, no abrupt chord changes,</span>
+<span class="s">open position voicings, Dorian mode, contrary motion</span>
+
+<span class="d">[Breakdown — smooth pad voicings — no drums — slow harmonic rhythm]</span>
+<span class="l">כַּמָּה עוֹד לִנְסֹעַ / עַד שֶׁתָּבוֹא</span>
+  </div>
+
+  <div class="callout teal">
+    <span class="callout-lbl">INPAINT — תיקון מעבר גס</span>
+    שמעת מעבר "גס" בין שתי שניות? סמן בדיוק 2–4 שניות ב-Inpaint עם: <code>smooth transition here, connected harmony, minimal leap between chords, legato movement</code>. גע רק במה שדורש תיקון — אל תגנרט מחדש כֹּל השיר.
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- TOPIC 1.3 -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="topic" id="t3">
+  <div class="topic-header">
+    <div class="topic-num-badge"><span>1.3</span>נושא</div>
+    <div>
+      <div class="topic-title">פרוגרסיות אקורדים<br><em>מורכבות ושאולות</em></div>
+      <div class="topic-en">Complex &amp; Borrowed Chord Progressions</div>
+    </div>
+  </div>
+
+  <p>פרוגרסיית I–IV–V–I היא הגנרית ביותר שיש. היא "עובדת" — אבל <strong>לא מפתיעה</strong>. מפיקים ברמת הוליווד בונים פרוגרסיות שיוצרות ציפייה שגויה ואז פותרים אותה בצורה בלתי-צפויה. שלוש הטכניקות הבאות הן הנפוצות ביותר בין מפיקים מקצועיים.</p>
+
+  <div class="section-head">טכניקה 1 — The Pachelbel Subversion (קו הבס היורד)</div>
+
+  <div class="example-box">
+    <span class="ex-lbl">הפרמול המלא</span>
+    <p><strong>מבנה:</strong> I – V – vi – iii – IV – I – IV – V</p>
+    <p><strong>בלה מינור (Am):</strong> Am – E – F – C – Dm – Am – Dm – E</p>
+    <p><strong>הסוד:</strong> הבס יורד דרגה בכֹּל שלב — A → G# → G → F# → F... — בעוד שהאקורדים מעליו מתחלפים. המאזין מרגיש "נשיאה" קדימה ללא אגרסיביות.</p>
+    <p><strong>שימוש:</strong> ברייקדאונים חזנותיים, אינטרואים עם עוד, קטעים שדורשים "זרימה" ארוכה ורגועה.</p>
+  </div>
+
+  <div class="prompt-block">
+    <span class="p-lbl">SUNO — Pachelbel Subversion</span>
+<span class="s">STYLE: emotional cantorial breakdown, descending bassline,</span>
+<span class="s">Dorian on A, smooth chord movement, building tension,</span>
+<span class="s">cinematic swell, oud supporting melody</span>
+
+<span class="d">[Verse — descending bassline — sparse arrangement]</span>
+<span class="l">עוֹמֵד בַּשַּׁעַר שֶׁל הַלַּיְלָה / מְחַכֶּה שֶׁהַשָּׁמַיִם יִפָּתְחוּ</span>
+
+<span class="d">[Chords: Am - E/G# - G - F#m - F - E over descending bass]</span>
+  </div>
+
+  <div class="section-head">טכניקה 2 — The Neapolitan Infusion (חדירת הנאפוליטני)</div>
+
+  <p>הנאפוליטני (♭II) הוא אקורד מז'ור על הדרגה השנייה המורדת — ♭2 — המוצב בהיפוך ראשון (♭II6). הוא שאול ממוד פריגי ומייצר <strong>את המתח הדרמטי ביותר האפשרי לפני דרופ</strong>.</p>
+
+  <div class="example-box">
+    <span class="ex-lbl">הנאפוליטני ב-La מינור</span>
+    <p><strong>הפרמול:</strong> Am → B♭maj/D (= ♭II6) → E7 → Am</p>
+    <p><strong>הרגש:</strong> Am יציב → B♭maj פותאומי ולא-צפוי → E7 דוחף לרזולוציה → Am חוזר.</p>
+    <p><strong>Voice Leading מ-♭II6 לדומיננטה:</strong> הבס של ♭II6 (הD) חייב לרדת חצי-טון ל-C# של E7. זו שורת הבס הכי "מתוחה" שיש.</p>
+    <p><strong>שימוש:</strong> 2 תיבות לפני הדרופ — יוצר תחושת "המדרגה שנשמטת מתחת לרגליים".</p>
+  </div>
+
+  <div class="prompt-block">
+    <span class="p-lbl">SUNO — Neapolitan Infusion לפני דרופ</span>
+<span class="s">STYLE: emotional trance, 136 BPM, Dorian on A,</span>
+<span class="s">chromatic tension before drop, unstable resolution,</span>
+<span class="s">Neapolitan chord approach, dramatic pre-chorus</span>
+
+<span class="d">[Build-Up — rising tension — Neapolitan chord — then silence]</span>
+<span class="l">(no lyrics — cinematic build)</span>
+<span class="d">[Chords: Am - Bbmaj/D - E7 — then 1 bar silence — then Heavy Drop]</span>
+
+<span class="d">[Heavy Electronic Drop]</span>
+<span class="l">אַתָּה / כָּאן / עַכְשָׁו</span>
+  </div>
+
+  <div class="section-head">טכניקה 3 — Secondary Dominants (דומיננטות משניות)</div>
+
+  <p>כֹּל אקורד בסולם יכול לקבל "דומיננטה זמנית" שמוביל אליו. V/V = הדומיננטה של הדומיננטה. V/vi = הדומיננטה של השישית. כֹּל Secondary Dominant מכניס צליל כרומטי שיוצר מתח קצר ואז שוחרר אותו.</p>
+
+  <div class="example-box">
+    <span class="ex-lbl">V/V — הדומיננטה הכפולה</span>
+    <p><strong>ב-La מינור:</strong> E7 → Am הוא V → i (פרוגרסיה ראשית).</p>
+    <p><strong>אבל:</strong> B7 → E7 → Am הוא V/V → V → i — <em>שני שלבי מתח לפני הרזולוציה</em>.</p>
+    <p><strong>SUNO:</strong> <code>[Chords: B7 - E7 - Am — double resolution — chromatic color]</code></p>
+    <p><strong>ב-Do מז'ור:</strong> D7 → G → C = V/V → V → I. הD7 מכניס F# שלא שייך לסולם — ה"אורחת" הכרומטית שמפתיעה ומשחררת.</p>
+  </div>
+
+  <div class="section-head">טכניקה 4 — Modal Interchange (החלפת מוד / אקורדים שאולים)</div>
+
+  <div class="example-box">
+    <span class="ex-lbl">Modal Interchange — ה"צל" מהמינור המקביל</span>
+    <p><strong>הרעיון:</strong> בתוך שיר מז'ורי — שאל אקורד מהמינור המקביל. יוצר "קרן שמש דרך עננים" — רגע חשוך בלתי-צפוי שנכנס חזק.</p>
+    <p><strong>בדו מז'ור (C Major):</strong> הוסף A♭maj7 (שאול מ-C Minor). הפרמול: C – Am – A♭maj7 – G. הA♭ אינו שייך לסולם הC מז'ור — אבל האוזן מקבלת אותו מיד כ"צל".</p>
+    <p><strong>Radiohead, Massive Attack, Trip-Hop:</strong> בנויים כמעט לחלוטין על Modal Interchange.</p>
+    <p><strong>SUNO:</strong> <code>borrowed chord from parallel minor, shadow harmony, unexpected dark color in major context</code></p>
+  </div>
+
+  <div class="prompt-block">
+    <span class="p-lbl">SUNO — Modal Interchange ב-Pop-House</span>
+<span class="s">STYLE: pop-house trance, 132 BPM, C major with borrowed minor,</span>
+<span class="s">shadow chord modal interchange, unexpected dark color,</span>
+<span class="s">emotional lift after shadow, melancholic hopeful</span>
+
+<span class="d">[Verse — major feel — then shadow chord — then resolution]</span>
+<span class="l">מַבִּיט אֵלַיִךְ / וְהַכֹּל נָפַל</span>
+<span class="d">[Chords: C - Am - Ab_maj7 - G — modal interchange on Ab]</span>
+
+<span class="d">[Chorus — back to bright major — release the tension]</span>
+<span class="l">אַתְּ כָּאן / אַתְּ שֶׁלִּי</span>
+  </div>
+
+  <div class="callout purple">
+    <span class="callout-lbl">מאסטר-פרומפט — כֹּל הטכניקות יחד</span>
+    <code>descending bassline, Neapolitan pre-drop, secondary dominant V/V, borrowed shadow chord, smooth voice leading, Dorian mode, no I-IV-V pattern, avoid generic progressions</code>
+    — שלב זה ב-SUNO Style Tag כדי לאלץ הרמוניה עמוקה ולא-גנרית.
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- TOPIC 1.4 -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="topic" id="t4">
+  <div class="topic-header">
+    <div class="topic-num-badge"><span>1.4</span>נושא</div>
+    <div>
+      <div class="topic-title">זיהוי עיוותים הרמוניים<br>ו<em>ניהול הנדל"ן הספקטרלי</em></div>
+      <div class="topic-en">Harmonic Artifact Detection &amp; Spectral Real Estate</div>
+    </div>
+  </div>
+
+  <p>SUNO, כמו כֹּל מנוע AI מוזיקלי, מייצר עיוותים הרמוניים ייחודיים שחוזרים. זיהוי מוקדם שלהם — לפני שהם "נאפים" לתוך המיקס — חוסך שעות של עבודה מחדש.</p>
+
+  <div class="section-head">5 עיוותים הרמוניים נפוצים ב-SUNO</div>
+
+  <div class="card-grid">
+    <div class="info-card">
+      <span class="ic-tag" style="color:var(--red);">ARTIFACT 01</span>
+      <div class="ic-name" style="color:var(--red);">Mode Slippage</div>
+      <div class="ic-desc">SUNO מחליק ל-Ionian (מז'ור) בזמן שביקשת Dorian. נשמע "בהיר מדי", מאבד את הכיסופים שביקשת.</div>
+      <div class="ic-suno">Inpaint: "keep Dorian, no major resolution, preserve minor 6th"</div>
+    </div>
+    <div class="info-card">
+      <span class="ic-tag" style="color:var(--red);">ARTIFACT 02</span>
+      <div class="ic-name" style="color:var(--red);">Parallel Fifths Mud</div>
+      <div class="ic-desc">שני קולות שזזים יחד בקווינטות — יוצרים "עיבוי" מלאכותי שמרוקן את המיקס. נשמע "שטוח" ו"ריק".</div>
+      <div class="ic-suno">Inpaint: "smooth voice leading, avoid parallel fifths, connected harmonic movement"</div>
+    </div>
+    <div class="info-card">
+      <span class="ic-tag" style="color:var(--red);">ARTIFACT 03</span>
+      <div class="ic-name" style="color:var(--red);">Harmonic Stutter</div>
+      <div class="ic-desc">פרוגרסיה שחוזרת על עצמה מוקדם מדי — תחושת "תקוע". הAI בנה לופ קצר ולא עמוק.</div>
+      <div class="ic-suno">Inpaint: "longer harmonic cycle, avoid short loop, harmonic development"</div>
+    </div>
+    <div class="info-card">
+      <span class="ic-tag" style="color:var(--red);">ARTIFACT 04</span>
+      <div class="ic-name" style="color:var(--red);">Generic I-IV-V</div>
+      <div class="ic-desc">SUNO נפל לפרוגרסיית I-IV-V גנרית — נשמע כמו כֹּל שיר פופ בסיסי. אין עומק.</div>
+      <div class="ic-suno">Inpaint: "unexpected chord, chromatic color, avoid I-IV-V pattern, borrowed harmony"</div>
+    </div>
+    <div class="info-card">
+      <span class="ic-tag" style="color:var(--red);">ARTIFACT 05</span>
+      <div class="ic-name" style="color:var(--red);">Pitch Drift ב-Chord</div>
+      <div class="ic-desc">אקורד שמשנה "גוון" באמצע — כאילו מישהו זזה מהצליל שורש. נשמע לא-מכוון, מרגיש "שגיאה".</div>
+      <div class="ic-suno">Inpaint: "stable chord intonation, no pitch drift on harmony, clean chord tones"</div>
+    </div>
+  </div>
+
+  <div class="section-head">ניהול הנדל"ן הספקטרלי — הרמוניה ותדרים</div>
+
+  <p>כֹּל אקורד תופס <strong>שטח תדרים</strong>. כאשר פאד הרמוני, מלודיית ליד ו-Chord Stabs כולם פעילים בו-זמנית — הם "מתחרים" על אותו שטח. תוצאה: מיקס בוצי וחסר הגדרה.</p>
+
+  <div class="tbl-wrap">
+    <table>
+      <tr>
+        <th>אלמנט הרמוני</th>
+        <th>טווח תדרים מרכזי</th>
+        <th>מתחרה עם</th>
+        <th>פתרון ב-SUNO Style</th>
+      </tr>
+      <tr>
+        <td><strong>Chord Pad</strong></td>
+        <td>200Hz – 4kHz</td>
+        <td>ווקאל, ליד, כלים אתניים</td>
+        <td><code>background pad, recede when vocals play</code></td>
+      </tr>
+      <tr>
+        <td><strong>Supersaw Lead</strong></td>
+        <td>500Hz – 16kHz</td>
+        <td>פאד, ווקאל עליון, נַי</td>
+        <td><code>lead melody featured, pads support only</code></td>
+      </tr>
+      <tr>
+        <td><strong>Chord Stab</strong></td>
+        <td>150Hz – 3kHz</td>
+        <td>קיק, בס, פאד</td>
+        <td><code>percussive chord stab, short attack, no sustain</code></td>
+      </tr>
+      <tr>
+        <td><strong>Bass Harmony</strong></td>
+        <td>40Hz – 250Hz</td>
+        <td>קיק, Sub Bass</td>
+        <td><code>bass root only, no bass chord cluster</code></td>
+      </tr>
+      <tr>
+        <td><strong>Ethnic Instrument</strong></td>
+        <td>80Hz – 3.5kHz</td>
+        <td>פאד, ליד, ווקאל אמצע</td>
+        <td><code>ethnic instrument featured, no synth harmony simultaneously</code></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="callout blue">
+    <span class="callout-lbl">הכלל הזהב של הנדל"ן הספקטרלי</span>
+    <strong>רק אלמנט אחד שולט בכֹּל טווח תדרים בכֹּל רגע נתון.</strong> ב-SUNO — ציין בפירוש מה מוביל ומה תומך: <code>oud leads melody, pad supports harmonically, vocal sits above, bass anchors below</code>. ה-AI יבנה מיקס שבו כֹּל כלי נשמע ברור.
+  </div>
+
+  <div class="section-head">פרוטוקול Inpaint כירורגי לתיקון עיוות הרמוני</div>
+
+  <ul class="steps">
+    <li>
+      <div class="st"><strong>שלב 1 — זהה בדיוק:</strong> הקשב 2–3 פעמים. תיעד את הטיימסטמפ המדויק ("1:23 – נשמע ב-Mode שגוי"). אל תתקן עדיין.</div>
+      <div class="sn">1</div>
+    </li>
+    <li>
+      <div class="st"><strong>שלב 2 — סמן 2–4 שניות בלבד:</strong> ב-SUNO לחץ Inpaint → גרור על הקטע הבעייתי בלבד. <em>כֹּל מה שמחוץ לסימון — לא ייגע.</em></div>
+      <div class="sn">2</div>
+    </li>
+    <li>
+      <div class="st"><strong>שלב 3 — כתוב פרומפט FIX + PRESERVE:</strong> תמיד שני חלקים: מה לתקן + מה לשמר. לדוגמה: <code>fix Mode slippage, restore Dorian character | preserve same tempo, melody rhythm, vocal style</code></div>
+      <div class="sn">3</div>
+    </li>
+    <li>
+      <div class="st"><strong>שלב 4 — הרץ 2–3 ניסיונות:</strong> Inpaint הוא הימור קטן. לאחר 3 ניסיונות כושלים — שנה ניסוח ונסה שוב. אל תגנרט מחדש את כֹּל הטראק.</div>
+      <div class="sn">4</div>
+    </li>
+    <li>
+      <div class="st"><strong>שלב 5 — בדוק "תפר":</strong> האזן ל-2 שניות לפני ו-2 שניות אחרי הקטע המתוקן. אם יש "קפיצה" — Inpaint על אזור התפר עם <code>smooth transition, seamless connection</code>.</div>
+      <div class="sn">5</div>
+    </li>
+  </ul>
+
+  <div class="prompt-block">
+    <span class="p-lbl">דוגמת פרומפט Inpaint — תיקון Mode Slippage</span>
+<span class="c">// מה לתקן:</span>
+<span class="s">fix Mode slippage at this point,</span>
+<span class="s">restore Dorian character,</span>
+<span class="s">no major resolution, keep minor 6th feeling,</span>
+<span class="s">melancholic hopeful mood — not bright</span>
+
+<span class="c">// מה לשמר:</span>
+<span class="s">preserve same BPM and rhythm,</span>
+<span class="s">preserve vocal style and melody shape,</span>
+<span class="s">preserve arrangement density around this section,</span>
+<span class="s">only fix the harmonic color</span>
+  </div>
+
+  <div class="section-head">סיכום פרק 1 — טבלת הפניה מהירה</div>
+
+  <div class="tbl-wrap">
+    <table>
+      <tr>
+        <th>נושא</th>
+        <th>הכלל הליבתי</th>
+        <th>Style Tag מרכזי ל-SUNO</th>
+      </tr>
+      <tr>
+        <td><strong>מודים</strong></td>
+        <td>בחר מוד לפי רגש, לא לפי "נשמע טוב"</td>
+        <td><code>melancholic hopeful, Dorian mode</code></td>
+      </tr>
+      <tr>
+        <td><strong>Voice Leading</strong></td>
+        <td>צלילים משותפים נשארים; שאר זזים בצעד</td>
+        <td><code>smooth chord transitions, legato pads</code></td>
+      </tr>
+      <tr>
+        <td><strong>Pachelbel Sub.</strong></td>
+        <td>בס יורד = משיכה קדימה ללא אגרסיביות</td>
+        <td><code>descending bassline, cinematic swell</code></td>
+      </tr>
+      <tr>
+        <td><strong>Neapolitan</strong></td>
+        <td>♭II6 לפני דרופ = "המדרגה שנשמטת"</td>
+        <td><code>chromatic tension, unstable pre-drop</code></td>
+      </tr>
+      <tr>
+        <td><strong>Secondary Dom.</strong></td>
+        <td>V/V = שני שלבי מתח לפני רזולוציה</td>
+        <td><code>double resolution, chromatic color</code></td>
+      </tr>
+      <tr>
+        <td><strong>Modal Interchange</strong></td>
+        <td>אקורד שאול מהמינור = "צל" בתוך מז'ור</td>
+        <td><code>borrowed shadow chord, dark color</code></td>
+      </tr>
+      <tr>
+        <td><strong>עיוותים</strong></td>
+        <td>Inpaint: FIX + PRESERVE — 2–4 שניות בלבד</td>
+        <td><code>fix [עיוות], preserve [מה שעובד]</code></td>
+      </tr>
+    </table>
+  </div>
+</div><!-- /topic 1.4 -->
+
+<!-- ══ CHAPTER NAV ══ -->
+<div class="chapter-nav">
+  <a href="index.html" class="cnav-link">← מרכז השליטה הראשי</a>
+  <span class="cnav-label">CHAPTER 01 OF 05</span>
+  <a href="chapter2.html" class="cnav-link">פרק 2 — ארכיטקטורה ומבנה שיר →</a>
+</div>
+
+</div><!-- /page -->
+</body>
+</html>

@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>פרק 3 — הנדסת ווקאל ושפות | מאסטרקלאס לירון</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Heebo:wght@300;400;500;700&family=Frank+Ruhl+Libre:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── TOKENS ── */
+:root {
+  --gold:    #C9A84C;
+  --gold-lt: #E8D08A;
+  --gold-dk: #7A5F2A;
+  --bg:      #0A0A08;
+  --bg2:     #111109;
+  --bg3:     #181814;
+  --bg4:     #1E1C16;
+  --border:  rgba(201,168,76,0.18);
+  --text:    #E8E4D8;
+  --muted:   #8A8470;
+  --dim:     #5A5748;
+  --teal:    #2E9E85;
+  --blue:    #3A7BC8;
+  --purple:  #8A5ACA;
+  --red:     #C84040;
+  --orange:  #C87830;
+  --sans:  'Heebo', sans-serif;
+  --serif: 'Frank Ruhl Libre', serif;
+  --mono:  'IBM Plex Mono', monospace;
+}
+
+/* ── BASE ── */
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-weight: 300;
+  line-height: 1.85;
+  direction: rtl;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+body { padding: 0 0 8rem; }
+
+/* ── TOP NAV ── */
+.topnav {
+  background: rgba(10,10,8,0.94);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  padding: 0.7rem clamp(1rem, 4vw, 2.5rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.topnav-back { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; color: var(--gold-dk); text-decoration: none; transition: color 0.15s; }
+.topnav-back:hover { color: var(--gold); }
+.topnav-title { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.14em; color: var(--dim); }
+.chapter-badge { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.12em; padding: 0.25rem 0.65rem; background: rgba(138,90,202,0.12); border: 1px solid rgba(138,90,202,0.3); border-radius: 2px; color: var(--purple); }
+
+/* ── CENTER WRAPPER ── */
+.page { max-width: 960px; margin: 0 auto; width: 100%; padding: 0 clamp(1rem, 4vw, 2.5rem); }
+
+/* ── HERO ── */
+.hero { padding: 4rem 0 3.5rem; border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(138,90,202,0.06) 0%, transparent 70%),
+    repeating-linear-gradient(0deg, transparent, transparent 48px, rgba(201,168,76,0.025) 48px, rgba(201,168,76,0.025) 49px);
+  pointer-events: none;
+}
+.hero-eyebrow { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.2em; color: var(--gold-dk); display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; position: relative; }
+.hero-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--gold-dk); }
+.hero h1 { font-family: var(--serif); font-size: clamp(2.2rem, 6vw, 3.8rem); font-weight: 900; color: var(--gold-lt); line-height: 1.12; position: relative; }
+.hero h1 em { font-style: normal; color: var(--text); font-weight: 300; }
+.hero-sub { font-size: 1rem; color: var(--muted); max-width: 640px; margin: 1rem 0 0; font-weight: 300; position: relative; }
+.toc-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 2rem; position: relative; }
+.toc-chip { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.08em; padding: 0.28rem 0.7rem; background: rgba(201,168,76,0.07); border: 1px solid var(--border); border-radius: 2px; color: var(--gold-dk); }
+
+/* ── TOPIC ── */
+.topic { margin-top: 5rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+.topic-header { display: flex; align-items: flex-start; gap: 1.25rem; margin-bottom: 2.5rem; flex-direction: row-reverse; flex-wrap: wrap; }
+.topic-num-badge { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.1em; color: var(--gold-dk); background: var(--bg3); border: 1px solid var(--border); padding: 0.35rem 0.6rem; border-radius: 2px; flex-shrink: 0; margin-top: 5px; text-align: center; }
+.topic-num-badge span { display: block; font-size: 1.5rem; font-weight: 600; color: var(--gold); line-height: 1; letter-spacing: 0; }
+.topic-title { font-family: var(--serif); font-size: clamp(1.4rem, 3.5vw, 2rem); font-weight: 700; color: var(--text); line-height: 1.2; }
+.topic-title em { color: var(--gold-lt); font-style: normal; }
+.topic-en { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.08em; margin-top: 0.35rem; direction: ltr; text-align: right; }
+
+/* ── TYPOGRAPHY ── */
+p { font-size: 0.96rem; margin-bottom: 1.2rem; font-weight: 300; line-height: 1.85; }
+p:last-child { margin-bottom: 0; }
+strong { color: var(--gold-lt); font-weight: 500; }
+em { color: var(--muted); font-style: italic; }
+.section-head { font-family: var(--sans); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.14em; color: var(--gold); margin: 2.5rem 0 1rem; display: flex; align-items: center; gap: 0.75rem; flex-direction: row-reverse; }
+.section-head::before { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* ── CALLOUTS ── */
+.callout { margin: 1.25rem 0; padding: 0.9rem 1.15rem; border-radius: 4px; font-size: 0.875rem; line-height: 1.8; }
+.callout.gold   { background: rgba(201,168,76,0.07);  border: 1px solid rgba(201,168,76,0.25);  color: var(--gold-lt); }
+.callout.teal   { background: rgba(46,158,133,0.07);  border: 1px solid rgba(46,158,133,0.25);  color: #7DD4C0; }
+.callout.blue   { background: rgba(58,123,200,0.07);  border: 1px solid rgba(58,123,200,0.25);  color: #90BFEE; }
+.callout.red    { background: rgba(200,64,64,0.07);   border: 1px solid rgba(200,64,64,0.25);   color: #E09090; }
+.callout.purple { background: rgba(138,90,202,0.07);  border: 1px solid rgba(138,90,202,0.25);  color: #C0A0E8; }
+.callout.orange { background: rgba(200,120,48,0.07);  border: 1px solid rgba(200,120,48,0.3);   color: #E0A870; }
+.callout strong { font-weight: 600; }
+.callout-lbl { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.14em; opacity: 0.65; margin-bottom: 0.35rem; display: block; }
+
+/* ── EXAMPLE BOX ── */
+.example-box { background: var(--bg3); border: 1px solid rgba(201,168,76,0.2); border-right: 3px solid var(--gold); border-radius: 0 4px 4px 0; padding: 1rem 1.25rem; margin: 1rem 0; font-size: 0.875rem; line-height: 1.8; }
+.example-box .ex-lbl { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.14em; color: var(--gold-dk); margin-bottom: 0.5rem; display: block; }
+.example-box strong { color: var(--gold-lt); font-weight: 500; }
+.example-box ol, .example-box ul { padding-right: 1.2rem; margin-top: 0.3rem; }
+.example-box li { margin-bottom: 0.45rem; font-size: 0.86rem; }
+
+/* ── PROMPT BLOCK ── */
+.prompt-block { background: var(--bg4); border: 1px solid rgba(138,90,202,0.3); border-radius: 4px; padding: 1rem 1.25rem; margin: 1rem 0; font-family: var(--mono); font-size: 0.78rem; line-height: 1.75; color: #C0A8E8; direction: ltr; text-align: left; white-space: pre-wrap; word-break: break-word; overflow-wrap: break-word; max-width: 100%; }
+.prompt-block .p-lbl { font-size: 0.58rem; letter-spacing: 0.14em; color: var(--purple); margin-bottom: 0.4rem; display: block; text-align: right; direction: rtl; }
+.prompt-block .s { color: #9060C0; }
+.prompt-block .l { color: #D4A843; }
+.prompt-block .c { color: #3A7BC8; font-style: italic; }
+.prompt-block .d { color: #2EB8A0; font-weight: 600; }
+
+/* ── GRID / CARDS ── */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(200px,100%), 1fr)); gap: 1rem; margin: 1.25rem 0; }
+.info-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; padding: 1.15rem; }
+.ic-tag { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em; color: var(--gold-dk); margin-bottom: 0.4rem; display: block; direction: ltr; text-align: right; }
+.ic-name { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.35rem; }
+.ic-desc { font-size: 0.83rem; color: var(--muted); line-height: 1.65; font-weight: 300; }
+.ic-suno { font-family: var(--mono); font-size: 0.65rem; color: var(--purple); margin-top: 0.6rem; padding-top: 0.5rem; border-top: 1px solid var(--border); direction: ltr; text-align: left; }
+
+/* ── TABLES ── */
+.tbl-wrap { overflow-x: auto; width: 100%; -webkit-overflow-scrolling: touch; margin: 1rem 0; }
+table { width: 100%; min-width: 480px; border-collapse: collapse; font-size: 0.855rem; }
+th { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em; color: var(--gold-dk); text-align: right; padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--border); font-weight: 400; }
+td { padding: 0.65rem 0.75rem; border-bottom: 1px solid rgba(201,168,76,0.06); vertical-align: top; font-weight: 300; }
+tr:hover td { background: rgba(201,168,76,0.025); }
+
+/* ── STEP LIST ── */
+.steps { list-style: none; margin: 1.25rem 0; }
+.steps li { display: grid; grid-template-columns: 1fr 2rem; gap: 0.9rem; margin-bottom: 1.1rem; align-items: start; }
+.sn { font-family: var(--mono); font-size: 0.68rem; color: var(--gold-dk); background: var(--bg3); border: 1px solid var(--border); width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center; border-radius: 2px; flex-shrink: 0; order: 2; margin-top: 2px; }
+.st { font-size: 0.91rem; order: 1; line-height: 1.8; }
+.st strong { color: var(--gold-lt); font-weight: 500; }
+
+/* ── VOCAL SPECTRUM BAR ── */
+.vocal-spectrum { margin: 1.25rem 0; }
+.vs-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 8px; direction: ltr; }
+.vs-label { font-family: var(--mono); font-size: 0.62rem; color: var(--muted); width: 110px; flex-shrink: 0; text-align: right; direction: rtl; }
+.vs-track { flex: 1; height: 22px; background: rgba(201,168,76,0.05); border-radius: 3px; position: relative; overflow: hidden; }
+.vs-fill { height: 100%; border-radius: 3px; display: flex; align-items: center; padding-right: 6px; justify-content: flex-end; }
+.vs-fill span { font-family: var(--mono); font-size: 0.55rem; color: rgba(255,255,255,0.7); white-space: nowrap; }
+/* Female voice range: roughly 180Hz–1100Hz fundamental + harmonics to 8kHz */
+.vf-soprano  .vs-fill { width: 65%; background: linear-gradient(90deg, rgba(58,123,200,0.2), rgba(58,123,200,0.6)); }
+.vf-mezzo    .vs-fill { width: 55%; background: linear-gradient(90deg, rgba(58,123,200,0.2), rgba(58,123,200,0.5)); }
+.vf-contralto .vs-fill { width: 48%; background: linear-gradient(90deg, rgba(138,90,202,0.2), rgba(138,90,202,0.5)); }
+.vf-tenor    .vs-fill { width: 42%; background: linear-gradient(90deg, rgba(46,158,133,0.2), rgba(46,158,133,0.55)); }
+.vf-baritone .vs-fill { width: 32%; background: linear-gradient(90deg, rgba(46,158,133,0.2), rgba(46,158,133,0.45)); }
+.vf-bass     .vs-fill { width: 22%; background: linear-gradient(90deg, rgba(200,120,48,0.2), rgba(200,120,48,0.5)); }
+.vf-hazzan   .vs-fill { width: 50%; background: linear-gradient(90deg, rgba(201,168,76,0.2), rgba(201,168,76,0.6)); }
+
+/* ── NIKUD DEMO ── */
+.nikud-demo { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+.nd-box { background: var(--bg3); border: 1px solid var(--border); border-radius: 4px; padding: 1rem 1.1rem; }
+.nd-box.bad  { border-color: rgba(200,64,64,0.3); }
+.nd-box.good { border-color: rgba(46,158,133,0.3); }
+.nd-label { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.12em; margin-bottom: 0.6rem; display: block; }
+.nd-box.bad  .nd-label { color: var(--red); }
+.nd-box.good .nd-label { color: var(--teal); }
+.nd-text { font-family: var(--serif); font-size: 1.3rem; line-height: 2; color: var(--text); direction: rtl; text-align: center; padding: 0.5rem 0; }
+.nd-note { font-size: 0.78rem; color: var(--muted); margin-top: 0.5rem; }
+
+/* ── HARMONY LAYERS ── */
+.harmony-visual { display: flex; flex-direction: column; gap: 4px; margin: 1.25rem 0; direction: ltr; }
+.hv-row { display: flex; align-items: center; gap: 0.75rem; }
+.hv-label { font-family: var(--mono); font-size: 0.62rem; color: var(--muted); width: 120px; flex-shrink: 0; text-align: right; direction: rtl; }
+.hv-bar { height: 28px; border-radius: 3px; display: flex; align-items: center; padding: 0 0.75rem; font-family: var(--mono); font-size: 0.6rem; white-space: nowrap; }
+.hv-lead   { width: 70%; background: rgba(201,168,76,0.35); color: var(--gold-lt); }
+.hv-h3rd   { width: 60%; background: rgba(46,158,133,0.25); color: var(--teal); margin-right: 5%; }
+.hv-h5th   { width: 50%; background: rgba(46,158,133,0.18); color: #5EC0AA; margin-right: 10%; }
+.hv-oct    { width: 65%; background: rgba(58,123,200,0.2); color: #7AAADE; margin-right: 2%; }
+.hv-back1  { width: 55%; background: rgba(138,90,202,0.2); color: var(--purple); margin-right: 8%; }
+.hv-back2  { width: 45%; background: rgba(138,90,202,0.15); color: #A888D8; margin-right: 15%; }
+
+/* ── COMPARE ── */
+.compare { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.25rem 0; }
+.cmp-box { background: var(--bg3); border: 1px solid var(--border); border-radius: 4px; padding: 1rem; }
+.cmp-box.bad  { border-color: rgba(200,64,64,0.3); }
+.cmp-box.good { border-color: rgba(46,158,133,0.3); }
+.cmp-label { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.12em; margin-bottom: 0.5rem; display: block; }
+.cmp-box.bad  .cmp-label { color: var(--red); }
+.cmp-box.good .cmp-label { color: var(--teal); }
+.cmp-box p { font-size: 0.83rem; margin: 0; line-height: 1.7; }
+
+/* ── CODE ── */
+code { font-family: var(--mono); font-size: 0.82em; background: rgba(201,168,76,0.1); padding: 0.1em 0.35em; border-radius: 3px; color: var(--gold-lt); direction: ltr; display: inline-block; word-break: break-word; }
+
+/* ── CHAPTER FOOTER NAV ── */
+.chapter-nav { margin-top: 5rem; padding: 1.75rem 0; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+.cnav-link { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; color: var(--gold-dk); text-decoration: none; transition: color 0.15s; }
+.cnav-link:hover { color: var(--gold); }
+.cnav-label { font-family: var(--mono); font-size: 0.58rem; color: var(--dim); letter-spacing: 0.12em; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  .topic-header { flex-direction: column; gap: 0.5rem; }
+  .card-grid { grid-template-columns: 1fr; }
+  .compare, .nikud-demo { grid-template-columns: 1fr; }
+  .steps li { grid-template-columns: 1fr; }
+  .sn { order: 0; width: 1.75rem; height: 1.75rem; }
+  .prompt-block { font-size: 0.7rem; }
+  .hero h1 { font-size: 2rem; }
+  .hv-bar { font-size: 0.52rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ TOP NAV ══ -->
+<nav class="topnav">
+  <a href="index.html" class="topnav-back">← חזרה למרכז השליטה הראשי</a>
+  <span class="topnav-title">ADVANCED MUSIC PRODUCTION MASTERCLASS</span>
+  <span class="chapter-badge">CHAPTER 03 · VOCAL ENGINEERING</span>
+</nav>
+
+<div class="page">
+
+<!-- ══ HERO ══ -->
+<div class="hero">
+  <div class="hero-eyebrow">CHAPTER 03 OF 05 · VOCAL ENGINEERING &amp; LANGUAGE ARCHITECTURE</div>
+  <h1>הנדסת ווקאל<br><em>ושפות</em></h1>
+  <p class="hero-sub">מאפיון טמבר הזמר דרך הנדסת שפות ומבטאים, ניקוד כירורגי למניעת שגיאות הגייה, ועד לבנייה מדויקת של שכבות הרמוניה ואפקטים ווקאליים מתקדמים.</p>
+  <div class="toc-row">
+    <span class="toc-chip">3.1 · Vocal Timbre & אפיון</span>
+    <span class="toc-chip">3.2 · שפות ומבטאים</span>
+    <span class="toc-chip">3.3 · ניקוד כירורגי</span>
+    <span class="toc-chip">3.4 · הרמוניות ואפקטים</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- TOPIC 3.1 -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="topic" id="t1">
+  <div class="topic-header">
+    <div class="topic-num-badge"><span>3.1</span>נושא</div>
+    <div>
+      <div class="topic-title">הגדרת אופי הווקאל<br>ו<em>מניעת זיופי AI</em></div>
+      <div class="topic-en">Vocal Timbre Definition — Preventing AI Vocal Artifacts</div>
+    </div>
+  </div>
+
+  <p>הווקאל הוא האלמנט המרכזי שכֹּל מאזין "תופס" ראשון. SUNO, כמו כֹּל מנוע AI ווקאלי, מייצר קולות על בסיס מה שהוא "מכיר" מהאוכלוסייה — קול "ממוצע" שאינו מאפיין ייחודי. המפיק המקצועי <strong>לא מקבל "קול כלשהו" — הוא מגדיר בדיוק מה הוא רוצה</strong>, ומונע את העיוותים הנפוצים לפני שהם נוצרים.</p>
+
+  <div class="callout gold">
+    <span class="callout-lbl">הכלל</span>
+    <strong>SUNO שומע את הפרומפט כ"הוראת הליהוק".</strong> ככל שהאפיון מדויק יותר — כֹּל מין קולי, כֹּל טקסטורת עור, כֹּל סגנון ביטוי — כך ה-AI מייצר ביצוע ייחודי ולא גנרי. "vocal" ← מקבלים ממוצע. "raw gritty male vocal, aged character, slight rasp" ← מקבלים אישיות.
+  </div>
+
+  <div class="section-head">מפת טווחי קול — תיאור ספקטרלי</div>
+
+  <div class="vocal-spectrum">
+    <div class="vs-row">
+      <span class="vs-label">Soprano (נקבה)</span>
+      <div class="vs-track vf-soprano"><div class="vs-fill"><span>260Hz–1.1kHz fund.</span></div></div>
+    </div>
+    <div class="vs-row">
+      <span class="vs-label">Mezzo-Soprano</span>
+      <div class="vs-track vf-mezzo"><div class="vs-fill"><span>220Hz–900Hz fund.</span></div></div>
+    </div>
+    <div class="vs-row">
+      <span class="vs-label">Contralto (אלט)</span>
+      <div class="vs-track vf-contralto"><div class="vs-fill"><span>175Hz–700Hz fund.</span></div></div>
+    </div>
+    <div class="vs-row">
+      <span class="vs-label">Tenor (זכר)</span>
+      <div class="vs-track vf-tenor"><div class="vs-fill"><span>130Hz–520Hz fund.</span></div></div>
+    </div>
+    <div class="vs-row">
+      <span class="vs-label">Baritone</span>
+      <div class="vs-track vf-baritone"><div class="vs-fill"><span>98Hz–392Hz fund.</span></div></div>
+    </div>
+    <div class="vs-row">
+      <span class="vs-label">Bass</span>
+      <div class="vs-track vf-bass"><div class="vs-fill"><span>65Hz–260Hz fund.</span></div></div>
+    </div>
+    <div class="vs-row">
+      <span class="vs-label">חזן (Hazzan)</span>
+      <div class="vs-track vf-hazzan"><div class="vs-fill"><span>Tenor–Baritone + Melisma</span></div></div>
+    </div>
+  </div>
+
+  <div class="section-head">7 טיפולוגיות ווקאל עם Style Tags מלאים</div>
+
+  <div class="card-grid">
+    <div class="info-card">
+      <span class="ic-tag">VOCAL TYPE 01</span>
+      <div class="ic-name" style="color:var(--gold-lt);">Melismatic — מליסמטי</div>
+      <div class="ic-desc">קישוטים מרובים על צליל אחד — אופייני לחזנות, ערבי, מוזיקה קופטית. "ריצה" של 5–12 צלילים על הברה אחת. רגש גבוה, מסורתי.</div>
+      <div class="ic-suno">"melismatic vocal, ornamental runs, cantorial style, Arabic mawwal influence"</div>
+    </div>
+    <div class="info-card">
+      <span class="ic-tag">VOCAL TYPE 02</span>
+      <div class="ic-name" style="color:var(--teal);">Gritty / Raw — גרסני</div>
+      <div class="ic-desc">Rasp, grain, "כוח מגורגר" — Blues, Soul, Rock. צליל "שחוק" שמרגיש אמיתי. מוסיף עומק ואמינות. מחייב "aged" או "rough" ב-Descriptor.</div>
+      <div class="ic-suno">"gritty raw male vocal, raspy texture, aged character, soulful roughness"</div>
+    </div>
+    <div class="info-card">
+      <span class="ic-tag">VOCAL TYPE 03</span>
+      <div class="ic-name" style="color:var(--blue);">Velvety / Smooth — קטיפתי</div>
+      <div class="ic-desc">חלק, עשיר, "כמו משי". R&B, Nu-Soul, Jazz. ישיבה נוחה בתוך מיקס בלי לחרוג. "Warm" ו-"Silky" הם מילות המפתח.</div>
+      <div class="ic-suno">"velvety smooth male vocal, warm silk texture, R&B delivery, no roughness"</div>
+    </div>
+    <div class="info-card">
+      <span class="ic-tag">VOCAL TYPE 04</span>
+      <div class="ic-name" style="color:var(--purple);">Operatic — אופראי</div>
+      <div class="ic-desc">רחב, מלא, "גדול" — Classical, Crossover. Vibrato רחב וקבוע, רזוננס חזק. מחייב הגדרת Voice Type (Soprano/Baritone etc.).</div>
+      <div class="ic-suno">"operatic tenor voice, classical vibrato, full resonance, trained classical style"</div>
+    </div>
+    <div class="info-card">
+      <span class="ic-tag">VOCAL TYPE 05</span>
+      <div class="ic-name" style="color:var(--red);">Breathy — נשמתי</div>
+      <div class="ic-desc">אוויר גלוי בקול — Indie, Pop, Acoustic. אינטימי, קרוב, "לחישה מוגברת". עם Reverb ארוך = חלומי. עם Dry = אינטימי מאוד.</div>
+      <div class="ic-suno">"breathy intimate female vocal, airy texture, close-miked, soft delivery"</div>
+    </div>
+    <div class="info-card">
+      <span class="ic-tag">VOCAL TYPE 06</span>
+      <div class="ic-name" style="color:var(--orange);">Chest-Powerful — חזה</div>
+      <div class="ic-desc">קול "מגיע מהבטן" — Gospel, Power-Pop, Showtunes. עצמה גדולה, צליל מלא. "Powerful" ו-"Belting" הם מילות המפתח.</div>
+      <div class="ic-suno">"powerful belting female voice, chest voice, gospel power, full projection"</div>
+    </div>
+    <div class="info-card">
+      <span class="ic-tag">VOCAL TYPE 07</span>
+      <div class="ic-name" style="color:var(--gold);">Cantorial / Hazzan — חזנותי</div>
+      <div class="ic-desc">Tenor/Baritone עם Melisma ומבנה ליטורגי. Maqam-based phrasing, Mawwal. עמוד תווך של פיוזן מזרח-תיכוני. ייחודי לישראל.</div>
+      <div class="ic-suno">"cantorial hazzan tenor, melismatic liturgical style, maqam phrasing, emotional depth"</div>
+    </div>
+  </div>
+
+  <div class="section-head">זיופי AI ווקאלי — 5 ארטיפקטים נפוצים</div>
+
+  <div class="tbl-wrap">
+    <table>
+      <tr>
+        <th>ארטיפקט</th>
+        <th>תיאור</th>
+        <th>סיבה</th>
+        <th>Inpaint Fix</th>
+      </tr>
+      <tr>
+        <td><strong>Pitch Drift</strong></td>
+        <td>ווקאל "מחליק" מהצליל — ויברטו לא-מכוון</td>
+        <td>SUNO "מנחש" הגייה</td>
+        <td><code>fix pitch drift, stable intonation, no pitch slide on this note</code></td>
+      </tr>
+      <tr>
+        <td><strong>Robotic Timing</strong></td>
+        <td>ווקאל מקוונט ל-100% — מכני מדי</td>
+        <td>אין Humanize ב-Style Tag</td>
+        <td><code>human feel, natural vocal timing, slight behind-the-beat delivery</code></td>
+      </tr>
+      <tr>
+        <td><strong>Language Mix</strong></td>
+        <td>SUNO עובר לאנגלית באמצע עברית</td>
+        <td>אין ניקוד, SUNO "לא מכיר" המילה</td>
+        <td><code>sing only in Hebrew, no English words, preserve original lyrics</code></td>
+      </tr>
+      <tr>
+        <td><strong>Letter Swallow</strong></td>
+        <td>בליעת אותיות: "שמע" → "שמע" בלי ה-ע</td>
+        <td>מילה לא מנוקדת</td>
+        <td>ניקוד מלא + Inpaint: <code>pronounce all consonants clearly, no swallowed letters</code></td>
+      </tr>
+      <tr>
+        <td><strong>Generic Timbre</strong></td>
+        <td>קול "ממוצע" — אין אישיות</td>
+        <td>Style Tag כללי מדי ("male vocal")</td>
+        <td>Inpaint: <code>more raspy texture, add character, aged gritty quality, not clean generic</code></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="prompt-block">
+    <span class="p-lbl">SUNO — הגדרת ווקאל מלאה לפיוזן חזנותי</span>
+<span class="s">STYLE: cantorial trance fusion, 136 BPM, Maqam Bayati,</span>
+<span class="s">— VOCAL DEFINITION —</span>
+<span class="s">cantorial hazzan tenor (melismatic, liturgical phrasing),</span>
+<span class="s">raw emotional character, slight vocal rasp,</span>
+<span class="s">maqam ornaments and trills, natural human timing,</span>
+<span class="s">no robotic pitch correction, authentic intonation,</span>
+<span class="s">close-miked in breakdown, reverb-washed in chorus</span>
+
+<span class="d">[Breakdown — Cantorial Hazzan Solo — free-time phrasing — no drums]</span>
+<span class="l">כַּמָּה עוֹד לִנְסֹעַ / עַד שֶׁתָּבוֹא</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- TOPIC 3.2 -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="topic" id="t2">
+  <div class="topic-header">
+    <div class="topic-num-badge"><span>3.2</span>נושא</div>
+    <div>
+      <div class="topic-title">הנדסת שפות<br>ו<em>מבטאים</em></div>
+      <div class="topic-en">Cross-Language Prompting — Hebrew, Arabic, Mawwal &amp; Trills</div>
+    </div>
+  </div>
+
+  <p>שפה היא לא רק "מילים" — היא <strong>מרחב אקוסטי</strong>. לכֹּל שפה יש הברות דומיננטיות, עיצורים ייחודיים ותבניות ניגון. SUNO "מבין" שפות — אך ברמת מבטא שצריך לכוון בצורה מפורשת. מיזוג עברית, ערבית ואנגלית בתוך שיר אחד הוא שדה-מוקשים הגייתי שדורש טיפול כירורגי.</p>
+
+  <div class="callout orange">
+    <span class="callout-lbl">האתגר הייחודי בעברית ב-SUNO</span>
+    SUNO אומן בעיקר על אנגלית ועל כמות מוגבלת של עברית. כתוצאה: (א) בלי ניקוד — ה-AI "מנחש" הגייה ולרוב טועה, (ב) אותיות גרוניות (ע, ח, ר) נבלעות, (ג) דגשים לא-תקניים. <strong>הפתרון: ניקוד מלא + Style Tag שמגדיר Accent.</strong>
+  </div>
+
+  <div class="section-head">מבטאים וסגנונות שירה — מדריך Style Tag</div>
+
+  <div class="tbl-wrap">
+    <table>
+      <tr>
+        <th>שפה / מבטא</th>
+        <th>מאפיין עיקרי</th>
+        <th>Style Tag ל-SUNO</th>
+        <th>הימנע מ-</th>
+      </tr>
+      <tr>
+        <td><strong>עברית ישראלית</strong></td>
+        <td>ר' גרונית, ע' חזקה, Stress על הברה אחרונה</td>
+        <td><code>Israeli Hebrew pronunciation, guttural R, strong ayin</code></td>
+        <td><code>American accent on Hebrew</code></td>
+      </tr>
+      <tr>
+        <td><strong>ערבית מצרית</strong></td>
+        <td>קאף → ء, ج → G, ג'ים מצרי</td>
+        <td><code>Egyptian Arabic dialect, warm vowels, Cairo accent</code></td>
+        <td><code>Fusha Arabic (Modern Standard)</code></td>
+      </tr>
+      <tr>
+        <td><strong>ערבית לבנטינית</strong></td>
+        <td>קרוב לעברית, Q→' (glottal stop)</td>
+        <td><code>Levantine Arabic, Syrian Lebanese dialect, soft consonants</code></td>
+        <td><code>Gulf Arabic accent</code></td>
+      </tr>
+      <tr>
+        <td><strong>מוואל (Mawwal)</strong></td>
+        <td>שירת תקסים ווקאלי — ללא לירקה מסודרת, אלתור מנגינה</td>
+        <td><code>mawwal vocal improvisation, Arabic taqsim vocal, free meter</code></td>
+        <td><code>structured verses in mawwal sections</code></td>
+      </tr>
+      <tr>
+        <td><strong>Trills מזרח-תיכוניים</strong></td>
+        <td>קישוטי ויברטו מהיר, גלגולים על צלילים</td>
+        <td><code>Middle Eastern vocal trills, ornamental runs, microtonal bends</code></td>
+        <td><code>Western straight tone, no ornaments</code></td>
+      </tr>
+      <tr>
+        <td><strong>אנגלית בתוך עברית</strong></td>
+        <td>מעבר נקי, ללא שינוי גדול ב-Timbre</td>
+        <td><code>seamless code-switching Hebrew to English, consistent vocal character</code></td>
+        <td><code>accent change between languages</code></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="section-head">הזרקת מוטיבים מזרח-תיכוניים — 4 כלים</div>
+
+  <div class="card-grid">
+    <div class="info-card">
+      <span class="ic-tag">מוטיב A</span>
+      <div class="ic-name" style="color:var(--gold-lt);">Mawwal — מוואל</div>
+      <div class="ic-desc">שירת אלתור ווקאלי ממוד מסוים — ללא מילים מוגדרות (לרוב "יא לייל" או "יא עין"). מקביל לתקסים אינסטרומנטלי. יוצר "חלל רגשי" לפני הדרופ.</div>
+      <div class="ic-suno">"[Mawwal Vocal Improvisation — Maqam Bayati — free meter — 8 bars]"</div>
+    </div>
+    <div class="info-card">
+      <span class="ic-tag">מוטיב B</span>
+      <div class="ic-name" style="color:var(--teal);">Microtonal Bends</div>
+      <div class="ic-desc">גלישות פיץ' ¼-טון אופייניות למקאם. מונעות את ה-"ריח המערבי". חיוניות לאותנטיות של כֹּל ווקאל מזרח-תיכוני.</div>
+      <div class="ic-suno">"microtonal pitch bends, quarter-tone slides, maqam intonation"</div>
+    </div>
+    <div class="info-card">
+      <span class="ic-tag">מוטיב C</span>
+      <div class="ic-name" style="color:var(--blue);">Zagareet / Ululation</div>
+      <div class="ic-desc">צליל חגיגי מהמסורת הערבית-מזרחית — טרילים גרוניים מהירים. יוצר "ציון מקום" תרבותי מיידי, אפקטיבי במיוחד בתחילת שיר.</div>
+      <div class="ic-suno">"zagareet ululation opening, celebratory Middle Eastern call"</div>
+    </div>
+    <div class="info-card">
+      <span class="ic-tag">מוטיב D</span>
+      <div class="ic-name" style="color:var(--purple);">Melismatic Run</div>
+      <div class="ic-desc">ריצה מליסמטית — 5–15 צלילים על הברה אחת. הקישוט החזנותי הקלאסי. מבחין "ווקאל דתי" מ"ווקאל פופ" ב-100 מילי-שניות.</div>
+      <div class="ic-suno">"melismatic vocal run on this word, ornamental cantorial passage, 8+ notes on single syllable"</div>
+    </div>
+  </div>
+
+  <div class="section-head">שילוב שפות — השוואה: גנרי מול כירורגי</div>
+
+  <div class="compare">
+    <div class="cmp-box bad">
+      <span class="cmp-label">✗ ללא הנחיה — גנרי</span>
+      <p>SUNO שר עברית עם מבטא אנגלי, בולע ע' וח', מקוונט ל-100%, ועובר לאנגלית כשלא "מכיר" מילה. תוצאה: שיר שנשמע כ"כיסוי זול" ולא כיצירה מקורית.</p>
+    </div>
+    <div class="cmp-box good">
+      <span class="cmp-label">✓ עם הנחיה כירורגית</span>
+      <p>ניקוד מלא + Style Tag מפורט + Directive בכֹּל Section. SUNO שר עם מבטא ישראלי, גרוניות ברורות, אלתור מליסמטי בברייקדאון, ומעבר חלק לערבית בסקשן הרצוי.</p>
+    </div>
+  </div>
+
+  <div class="prompt-block">
+    <span class="p-lbl">SUNO — Cross-Language: עברית + מוואל ערבי + אנגלית</span>
+<span class="s">STYLE: middle eastern pop-house fusion, 128 BPM,</span>
+<span class="s">— LANGUAGE ARCHITECTURE —</span>
+<span class="s">Hebrew verses (Israeli pronunciation, guttural R, strong ayin),</span>
+<span class="s">Arabic mawwal improvisation in breakdown (Levantine dialect),</span>
+<span class="s">English bridge (seamless code-switch, same vocal character),</span>
+<span class="s">melismatic ornaments throughout, microtonal bends on held notes,</span>
+<span class="s">no accent inconsistency between languages</span>
+
+<span class="d">[Verse — Hebrew — Israeli pronunciation]</span>
+<span class="l">עוֹמֵד בַּשַּׁעַר שֶׁל הַלַּיְלָה / נוֹשֵׂא אֶת הַשֵּׁם</span>
+
+<span class="d">[Breakdown — Arabic Mawwal — free meter — ornamental improvisation]</span>
+<span class="l">يا ليل يا عين / يا ليل</span>
+
+<span class="d">[Bridge — English — same vocal style — no accent change]</span>
+<span class="l">I carry the night within me / I always will</span>
+
+<span class="d">[Final Chorus — Hebrew — melismatic climax]</span>
+<span class="l">אַתָּה / אַתָּה / עַכְשָׁו</span>
+  </div>
+
+  <div class="callout teal">
+    <span class="callout-lbl">INPAINT — תיקון מעבר שפות לא-חלק</span>
+    <code>fix language transition here, maintain same vocal timbre across languages, no accent shift, consistent character from Hebrew to Arabic</code>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- TOPIC 3.3 -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="topic" id="t3">
+  <div class="topic-header">
+    <div class="topic-num-badge"><span>3.3</span>נושא</div>
+    <div>
+      <div class="topic-title">ניקוד כירורגי<br>ו<em>הגיית מילים</em></div>
+      <div class="topic-en">Surgical Vowelization — Syllable Timing &amp; Letter Pronunciation Control</div>
+    </div>
+  </div>
+
+  <p>ניקוד הוא לא אסתטיקה — הוא <strong>הוראת הגייה מדויקת לאי-מנוע הצליל</strong> של SUNO. ה-AI "קורא" את הניקוד כמפה פונטית: איפה הדגש, כמה אויר בכֹּל הברה, מהו הצליל המדויק של כֹּל תנועה. ללא ניקוד — ה-AI מנחש, ולרוב טועה בדגשים, ב-ע' ובאותיות גרוניות.</p>
+
+  <div class="section-head">ניקוד מלא לעומת חסר — הפרש בהגייה</div>
+
+  <div class="nikud-demo">
+    <div class="nd-box bad">
+      <span class="nd-label">✗ ללא ניקוד — SUNO מנחש</span>
+      <div class="nd-text">שמעתי את קולך</div>
+      <p class="nd-note">SUNO עלול להגות: "שָׁמַﬠְטִי" כ-"שָׁמְﬠַטִי" — Stress שגוי, ע' נבלעת, תנועות שגויות.</p>
+    </div>
+    <div class="nd-box good">
+      <span class="nd-label">✓ ניקוד מלא — הגייה מדויקת</span>
+      <div class="nd-text">שָׁמַעְתִּי אֶת קוֹלְךָ</div>
+      <p class="nd-note">SUNO מקבל מפה פונטית מלאה: שָׁ=שין+פתח, מַ=מם+פתח, עְ=עין+שווא. כֹּל הברה ברורה.</p>
+    </div>
+  </div>
+
+  <div class="section-head">5 שגיאות הגייה נפוצות ב-SUNO — ופתרון ניקודי</div>
+
+  <div class="tbl-wrap">
+    <table>
+      <tr>
+        <th>שגיאה</th>
+        <th>מילה ללא ניקוד</th>
+        <th>מילה עם ניקוד נכון</th>
+        <th>בעיה ללא ניקוד</th>
+      </tr>
+      <tr>
+        <td>Stress שגוי</td>
+        <td>אהבה</td>
+        <td><strong>אַהֲבָה</strong></td>
+        <td>SUNO עלול להדגיש "אַ" בלבד ולבלוע "הֲבָה"</td>
+      </tr>
+      <tr>
+        <td>ע' נבלעת</td>
+        <td>שמעתי</td>
+        <td><strong>שָׁמַעְתִּי</strong></td>
+        <td>ה-ע' נעלמת: נשמע כ-"שָׁמַטִי"</td>
+      </tr>
+      <tr>
+        <td>ח' כ-כ'</td>
+        <td>חכמה</td>
+        <td><strong>חָכְמָה</strong></td>
+        <td>SUNO שר ח' כ-K רכה, לא כ-CH גרוני</td>
+      </tr>
+      <tr>
+        <td>שווא שגוי</td>
+        <td>ברגע</td>
+        <td><strong>בְּרֶגַע</strong></td>
+        <td>בלי שווא: "בָרֶגַע" — הברה נוספת שמשנה המקצב</td>
+      </tr>
+      <tr>
+        <td>ר' לא גרונית</td>
+        <td>ריח</td>
+        <td><strong>רֵיחַ</strong></td>
+        <td>ניקוד + Style Tag "guttural R" = ר' ישראלית</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="section-head">כלי ניקוד — מדריך שימוש מהיר</div>
+
+  <div class="card-grid">
+    <div class="info-card">
+      <span class="ic-tag">סימן ניקוד</span>
+      <div class="ic-name" style="color:var(--gold-lt);">פַּתַח / קָמַץ — A</div>
+      <div class="ic-desc">פתח (◌ַ) = A קצרה. קמץ (◌ָ) = A ארוכה (בדיבור מודרני = זהות). SUNO מכבד את ההבדל בתנועה ובסגנון שירה.</div>
+      <div class="ic-suno">שָׁמַיִם, אֲנִי, נָשָׂא</div>
+    </div>
+    <div class="info-card">
+      <span class="ic-tag">סימן ניקוד</span>
+      <div class="ic-name" style="color:var(--teal);">שְׁוָא — ניקוד אמצע</div>
+      <div class="ic-desc">שווא נע (◌ְ) = הברה מהירה. שווא נח = שקט מלא. מניע כֹּל "בריחת הברה" — SUNO שר "בְּ" כ-"בֶ" בלי שווא.</div>
+      <div class="ic-suno">בְּלֵב, וְהִיא, לְמַעַן</div>
+    </div>
+    <div class="info-card">
+      <span class="ic-tag">סימן ניקוד</span>
+      <div class="ic-name" style="color:var(--blue);">דָּגֵשׁ — חיזוק עיצור</div>
+      <div class="ic-desc">דגש חזק (◌ּ) = עיצור כפול. ב׳ עם דגש = B חזקה (לא V). פ׳ עם דגש = P (לא F). שינוי פונטי מהותי.</div>
+      <div class="ic-suno">בָּא (BA) vs. בָּא (VA), פַּעַם (PA) vs. פַּעַם (FA)</div>
+    </div>
+    <div class="info-card">
+      <span class="ic-tag">פיסוק</span>
+      <div class="ic-name" style="color:var(--purple);">פסיק ונקודה — פרזה</div>
+      <div class="ic-desc">פסיק (,) = עצירה קצרה — SUNO ניגש "לנשום". נקודה (.) = עצירה ארוכה. שלוט על אורכי פרזות ותזמון לפני הברה הבאה.</div>
+      <div class="ic-suno">כַּמָּה עוֹד,&nbsp; עַד שֶׁתָּבוֹא.</div>
+    </div>
+  </div>
+
+  <div class="section-head">פרוטוקול ניקוד כירורגי — 5 שלבים</div>
+
+  <ul class="steps">
+    <li>
+      <div class="st"><strong>שלב 1 — נקד כֹּל מילה שכוללת ע', ח', ר' גרונית:</strong> אלו האותיות שנבלעות ב-90% מהמקרים. אם אין ניקוד — SUNO "מאלתר".</div>
+      <div class="sn">1</div>
+    </li>
+    <li>
+      <div class="st"><strong>שלב 2 — הוסף שווא לכֹּל "ב" + "ל" + "כ" + "ו" בתחילת מילה:</strong> בְּ, לְ, כְּ, וְ — אלו הבנות השגויות הנפוצות ביותר. <code>בְּלֵב</code> לא <code>בלב</code>.</div>
+      <div class="sn">2</div>
+    </li>
+    <li>
+      <div class="st"><strong>שלב 3 — סמן הגייה לאותיות כפולות במשמעות (ב/ו, פ/ף, כ/ח):</strong> ב עם דגש = B. ב בלי דגש = V. <code>בָּא</code> (בא — BA) מול <code>בָּא</code> (בָּא בסוף מילה — VA).</div>
+      <div class="sn">3</div>
+    </li>
+    <li>
+      <div class="st"><strong>שלב 4 — הוסף Style Tag לביסוס מבטא:</strong> <code>Israeli Hebrew pronunciation, strong gutturals, proper ayin and chet articulation</code>. ניקוד + Style Tag = כפל ביטחון.</div>
+      <div class="sn">4</div>
+    </li>
+    <li>
+      <div class="st"><strong>שלב 5 — בדוק בInpaint:</strong> אחרי ייצור — האזן לכֹּל ע' וח'. אם נבלעו: Inpaint עם <code>articulate [specific letter] clearly here, do not swallow consonant</code>.</div>
+      <div class="sn">5</div>
+    </li>
+  </ul>
+
+  <div class="prompt-block">
+    <span class="p-lbl">SUNO — לירקה עברית עם ניקוד מלא + Style</span>
+<span class="s">STYLE: emotional cantorial trance, 136 BPM,</span>
+<span class="s">Israeli Hebrew pronunciation, guttural R and ayin,</span>
+<span class="s">proper chet articulation, no swallowed consonants,</span>
+<span class="s">melismatic ornaments on held notes, natural human phrasing</span>
+
+<span class="d">[Verse — Israeli Hebrew — full vowelization — no generic accent]</span>
+<span class="l">עוֹמֵד בַּשַּׁעַר שֶׁל הַלַּיְלָה / נוֹשֵׂא אֶת הַשֵּׁם בַּשְּׁקֵטָה</span>
+<span class="l">שָׁמַעְתִּי אֶת קוֹלְךָ בַּחֲלוֹמוֹת / עַכְשָׁו אֲנִי כָּאן</span>
+
+<span class="d">[Breakdown — Cantorial ad-lib — melismatic — free phrasing]</span>
+<span class="l">אַהֲבָה... אַהֲבָה רַבָּה...</span>
+<span class="l">(melismatic improvisation on אַהֲבָה)</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- TOPIC 3.4 -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="topic" id="t4">
+  <div class="topic-header">
+    <div class="topic-num-badge"><span>3.4</span>נושא</div>
+    <div>
+      <div class="topic-title">מניפולציות ווקאליות<br><em>מתקדמות</em></div>
+      <div class="topic-en">Advanced Vocal Manipulations — Harmonies, Doubling &amp; FX Triggers</div>
+    </div>
+  </div>
+
+  <p>שכבות ווקאל — הרמוניות, Doubling, Backing Vocals — הן ה"אורקסטרציה" של הווקאל המרכזי. ב-SUNO ניתן לבנות מבנה ווקאלי עשיר ומורכב על ידי <strong>פירוט מפורש של כֹּל שכבה</strong>. ה-AI לא "ממציא" שכבות אם לא ביקשת — הוא עושה בדיוק מה שתאר.</p>
+
+  <div class="section-head">מבנה שכבות ווקאל — ויזואל</div>
+
+  <div class="harmony-visual">
+    <div class="hv-row">
+      <span class="hv-label">ליד ווקאל</span>
+      <div class="hv-bar hv-lead">Lead Vocal — 100% Level</div>
+    </div>
+    <div class="hv-row">
+      <span class="hv-label">הרמוניה ♭3</span>
+      <div class="hv-bar hv-h3rd">Harmony 3rd — 60% Level</div>
+    </div>
+    <div class="hv-row">
+      <span class="hv-label">הרמוניה ♭5</span>
+      <div class="hv-bar hv-h5th">Harmony 5th — 45% Level</div>
+    </div>
+    <div class="hv-row">
+      <span class="hv-label">Doubling (+8va)</span>
+      <div class="hv-bar hv-oct">Octave Double — 55% Level</div>
+    </div>
+    <div class="hv-row">
+      <span class="hv-label">Backing 1</span>
+      <div class="hv-bar hv-back1">Backing Vocal 1 — 40% Level</div>
+    </div>
+    <div class="hv-row">
+      <span class="hv-label">Backing 2</span>
+      <div class="hv-bar hv-back2">Backing Vocal 2 — 30% Level</div>
+    </div>
+  </div>
+
+  <div class="section-head">6 מניפולציות ווקאל מתקדמות — Style Tags ו-Directives</div>
+
+  <div class="tbl-wrap">
+    <table>
+      <tr>
+        <th>מניפולציה</th>
+        <th>תיאור</th>
+        <th>Style Tag / Directive</th>
+        <th>שימוש</th>
+      </tr>
+      <tr>
+        <td><strong>Backing Harmonies</strong></td>
+        <td>שכבות ווקאל תומכות 3rd ו-5th מתחת לליד</td>
+        <td><code>backing vocal harmonies (3rd and 5th), lush choral support</code> / <code>[Backing Harmonies enter]</code></td>
+        <td>כורוס, שיא רגשי</td>
+      </tr>
+      <tr>
+        <td><strong>Octave Doubling</strong></td>
+        <td>ליד + עצמו אוקטבה מעל — יוצר "רוחב" ועובי</td>
+        <td><code>octave doubled vocal, same voice one octave higher, thick lead</code></td>
+        <td>דרופ, Hook חזק</td>
+      </tr>
+      <tr>
+        <td><strong>Call & Response</strong></td>
+        <td>שאלה ותשובה בין שני קולות/קבוצות</td>
+        <td><code>[Call and Response: Lead then Backing choir]</code></td>
+        <td>Gospel, חזנות, World Music</td>
+      </tr>
+      <tr>
+        <td><strong>Unison Choir</strong></td>
+        <td>קבוצת קולות על אותה מלודיה — עצמה × מספר הזמרים</td>
+        <td><code>unison choir, 8+ voices together, choral unison power</code></td>
+        <td>אנתמים, דרופ מנצח</td>
+      </tr>
+      <tr>
+        <td><strong>Reverb Wash</strong></td>
+        <td>Reverb ארוך (>4 שניות) שמוסס את הווקאל למרחב</td>
+        <td><code>heavy reverb wash on vocal, long tail, atmospheric vocal space</code></td>
+        <td>ברייקדאון, סוף שיר</td>
+      </tr>
+      <tr>
+        <td><strong>Echo / Delay</strong></td>
+        <td>חזרות ווקאל מתפוגגות — מוסיפות מרחב זמן</td>
+        <td><code>slapback echo on vocal, dotted-eighth delay, rhythmic delay</code></td>
+        <td>פופ, Rock, Dub</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="section-head">בניית מבנה ווקאל שלב-אחר-שלב לפיוזן</div>
+
+  <ul class="steps">
+    <li>
+      <div class="st"><strong>ורס — ליד סולו, Dry, Close-Miked:</strong> ווקאל אחד בלבד, ללא הרמוניות, Reverb מינימלי. יוצר "אינטימיות" ומכין את המאזין לבנייה הבאה. <code>solo lead vocal, dry close-miked, no harmonies in verse</code></div>
+      <div class="sn">1</div>
+    </li>
+    <li>
+      <div class="st"><strong>פרה-כורוס — הוספת הרמוניה שלישית:</strong> שכבה אחת של הרמוניה 3rd נכנסת בשקט מאחור. <code>[Pre-chorus: Harmony 3rd enters quietly — backing support begins]</code></div>
+      <div class="sn">2</div>
+    </li>
+    <li>
+      <div class="st"><strong>כורוס — ליד + 3rd + 5th + Reverb:</strong> שלוש שכבות פעילות + Reverb מלא. <code>[Chorus: Full harmony stack — 3rd and 5th — reverb on all vocals — lush and wide]</code></div>
+      <div class="sn">3</div>
+    </li>
+    <li>
+      <div class="st"><strong>ברייקדאון — ליד + Reverb Wash:</strong> ווקאל אחד עם Reverb ארוך מאוד — "מרחב" ריגשי. <code>[Breakdown: Lead vocal only — heavy reverb wash — atmospheric — no harmonies]</code></div>
+      <div class="sn">4</div>
+    </li>
+    <li>
+      <div class="st"><strong>דרופ סופי — Octave Double + Choir:</strong> ליד + Doubling + Choir Unison. כֹּל שכבה פעילה. <code>[Final Drop: Octave-doubled lead + unison choir backing — maximum vocal power]</code></div>
+      <div class="sn">5</div>
+    </li>
+  </ul>
+
+  <div class="prompt-block">
+    <span class="p-lbl">SUNO — מבנה ווקאל מלא עם כֹּל שכבות</span>
+<span class="s">STYLE: cantorial pop-house trance, 134 BPM, Dorian on A,</span>
+<span class="s">— VOCAL ARCHITECTURE —</span>
+<span class="s">lead: cantorial hazzan tenor (melismatic, raw, emotional),</span>
+<span class="s">backing: 3rd and 5th harmonies in chorus and drop,</span>
+<span class="s">doubling: octave above in final drop,</span>
+<span class="s">effects: dry close in verse, reverb wash in breakdown,</span>
+<span class="s">rhythmic delay on hook phrase, no reverb on verse</span>
+
+<span class="d">[Verse — Solo Dry Lead — no harmonies — close-miked]</span>
+<span class="l">עוֹמֵד בַּשַּׁעַר שֶׁל הַלַּיְלָה / נוֹשֵׂא אֶת הַשֵּׁם</span>
+
+<span class="d">[Pre-Chorus — Harmony 3rd enters quietly behind lead]</span>
+<span class="l">כַּמָּה עוֹד לִנְסֹעַ / עַד שֶׁתָּבוֹא</span>
+
+<span class="d">[Chorus — Full Harmony Stack — 3rd + 5th — wide reverb]</span>
+<span class="l">אַתָּה / אַתָּה / פֹּה</span>
+
+<span class="d">[Breakdown — Lead Only — Heavy Reverb Wash — atmospheric space]</span>
+<span class="l">אַהֲבָה רַבָּה אֲהַבְתָּנוּ</span>
+<span class="l">(melismatic cantorial improvisation)</span>
+
+<span class="d">[Final Drop — Octave-Doubled Lead + Unison Choir — Maximum Power]</span>
+<span class="l">אַתָּה / אַתָּה / פֹּה / עַכְשָׁו</span>
+  </div>
+
+  <div class="callout purple">
+    <span class="callout-lbl">INPAINT — תיקון שכבות ווקאל</span>
+    הרמוניה שנעלמה: <code>restore backing harmonies here, 3rd and 5th below lead, same level as before</code><br>
+    Doubling שנשמע כ-Chorus: <code>tighten octave double — must sound like one voice doubled, not a chorus effect</code><br>
+    Reverb שנשמע מוגזם: <code>reduce reverb tail on vocal, less wash, drier presence, vocal more upfront</code>
+  </div>
+
+  <div class="section-head">סיכום פרק 3 — טבלת הפניה מהירה</div>
+
+  <div class="tbl-wrap">
+    <table>
+      <tr>
+        <th>נושא</th>
+        <th>הכלל הליבתי</th>
+        <th>Style Tag / Directive מרכזי</th>
+      </tr>
+      <tr>
+        <td><strong>Timbre</strong></td>
+        <td>3 שכבות: מין + טקסטורה + הקשר</td>
+        <td><code>cantorial hazzan tenor, melismatic, raw emotional</code></td>
+      </tr>
+      <tr>
+        <td><strong>AI Artifacts</strong></td>
+        <td>Pitch Drift + Robotic = Style Tag + Inpaint</td>
+        <td><code>natural human timing, stable intonation</code></td>
+      </tr>
+      <tr>
+        <td><strong>שפות</strong></td>
+        <td>Style Tag לכֹּל שפה + seamless code-switch</td>
+        <td><code>Israeli Hebrew pronunciation, guttural consonants</code></td>
+      </tr>
+      <tr>
+        <td><strong>מוואל / Trills</strong></td>
+        <td>Directive מפורש לכֹּל Section</td>
+        <td><code>[Mawwal Vocal Improvisation — Maqam Bayati]</code></td>
+      </tr>
+      <tr>
+        <td><strong>ניקוד</strong></td>
+        <td>נקד ע', ח', ר' + שווא + דגש + Style Tag מבטא</td>
+        <td><code>proper ayin and chet articulation, no swallowed letters</code></td>
+      </tr>
+      <tr>
+        <td><strong>הרמוניות</strong></td>
+        <td>הגדר כֹּל שכבה בנפרד: ליד / 3rd / 5th / Octave</td>
+        <td><code>[Full Harmony Stack — 3rd and 5th — wide reverb]</code></td>
+      </tr>
+      <tr>
+        <td><strong>Reverb/Echo</strong></td>
+        <td>יבש בורס, רטוב בברייקדאון, Doubling בדרופ</td>
+        <td><code>dry in verse, reverb wash in breakdown, doubled in drop</code></td>
+      </tr>
+    </table>
+  </div>
+</div><!-- /topic 3.4 -->
+
+<!-- ══ CHAPTER FOOTER NAV ══ -->
+<div class="chapter-nav">
+  <a href="chapter2.html" class="cnav-link">← פרק 2 — קצב מתקדם ואנרגיה</a>
+  <span class="cnav-label">CHAPTER 03 OF 05</span>
+  <a href="chapter4.html" class="cnav-link">פרק 4 — מיזוג טמברים ואינסטרומנטציה →</a>
+</div>
+
+</div><!-- /page -->
+</body>
+</html>

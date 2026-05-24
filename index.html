@@ -4,847 +4,526 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>מאסטרקלאס הפקת מוזיקה — מרכז השליטה של לירון</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Heebo:wght@300;400;500;600&family=Frank+Ruhl+Libre:wght@400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;600&family=Heebo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* ── RESET ── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gold:         #C9A84C;
+    --gold-light:   #E8D08A;
+    --gold-dim:     #7A5F2A;
+    --bg:           #0A0A08;
+    --bg2:          #111109;
+    --bg3:          #181814;
+    --border:       rgba(201,168,76,0.18);
+    --border-strong:rgba(201,168,76,0.45);
+    --text:         #E8E4D8;
+    --text-muted:   #8A8470;
+    --text-dim:     #5A5748;
+    --teal:         #2E9E85;
+    --purple:       #8B5CF6;
+    --red:          #EF4444;
+    --blue:         #3B82F6;
+    --mono:         'IBM Plex Mono', monospace;
+    --sans:         'Heebo', sans-serif;
+  }
 
-/* ── ROOT TOKENS ── */
-:root {
-  --gold:     #C9A84C;
-  --gold-lt:  #E8D08A;
-  --gold-dk:  #7A5F2A;
-  --bg:       #0A0A08;
-  --bg2:      #111109;
-  --bg3:      #181814;
-  --border:   rgba(201,168,76,0.18);
-  --text:     #E8E4D8;
-  --muted:    #8A8470;
-  --dim:      #5A5748;
-  --teal:     #2E9E85;
-  --blue:     #3A7BC8;
-  --purple:   #8A5ACA;
-  --red:      #C84040;
-  --violet:   #7c3aed;
-  --violet-lt:#a78bfa;
-  --sans: 'Heebo', sans-serif;
-  --serif: 'Frank Ruhl Libre', serif;
-  --mono: 'IBM Plex Mono', monospace;
-}
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
 
-/* ── BASE ── */
-html, body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--sans);
-  font-weight: 300;
-  line-height: 1.85;
-  direction: rtl;
-  width: 100%;
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-body { padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 3vw, 2rem) 6rem; }
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.75;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
 
-/* ── CENTERED WRAPPER ── */
-.hub {
-  max-width: 960px;
-  margin: 0 auto;
-  width: 100%;
-}
+  body { padding: 4rem 2rem; }
 
-/* ── MASTHEAD ── */
-.masthead {
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 3rem;
-  margin-bottom: 4rem;
-  text-align: center;
-  position: relative;
-}
-.masthead::before {
-  content: '';
-  position: absolute;
-  inset: 0 -2rem;
-  background: repeating-linear-gradient(
-    90deg, transparent, transparent 40px,
-    rgba(201,168,76,0.03) 40px, rgba(201,168,76,0.03) 41px
-  );
-  pointer-events: none;
-}
-.eyebrow {
-  font-family: var(--mono);
-  font-size: 0.65rem;
-  letter-spacing: 0.18em;
-  color: var(--gold-dk);
-  display: block;
-  margin-bottom: 1.25rem;
-  position: relative;
-}
-.masthead h1 {
-  font-family: var(--serif);
-  font-size: clamp(2rem, 5.5vw, 3.4rem);
-  font-weight: 900;
-  color: var(--gold-lt);
-  line-height: 1.15;
-  position: relative;
-}
-.masthead h1 em { font-style: normal; color: var(--text); font-weight: 300; }
-.masthead .sub {
-  font-size: 1rem;
-  color: var(--muted);
-  max-width: 600px;
-  margin: 1rem auto 0;
-  font-weight: 300;
-  position: relative;
-}
+  .hub-container {
+    max-width: 960px;
+    margin: 0 auto;
+    width: 100%;
+  }
 
-/* ── STATS STRIP ── */
-.stats {
-  display: flex;
-  justify-content: center;
-  gap: clamp(1.5rem, 4vw, 3rem);
-  margin: 2.5rem 0 0;
-  flex-wrap: wrap;
-  position: relative;
-}
-.stat { text-align: center; }
-.stat-n {
-  font-family: var(--mono);
-  font-size: 1.75rem;
-  font-weight: 600;
-  color: var(--gold-lt);
-  display: block;
-  line-height: 1;
-  margin-bottom: 0.25rem;
-}
-.stat-l {
-  font-family: var(--mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.12em;
-  color: var(--muted);
-}
+  /* ── HEADER ── */
+  .hub-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
 
-/* ── SEARCH ── */
-.search-wrap {
-  max-width: min(540px, 100%);
-  margin: 2.75rem auto 0;
-}
-.search-row {
-  display: flex;
-  background: var(--bg3);
-  border: 1px solid var(--border);
-  border-radius: 28px;
-  padding: 0.55rem 1.1rem;
-  align-items: center;
-  gap: 0.75rem;
-  transition: border-color 0.25s, box-shadow 0.25s;
-}
-.search-row:focus-within {
-  border-color: var(--gold);
-  box-shadow: 0 0 14px rgba(201,168,76,0.2);
-}
-.search-input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  outline: none;
-  color: var(--text);
-  font-family: var(--sans);
-  font-size: 0.95rem;
-  direction: rtl;
-}
-.search-input::placeholder { color: var(--dim); }
-.search-btn {
-  background: var(--gold-dk);
-  border: none;
-  color: var(--gold-lt);
-  font-family: var(--sans);
-  font-size: 0.82rem;
-  font-weight: 500;
-  padding: 0.35rem 1rem;
-  border-radius: 18px;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: background 0.2s, color 0.2s;
-  flex-shrink: 0;
-}
-.search-btn:hover { background: var(--gold); color: var(--bg); }
+  .hub-tagline {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.75rem;
+  }
 
-/* ── 6-CARD GRID ── */
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.35rem;
-  width: 100%;
-}
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    font-weight: 700;
+    color: var(--gold-light);
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+  }
 
-/* ── SINGLE CARD ── */
-.card {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 1.4rem 1.35rem;
-  text-decoration: none;
-  color: inherit;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
-}
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 22px rgba(0,0,0,0.45);
-  border-color: rgba(201,168,76,0.38);
-}
-/* Left accent stripe */
-.card::before {
-  content: '';
-  position: absolute;
-  top: 0; right: 0;
-  width: 4px; height: 100%;
-  border-radius: 0 6px 6px 0;
-}
-.c1::before { background: var(--teal); }
-.c2::before { background: var(--gold); }
-.c3::before { background: var(--purple); }
-.c4::before { background: var(--red); }
-.c5::before { background: var(--blue); }
-.c6::before { background: var(--violet); }
+  .hub-desc {
+    font-size: 1.15rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+  }
 
-.card-tag {
-  font-family: var(--mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.1em;
-  margin-bottom: 0.45rem;
-  display: block;
-}
-.c1 .card-tag { color: var(--teal); }
-.c2 .card-tag { color: var(--gold); }
-.c3 .card-tag { color: var(--purple); }
-.c4 .card-tag { color: var(--red); }
-.c5 .card-tag { color: var(--blue); }
-.c6 .card-tag { color: var(--violet-lt); }
+  /* ── STATS STRIP ── */
+  .stats-strip {
+    display: flex;
+    justify-content: space-around;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 1.5rem 1rem;
+    border-radius: 4px;
+    margin-bottom: 3.5rem;
+    text-align: center;
+  }
 
-.card-name {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--text);
-  line-height: 1.3;
-  margin-bottom: 0.55rem;
-}
-.card-desc {
-  font-size: 0.83rem;
-  color: var(--muted);
-  line-height: 1.65;
-  font-weight: 300;
-}
-.card-pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.3rem;
-  margin-top: 0.9rem;
-}
-.pill {
-  font-family: var(--mono);
-  font-size: 0.58rem;
-  letter-spacing: 0.05em;
-  padding: 0.18rem 0.45rem;
-  border-radius: 2px;
-  background: rgba(201,168,76,0.07);
-  border: 1px solid var(--border);
-  color: var(--dim);
-}
-.card-foot {
-  font-family: var(--mono);
-  font-size: 0.68rem;
-  margin-top: 1.25rem;
-  padding-top: 0.7rem;
-  border-top: 1px solid rgba(201,168,76,0.08);
-  color: var(--gold-lt);
-  direction: ltr;
-  text-align: left;
-}
+  .stat-box .num {
+    font-family: var(--mono);
+    font-size: 1.6rem;
+    color: var(--gold);
+    font-weight: 600;
+  }
 
-/* ── QUICK SEARCH TAGS ── */
-.quick-section {
-  margin-top: 3.5rem;
-  padding-top: 2.5rem;
-  border-top: 1px solid var(--border);
-}
-.quick-label {
-  font-family: var(--mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.14em;
-  color: var(--gold-dk);
-  text-align: center;
-  margin-bottom: 1.1rem;
-}
-.quick-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem;
-  justify-content: center;
-}
-.qtag {
-  font-family: var(--mono);
-  font-size: 0.68rem;
-  padding: 0.28rem 0.7rem;
-  background: var(--bg3);
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  color: var(--muted);
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
-}
-.qtag:hover {
-  background: rgba(201,168,76,0.1);
-  color: var(--gold-lt);
-  border-color: rgba(201,168,76,0.35);
-}
+  .stat-box .lbl {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+  }
 
-/* ── FOOTER ── */
-.hub-footer {
-  margin-top: 4rem;
-  padding-top: 1.75rem;
-  border-top: 1px solid var(--border);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-}
-.hub-footer p { font-size: 0.76rem; color: var(--dim); }
-.hub-footer .mono-note { font-family: var(--mono); font-size: 0.58rem; color: var(--dim); letter-spacing: 0.1em; direction: ltr; }
+  /* ── SEARCH ENGINE ── */
+  .search-wrapper {
+    margin-bottom: 3.5rem;
+    position: relative;
+  }
 
-/* ── MODAL ── */
-.modal-bg {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.78);
-  z-index: 500;
-  align-items: center;
-  justify-content: center;
-  padding: 1.5rem;
-}
-.modal-bg.on { display: flex; }
+  .search-input-box {
+    width: 100%;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.25rem 1.5rem;
+    font-family: var(--sans);
+    font-size: 1.1rem;
+    color: var(--text);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 
-.modal {
-  background: #F2EFE6;
-  color: #111;
-  max-width: 560px;
-  width: 100%;
-  border-radius: 8px;
-  padding: 2rem;
-  position: relative;
-  direction: rtl;
-  text-align: right;
-  max-height: 86vh;
-  overflow-y: auto;
-  animation: mfade 0.18s ease-out;
-  box-shadow: 0 16px 48px rgba(0,0,0,0.55);
-}
-@keyframes mfade {
-  from { opacity: 0; transform: scale(0.94) translateY(-6px); }
-  to   { opacity: 1; transform: scale(1) translateY(0); }
-}
-.modal-close-btn {
-  position: absolute;
-  top: 0.9rem; left: 0.9rem;
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: #888;
-  line-height: 1;
-}
-.modal-close-btn:hover { color: #111; }
-.modal-head {
-  border-bottom: 2px solid rgba(201,168,76,0.3);
-  padding-bottom: 0.7rem;
-  margin-bottom: 1.1rem;
-}
-.modal-head h2 { font-size: 1.05rem; font-weight: 600; color: #1E1A10; }
-.modal-query-lbl {
-  font-family: var(--mono);
-  font-size: 0.7rem;
-  color: var(--gold-dk);
-  margin-top: 0.2rem;
-}
-.modal-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-.modal-item {
-  background: #fff;
-  border: 1px solid #E0D8C8;
-  border-radius: 5px;
-  transition: background 0.14s, border-color 0.14s;
-}
-.modal-item:hover { background: #FBF7EE; border-color: var(--gold); }
-.modal-item a {
-  display: block;
-  padding: 0.8rem 0.95rem;
-  text-decoration: none;
-  color: inherit;
-}
-.m-badge {
-  display: inline-block;
-  font-family: var(--mono);
-  font-size: 0.6rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  padding: 0.15rem 0.4rem;
-  border-radius: 2px;
-  margin-bottom: 0.3rem;
-}
-.b1 { background: rgba(46,158,133,0.15); color: var(--teal); }
-.b2 { background: rgba(201,168,76,0.15); color: var(--gold-dk); }
-.b3 { background: rgba(138,90,202,0.15); color: var(--purple); }
-.b4 { background: rgba(200,64,64,0.15);  color: var(--red); }
-.b5 { background: rgba(58,123,200,0.15); color: var(--blue); }
-.b6 { background: rgba(124,58,237,0.15); color: var(--violet-lt); }
-.m-title { font-size: 0.92rem; font-weight: 500; color: #1A1510; }
-.m-keys  { font-size: 0.75rem; color: #7A7060; margin-top: 0.2rem; }
-.modal-none {
-  text-align: center;
-  padding: 1.5rem;
-  color: var(--red);
-  font-family: var(--mono);
-  font-size: 0.88rem;
-}
-.modal-count {
-  font-family: var(--mono);
-  font-size: 0.62rem;
-  color: #999;
-  direction: ltr;
-  text-align: left;
-  margin-top: 0.9rem;
-  padding-top: 0.7rem;
-  border-top: 1px solid #E0D8C8;
-}
+  .search-input-box:focus {
+    outline: none;
+    border-color: var(--gold);
+    background: var(--bg3);
+    box-shadow: 0 0 15px rgba(201,168,76,0.06);
+  }
 
-/* ── RESPONSIVE ── */
-@media (max-width: 600px) {
-  .card-grid { grid-template-columns: 1fr; }
-  .stats { gap: 1.25rem; }
-  .hub-footer { flex-direction: column; text-align: center; }
-  .hub-footer .mono-note { text-align: center; }
-}
-@media (min-width: 601px) and (max-width: 860px) {
-  .card-grid { grid-template-columns: repeat(2, 1fr); }
-}
+  .search-input-box::placeholder { color: var(--text-dim); }
+
+  /* ── QUICK TAGS ── */
+  .quick-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+  }
+
+  .q-tag {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    background: var(--bg3);
+    border: 1px solid rgba(201,168,76,0.1);
+    color: var(--text-muted);
+    padding: 0.25rem 0.6rem;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .q-tag:hover {
+    border-color: var(--gold);
+    color: var(--gold-light);
+  }
+
+  /* ── GRID CORE ── */
+  .hub-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  /* ── CARD DESIGN ── */
+  .hub-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2.5rem;
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 250px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hub-card::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; left: 0;
+    height: 3px;
+  }
+
+  .hub-card:hover {
+    border-color: var(--gold);
+    background: var(--bg3);
+    transform: translateY(-2px);
+  }
+
+  /* Accent Stripes */
+  .c1::before { background: var(--teal); }
+  .c2::before { background: var(--gold); }
+  .c3::before { background: var(--purple); }
+  .c4::before { background: var(--red); }
+  .c5::before { background: var(--blue); }
+  .c6::before { background: linear-gradient(90deg, var(--gold), var(--gold-light)); }
+
+  .card-meta {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--gold-dim);
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .hub-card.generator-card .card-meta { color: var(--gold); }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+  }
+
+  .card-summary {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    flex-grow: 1;
+    margin-bottom: 1.5rem;
+  }
+
+  .card-action {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--gold-light);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* ── MODAL ARCHITECTURE ── */
+  .search-modal {
+    position: fixed;
+    top: 0; right: 0; bottom: 0; left: 0;
+    background: rgba(6,6,6,0.96);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    display: none;
+    padding: 4rem 2rem;
+    overflow-y: auto;
+  }
+
+  .search-modal.active { display: block; }
+
+  .modal-close {
+    position: absolute;
+    top: 2rem; left: 2rem;
+    background: none; border: none;
+    font-family: var(--mono);
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+  .modal-close:hover { color: var(--text); }
+
+  .modal-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  #modalQueryDisplay { font-family: var(--mono); font-size: 1rem; color: var(--gold); }
+  #modalResultCount { font-family: var(--mono); font-size: 0.85rem; color: var(--text-muted); }
+
+  .modal-list { list-style: none; }
+  .modal-item { margin-bottom: 1.5rem; border-bottom: 1px solid rgba(201,168,76,0.05); padding-bottom: 1.5rem; }
+  .modal-link { text-decoration: none; display: block; }
+
+  .modal-ch-tag {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 2px;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+  }
+
+  .tag-ch1 { background: rgba(46,158,133,0.15); color: #4ade80; }
+  .tag-ch2 { background: rgba(201,168,76,0.15); color: var(--gold-light); }
+  .tag-ch3 { background: rgba(139,92,246,0.15); color: #c084fc; }
+  .tag-ch4 { background: rgba(239,68,68,0.15); color: #fca5a5; }
+  .tag-ch5 { background: rgba(59,130,246,0.15); color: #93c5fd; }
+
+  .modal-item-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--text);
+    margin-bottom: 0.25rem;
+  }
+
+  .modal-item-keys {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .modal-no-match {
+    color: var(--text-dim);
+    font-size: 1.1rem;
+    text-align: center;
+    padding: 4rem 0;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    body { padding: 2rem 1rem; }
+    .hub-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    .stats-strip { flex-direction: column; gap: 1.5rem; }
+  }
 </style>
 </head>
 <body>
 
-<div class="hub">
+<div class="hub-container">
+  
+  <header class="hub-header">
+    <span class="hub-tagline">INMUSIC STUDIO · WORKSPACE</span>
+    <h1>מרכז השליטה והניווט</h1>
+    <p class="hub-desc">גישה ישירה ומיידית לחמשת פרקי המאסטרקלאס, המתודיקות הקולנועיות ומנוע הפיתוח הייעודי שלך.</p>
+  </header>
 
-  <!-- ══ MASTHEAD ══ -->
-  <div class="masthead">
-    <span class="eyebrow">לירון — מפיק מוזיקלי SUNO AI · מרכז ניווט</span>
-    <h1>מאסטרקלאס <em>מתקדם</em><br>להפקת מוזיקה</h1>
-    <p class="sub">שישה עמודי יסוד להפקה ברמת הוליווד. כֹּל פרק כולל 4 שלבי מתודולוגיה מלאים ופרומפטים מוכנים ל-SUNO.</p>
+  <section class="stats-strip">
+    <div class="stat-box"><div class="num">05</div><div class="lbl">פרקי לימוד</div></div>
+    <div class="stat-box"><div class="num">23</div><div class="lbl">מתודולוגיות ליבה</div></div>
+    <div class="stat-box"><div class="num">100%</div><div class="lbl">רספונסיביות מובייל</div></div>
+    <div class="stat-box"><div class="num">V5</div><div class="lbl">מנוע SUNO STUDIO</div></div>
+  </section>
 
-    <!-- STATS -->
-    <div class="stats">
-      <div class="stat"><span class="stat-n">6</span><span class="stat-l">מודולים</span></div>
-      <div class="stat"><span class="stat-n">23</span><span class="stat-l">נושאים</span></div>
-      <div class="stat"><span class="stat-n">84</span><span class="stat-l">STEP CARDS</span></div>
-      <div class="stat"><span class="stat-n">18</span><span class="stat-l">פרומפטים</span></div>
-      <div class="stat"><span class="stat-n">172</span><span class="stat-l">כֹּל</span></div>
-    </div>
-
-    <!-- SEARCH -->
-    <div class="search-wrap">
-      <form onsubmit="doSearch(event)" class="search-row">
-        <input type="text" id="q" class="search-input" placeholder="חפש מושג, מקאם, כלי, פקודה...">
-        <button type="submit" class="search-btn">🔍 חפש</button>
-      </form>
-    </div>
-  </div><!-- /masthead -->
-
-  <!-- ══ 6 CARDS ══ -->
-  <div class="card-grid">
-
-    <a href="chapter1_harmony_hebrew.html" class="card c1">
-      <div>
-        <span class="card-tag">פרק 01 · HARMONY &amp; THEORY</span>
-        <div class="card-name">הרמוניה ותיאוריה מתקדמת</div>
-        <div class="card-desc">שליטה במודים רגשיים, Voice Leading כירורגי, ופרוגרסיות אקורדים שאולות למניעת סאונד גנרי — עם יישום SUNO מלא.</div>
-        <div class="card-pills">
-          <span class="pill">סולמות ומודים</span>
-          <span class="pill">Voice Leading</span>
-          <span class="pill">פרוגרסיות</span>
-          <span class="pill">Inpaint</span>
-        </div>
-      </div>
-      <div class="card-foot">chapter1_harmony_hebrew.html →</div>
-    </a>
-
-    <a href="chapter2_structure_hebrew.html" class="card c2">
-      <div>
-        <span class="card-tag">פרק 02 · SONG STRUCTURE</span>
-        <div class="card-name">ארכיטקטורה ומבנה שיר</div>
-        <div class="card-desc">מניפולציה פסיכולוגית של צפיפות האנרגיה, חוק הברייקדאון הארוך של הטראנס, ובימוי כירורגי בסוגריים מרובעים באנגלית.</div>
-        <div class="card-pills">
-          <span class="pill">כלל ה-40%</span>
-          <span class="pill">ברייקדאון טראנס</span>
-          <span class="pill">פיוזן אתני</span>
-          <span class="pill">Copyright Bypass</span>
-        </div>
-      </div>
-      <div class="card-foot">chapter2_structure_hebrew.html →</div>
-    </a>
-
-    <a href="chapter3_timbre_hebrew.html" class="card c3">
-      <div>
-        <span class="card-tag">פרק 03 · TIMBRE FUSION</span>
-        <div class="card-name">כלי נגינה ומיזוג טמברים נועז</div>
-        <div class="card-desc">ניהול הנדל"ן הספקטרלי, פתרון חיכוך טמפרמנט מיקרוטונלי, ו-3 אסטרטגיות מיזוג לעוד, נַי וסינת' אלקטרוני.</div>
-        <div class="card-pills">
-          <span class="pill">ספקטרום</span>
-          <span class="pill">Microtuning</span>
-          <span class="pill">Dynamic EQ</span>
-          <span class="pill">Sidechain</span>
-        </div>
-      </div>
-      <div class="card-foot">chapter3_timbre_hebrew.html →</div>
-    </a>
-
-    <a href="chapter4_ear_training_hebrew.html" class="card c4">
-      <div>
-        <span class="card-tag">פרק 04 · SURGICAL QA</span>
-        <div class="card-name">אימון אוזן קריטי ו-QA כירורגי</div>
-        <div class="card-desc">מבחן המונו, מלחמת הלואו-אנד בין קיק לבס, זיהוי 6 סוגי ארטיפקטים של AI, ופרוטוקול Inpaint ב-5 שלבים.</div>
-        <div class="card-pills">
-          <span class="pill">Mono Test</span>
-          <span class="pill">Phase</span>
-          <span class="pill">Kick vs Bass</span>
-          <span class="pill">AI Artifacts</span>
-        </div>
-      </div>
-      <div class="card-foot">chapter4_ear_training_hebrew.html →</div>
-    </a>
-
-    <a href="chapter5_maqam_fusion_hebrew.html" class="card c5">
-      <div>
-        <span class="card-tag">פרק 05 · CULTURAL FUSION ★</span>
-        <div class="card-name">מקצבים, מקאמים ופיוז'ן תרבותי</div>
-        <div class="card-desc">גרוב מחוץ לגריד, 4 איקאעאת מרכזיים, ארבעת המקאמות, שבירת חוקי נוסח החזנות ומתודולוגיית הפיוזן האורגני.</div>
-        <div class="card-pills">
-          <span class="pill">מקאם בייאתי</span>
-          <span class="pill">מקאם חיג'אז</span>
-          <span class="pill">איקאעאת</span>
-          <span class="pill">חזנות</span>
-        </div>
-      </div>
-      <div class="card-foot">chapter5_maqam_fusion_hebrew.html →</div>
-    </a>
-
-    <a href="suno-v12-pro.html" class="card c6">
-      <div>
-        <span class="card-tag">סטודיו פיתוח · SUNO STUDIO V5-MAX</span>
-        <div class="card-name">מחולל פרומפטים ומטא-תגיות</div>
-        <div class="card-desc">סביבת העבודה הטכנולוגית המלאה של לירון להנדסת פרומפטים כירורגית, בקרת מבנה שיר, רמת אנרגיה, וייצור מטא-תגיות מתקדמות ללא פשרות.</div>
-        <div class="card-pills">
-          <span class="pill">Prompt Engineering</span>
-          <span class="pill">מטא-תגיות</span>
-          <span class="pill">Structure Control</span>
-          <span class="pill">V5-MAX</span>
-        </div>
-      </div>
-      <div class="card-foot">suno-v12-pro.html →</div>
-    </a>
-
-  </div><!-- /card-grid -->
-
-  <!-- ══ QUICK SEARCH ══ -->
-  <div class="quick-section">
-    <div class="quick-label">חיפוש מהיר — נושאים נפוצים</div>
+  <div class="search-wrapper">
+    <input type="text" id="hubSearchInput" class="search-input-box" placeholder="חפש מונח, פקודה או תגית (לדוגמה: פאזה, חזנות, קיק, [Key:])...">
     <div class="quick-tags">
-      <span class="qtag" onclick="qs('voice leading')">Voice Leading</span>
-      <span class="qtag" onclick="qs('מקאם חיג\'אז')">מקאם חיג'אז</span>
-      <span class="qtag" onclick="qs('inpaint')">Inpaint כירורגי</span>
-      <span class="qtag" onclick="qs('sidechain')">Sidechain</span>
-      <span class="qtag" onclick="qs('ברייקדאון')">ברייקדאון טראנס</span>
-      <span class="qtag" onclick="qs('מונו')">מבחן המונו</span>
-      <span class="qtag" onclick="qs('גרוב')">גרוב אנושי</span>
-      <span class="qtag" onclick="qs('dorian')">Dorian Mode</span>
-      <span class="qtag" onclick="qs('איקאע')">איקאעאת</span>
-      <span class="qtag" onclick="qs('dynamic eq')">Dynamic EQ</span>
-      <span class="qtag" onclick="qs('חזנות')">חזנות ונוסח</span>
-      <span class="qtag" onclick="qs('עוד')">כלי עוד</span>
-      <span class="qtag" onclick="qs('drop')">הדרופ</span>
-      <span class="qtag" onclick="qs('סוגריים')">בימוי בסוגריים</span>
-      <span class="qtag" onclick="qs('פאזה')">בעיות פאזה</span>
-      <span class="qtag" onclick="qs('v5-max')">SUNO Studio V5-MAX</span>
-      <span class="qtag" onclick="qs('meta tags')">מטא-תגיות</span>
-      <span class="qtag" onclick="qs('bpm')">טמפו ו-BPM</span>
+      <span class="q-tag" onclick="quickSearch('פאזה')">פאזה</span>
+      <span class="q-tag" onclick="quickSearch('קיק')">קיק</span>
+      <span class="q-tag" onclick="quickSearch('בס')">בס</span>
+      <span class="q-tag" onclick="quickSearch('מונו')">מונו</span>
+      <span class="q-tag" onclick="quickSearch('חזנות')">חזנות</span>
+      <span class="q-tag" onclick="quickSearch('מקאם')">מקאם</span>
+      <span class="q-tag" onclick="quickSearch('עוד')">עוד</span>
+      <span class="q-tag" onclick="quickSearch('קמנצ\'ה')">קמנצ'ה</span>
+      <span class="q-tag" onclick="quickSearch('ווקאל')">ווקאל</span>
+      <span class="q-tag" onclick="quickSearch('[Key:]')">[Key:]</span>
     </div>
   </div>
 
-  <!-- ══ FOOTER ══ -->
-  <div class="hub-footer">
-    <p>נערך עבור לירון — מפיק מוזיקלי SUNO AI · 2025–2026 · כֹּל הזכויות שמורות</p>
-    <span class="mono-note">6 MODULES · 23 TOPICS · MASTERCLASS HUB v3</span>
-  </div>
+  <main class="hub-grid">
+    
+    <a href="chapter1.html" class="hub-card c1">
+      <div>
+        <span class="card-meta">CHAPTER 01 // THEORY</span>
+        <h2>הרמוניה ותיאוריה מתקדמת</h2>
+        <p class="card-summary">הינדוס מתח רגשי, מודוסים מסורתיים, מהלכים הרמוניים מורכבים ונוסחאות עקיפה לשינויי סולמות דינמיים.</p>
+      </div>
+      <span class="card-action">OPEN CHAPTER →</span>
+    </a>
 
-</div><!-- /hub -->
+    <a href="chapter2.html" class="hub-card c2">
+      <div>
+        <span class="card-meta">CHAPTER 02 // STRUCTURE</span>
+        <h2>ארכיטקטורה ומבנה שיר</h2>
+        <p class="card-summary">ניהול אנרגיה ורמת דחיסות, חוקי ה-40%, הינדוס מעברים וברייקדאונים, ובניית דרופ הוליוודי שובר מוסכמות.</p>
+      </div>
+      <span class="card-action">OPEN CHAPTER →</span>
+    </a>
 
-<!-- ══ SEARCH MODAL ══ -->
-<div class="modal-bg" id="mbg" onclick="handleBgClick(event)">
-  <div class="modal" onclick="event.stopPropagation()">
-    <button class="modal-close-btn" onclick="closeModal()" aria-label="סגור">×</button>
+    <a href="chapter3.html" class="hub-card c3">
+      <div>
+        <span class="card-meta">CHAPTER 03 // TIMBRE</span>
+        <h2>כלי נגינה ומיזוג טמברים</h2>
+        <p class="card-summary">שילוב כירורגי של עוד, קמנצ'ה וניי בתוך סינתסייזרים וטקסטורות אלקטרוניות מודרניות ליצירת סאונד היברידי.</p>
+      </div>
+      <span class="card-action">OPEN CHAPTER →</span>
+    </a>
+
+    <a href="chapter4.html" class="hub-card c4">
+      <div>
+        <span class="card-meta">CHAPTER 04 // CRITICAL QA</span>
+        <h2>אימון אוזן קריטי ו-QA כירורגי</h2>
+        <p class="card-summary">פרוטוקול אבחון אקוסטי לאיתור בעיות פאזה ותאימות מונו, ופתרון מלחמת הלאו-אנד בין הקיק לבס.</p>
+      </div>
+      <span class="card-action">OPEN CHAPTER →</span>
+    </a>
+
+    <a href="chapter5.html" class="hub-card c5">
+      <div>
+        <span class="card-meta">CHAPTER 05 // MAQAM</span>
+        <h2>מקצבים, מקאמים ופיוז'ן</h2>
+        <p class="card-summary">הזרקת מחזורי איקאעאת מסורתיים, פוליריתמיקה, רבעי טון ומליסמות חזנותיות לתוך הפקות פופ-האוס וטראנס.</p>
+      </div>
+      <span class="card-action">OPEN CHAPTER →</span>
+    </a>
+
+    <a href="https://moshehillel2026.github.io/Oinkdes.Studio/" target="_blank" class="hub-card generator-card c6">
+      <div>
+        <span class="card-meta">ONLINE ENGINE // MAX CONTROL</span>
+        <h2>מחולל הפקודות SUNO STUDIO</h2>
+        <p class="card-summary">גישה חיה וישירה אל מערכת הפיתוח הדינמית שלך ב-GitHub. יצירה, הרכבה והזרקה של תגיות הנדסיות בזמן אמת.</p>
+      </div>
+      <span class="card-action" style="color:var(--gold);">LAUNCH ENGINE (LIVE) ↗</span>
+    </a>
+
+  </main>
+</div>
+
+<div id="searchModal" class="search-modal" onclick="checkClose(event)">
+  <button class="modal-close" onclick="closeModal()">[ CLOSE ESC ]</button>
+  <div class="hub-container" onclick="event.stopPropagation()">
     <div class="modal-head">
-      <h2>תוצאות חיפוש</h2>
-      <div class="modal-query-lbl" id="qlbl"></div>
+      <div id="modalQueryDisplay">← "שאילתה"</div>
+      <div id="modalResultCount">0 תוצאות נמצאו</div>
     </div>
-    <ul class="modal-list" id="mlist"></ul>
-    <div class="modal-count" id="mcount"></div>
+    <ul id="modalResultsContainer" class="modal-list"></ul>
   </div>
 </div>
 
 <script>
-/* ════════════════════════════════════════════════
-   IN-MEMORY SEARCH DATABASE — 23 entries, comma-separated
-════════════════════════════════════════════════ */
 const DB = [
-  {
-    n: 1, ch: "פרק 1",
-    file: "chapter1_harmony_hebrew.html",
-    title: "סולמות, מודים ומיפוי רגשי",
-    keys: ["מודים","דוריאן","פריגיאן","לידיאן","מיקסולידיאן","ionian","dorian","phrygian",
-           "lydian","mixolydian","aeolian","סולמות","הרמוניה","טונאליות","רגש","mode","מוד"]
-  },
-  {
-    n: 1, ch: "פרק 1",
-    file: "chapter1_harmony_hebrew.html",
-    title: "Voice Leading — הארכיטקטורה הבלתי נראית",
-    keys: ["voice leading","ווקאל לידינג","ניהול קולות","וויסינג","פאד","קווינטות מקבילות",
-           "smooth","em7","a7","common tones","drop-2","open position","pedal point"]
-  },
-  {
-    n: 1, ch: "פרק 1",
-    file: "chapter1_harmony_hebrew.html",
-    title: "פרוגרסיות אקורדים מורכבות",
-    keys: ["בס יורד","פחלבל","pachelbel","נאפוליטני","neapolitan","דומיננטות משניות",
-           "secondary dominant","אקורדים שאולים","modal interchange","החלפת מוד","פרוגרסיה"]
-  },
-  {
-    n: 1, ch: "פרק 1",
-    file: "chapter1_harmony_hebrew.html",
-    title: "יישום SUNO — הרמוניה ומודים",
-    keys: ["suno","פרומפט","style tags","inpaint","melancholic hopeful","dorian mode",
-           "smooth chord","borrowed darkness","chromatic tension","phrygian dominant"]
-  },
-  {
-    n: 2, ch: "פרק 2",
-    file: "chapter2_structure_hebrew.html",
-    title: "המסע המבני — Verse, Build, Drop, Breakdown",
-    keys: ["מבנה","אינטרו","ורס","verse","בילדאפ","build","דרופ","drop","ברייקדאון","breakdown",
-           "אאוטרו","outro","טיימליין","מסע","פסיכולוגי","edm","שתיקה","pre-drop"]
-  },
-  {
-    n: 2, ch: "פרק 2",
-    file: "chapter2_structure_hebrew.html",
-    title: "שליטה בצפיפות דינמית — כלל ה-40%",
-    keys: ["צפיפות","אנרגיה","כלל ה-40","40%","שתיקה","ניגודיות","דינמי",
-           "contrast map","שכבות","layers","filter sweep","riser","pre-drop silence"]
-  },
-  {
-    n: 2, ch: "פרק 2",
-    file: "chapter2_structure_hebrew.html",
-    title: "חוק הברייקדאון הארוך של הטראנס",
-    keys: ["טראנס","ריקנות","תקסים","taqsim","ציפייה","ברייקדאון ארוך","32 תיבות",
-           "64 תיבות","extend","cantorial breakdown","emotional breakdown"]
-  },
-  {
-    n: 2, ch: "פרק 2",
-    file: "chapter2_structure_hebrew.html",
-    title: "מבני פופ-האוס ופיוז'ן אתני",
-    keys: ["פופ האוס","pop house","פיוזן","fusion","עוד","נאי","שופר","אתני","ethnic",
-           "intro oud","breakdown oud","ney breakdown","kamancheh","קמנצ'ה"]
-  },
-  {
-    n: 2, ch: "פרק 2",
-    file: "chapter2_structure_hebrew.html",
-    title: "בימוי מבני ועקיפת אלגוריתמים",
-    keys: ["סוגריים מרובעים","square brackets","בימוי","directorial","עקיפת","copyright",
-           "heavy drop","silence","cantorial ad-lib","structure tags","ניקוד","vowelized"]
-  },
-  {
-    n: 3, ch: "פרק 3",
-    file: "chapter3_timbre_hebrew.html",
-    title: "נדל\"ן ספקטרלי וטווחי תדרים",
-    keys: ["תדרים","ספקטרום","spectrum","עוד","oud","נאי","ney","קמנצ'ה","kamancheh",
-           "שופר","shofar","צ'לו","cello","supersaw","masking","מיסוך","hpf","hz","khz","mud"]
-  },
-  {
-    n: 3, ch: "פרק 3",
-    file: "chapter3_timbre_hebrew.html",
-    title: "חיכוך הטמפרמנט — 12-TET מול מיקרוטון",
-    keys: ["טמפרמנט","temperament","12-tet","מיקרוטונאליות","microtonal","חיכוך",
-           "friction","beating","פעימות","פיץ'","pitch","cents","quarter tone"]
-  },
-  {
-    n: 3, ch: "פרק 3",
-    file: "chapter3_timbre_hebrew.html",
-    title: "3 אסטרטגיות מיזוג כירורגיות",
-    keys: ["הפרדה הרמונית","harmonic separation","microtuner","יישור פיץ'","pitch alignment",
-           "dynamic eq","sidechain","fabfilter","pro-q","tdr nova","גילוף תדרים","frequency carving"]
-  },
-  {
-    n: 3, ch: "פרק 3",
-    file: "chapter3_timbre_hebrew.html",
-    title: "ניהול טמבר ופקודות כלי נגינה ב-SUNO",
-    keys: ["טמבר","timbre","organic","raw","breathy","authentic","close-miked","dry","nasal",
-           "prominent oud","airy ney","no frequency clash","clean acoustic","instrument prompting"]
-  },
-  {
-    n: 4, ch: "פרק 4",
-    file: "chapter4_ear_training_hebrew.html",
-    title: "מבחן המונו — האבחון המהיר ביותר",
-    keys: ["מונו","mono","פאזה","phase","לואו-אנד","low end","אבחון","ביטול","cancellation",
-           "stereo","בדיקה","phase correlation","span","voxengo","mono test"]
-  },
-  {
-    n: 4, ch: "פרק 4",
-    file: "chapter4_ear_training_hebrew.html",
-    title: "קיק מול בס — מלחמת הלואו-אנד",
-    keys: ["קיק","kick","בס","bass","שורש","root","סידצ'יין","sidechain","קומפרסור",
-           "compressor","dynamic eq","יישור פאזה","phase alignment","voxengo sound delay",
-           "fabfilter","60hz","100hz","tuning kick"]
-  },
-  {
-    n: 4, ch: "פרק 4",
-    file: "chapter4_ear_training_hebrew.html",
-    title: "זיהוי בעיות פאזה ותיקון",
-    keys: ["פולריות","polarity","flip","sample start","stereo width","mid-side","utility",
-           "phase invert","zero crossing","over-width","ביטול","mid side eq"]
-  },
-  {
-    n: 4, ch: "פרק 4",
-    file: "chapter4_ear_training_hebrew.html",
-    title: "זיהוי עיוותי AI ופרוטוקול Inpaint כירורגי",
-    keys: ["inpaint","ארטיפקט","artifact","pitch drift","timbre glitch","rhythmic stutter",
-           "vocal artifact","structural break","ai phase noise","fix","preserve","תיקון","עיוות",
-           "2-4 שניות","surgical inpaint","fix and preserve"]
-  },
-  {
-    n: 5, ch: "פרק 5",
-    file: "chapter5_maqam_fusion_hebrew.html",
-    title: "מיקרו-טיימינג וגרוב אנושי",
-    keys: ["גרוב","groove","מיקרו-טיימינג","micro-timing","swing","shuffle","הומניזציה",
-           "humanize","וולוסיטי","velocity","אנושי","human feel","ableton groove","off-beat",
-           "pitch micro variation"]
-  },
-  {
-    n: 5, ch: "פרק 5",
-    file: "chapter5_maqam_fusion_hebrew.html",
-    title: "איקאעאת ופוליריתמיקה",
-    keys: ["איקאע","iqa","מחזור","מקסום","maqsum","וואחדה","wahda","סמאעי","samai",
-           "ג'ורגינה","jurjina","פוליריתמיקה","polyrhythm","dum","tek","ka","דרבוקה","darbuka",
-           "10/8","6/8"]
-  },
-  {
-    n: 5, ch: "פרק 5",
-    file: "chapter5_maqam_fusion_hebrew.html",
-    title: "ארבעת המקאמות המרכזיים להפקה",
-    keys: ["מקאמות","maqam","ראסת","rast","בייאתי","bayati","חיג'אז","hijaz","נהוונד",
-           "nahawand","רבע טון","quarter tone","אינטרוול","interval","גמאז","ghammaz",
-           "כיסופים","yearning","augmented second"]
-  },
-  {
-    n: 5, ch: "פרק 5",
-    file: "chapter5_maqam_fusion_hebrew.html",
-    title: "פיוז'ן חזנות ושבירת חוקי הנוסח",
-    keys: ["חזנות","chazanut","cantorial","נוסח","nusach","אהבה רבה","ahavah rabbah",
-           "מגן אבות","magen avot","ה' מלך","adonai malach","שבירת חוקים","תפילה","ליטורגי",
-           "phrygian dominant","ionian","melismatic"]
-  },
-  {
-    n: 5, ch: "פרק 5",
-    file: "chapter5_maqam_fusion_hebrew.html",
-    title: "מתודולוגיית הפיוזן האורגני — 5 שלבים",
-    keys: ["מתודולוגיה","methodology","פיוזן אורגני","organic fusion","גמאז","ghammaz",
-           "קישוטים","ornaments","מליסמה","melisma","5 שלבים","5 steps","מרכז טונלי",
-           "tonal center","iqa cross-rhythm"]
-  },
-  {
-    n: 6, ch: "סטודיו",
-    file: "suno-v12-pro.html",
-    title: "Suno Studio V5-MAX — מחולל ומטא-תגיות כירורגי",
-    keys: ["מחולל","פרומפט","prompts","מטא-תגיות","meta tags","סטודיו","studio","v5-max",
-           "הנדסת פרומפטים","prompt engineering","עריכה","tags","structure control",
-           "energy level","bpm","style","suno studio","workbench","v12","pro"]
-  }
+  { chNum:1, ch:"פרק 1", file:"chapter1.html", title:"מהלכים הרמוניים מורכבים ומתח קולנועי", keys:["secondary dominant", "pachelbel", "modal interchange", "מתח", "אקורד", "סולם"] },
+  { chNum:1, ch:"פרק 1", file:"chapter1.html", title:"סולמות ומודוסים מסורתיים בפיוז'ן", keys:["מודוס", "פריגי", "דורני", "מיקסולידי", "סולם", "הרמוניה"] },
+  { chNum:1, ch:"פרק 1", file:"chapter1.html", title:"נוסחאות עקיפה לשינויי סולמות דינמיים", keys:["סולמות", "מעבר", "מודולציה", "עקיפה"] },
+  { chNum:2, ch:"פרק 2", file:"chapter2.html", title:"חוק ה-40% וניהול שכבות האנרגיה בטראק", keys:["אנרגיה", "שכבות", "ווליום", "מיקס", "מבנה", "ורס", "דרופ"] },
+  { chNum:2, ch:"פרק 2", file:"chapter2.html", title:"הנדסת מעברים, עליות ו-Pre-Drop Silence", keys:["מעבר", "עלייה", "שתיקה", "pre-drop", "silence", "ברייקדאון"] },
+  { chNum:2, ch:"פרק 2", file:"chapter2.html", title:"בניית דרופ הוליוודי שובר מוסכמות", keys:["דרופ", "הוליווד", "drop", "אנרגיה"] },
+  { chNum:3, ch:"פרק 3", file:"chapter3.html", title:"שילוב עוד, קמנצ'ה וכלים אתניים", keys:["עוד", "קמנצ'ה", "ניי", "כלי נגינה", "טמבר", "אתני"] },
+  { chNum:3, ch:"פרק 3", file:"chapter3.html", title:"הנדסת ווקאלים רב-לשונית ומבטא יציב", keys:["ווקאל", "שפה", "עברית", "מבטא", "pronunciation", "הגייה"] },
+  { chNum:3, ch:"פרק 3", file:"chapter3.html", title:"הגדרת שכבות הרמוניות ו-Vocal Stack", keys:["שכבות", "ווקאל", "הרמוניה", "stack"] },
+  { chNum:4, ch:"פרק 4", file:"chapter4.html", title:"בדיקת מונו (Mono Compatibility) וביטולי פאזה", keys:["מונו", "פאזה", "סטריאו", "phase", "mono", "ביטול"] },
+  { chNum:4, ch:"פרק 4", file:"chapter4.html", title:"מלחמת הלאו-אנד: הפרדת קיק ובס דינמית", keys:["קיק", "בס", "kick", "bass", "sidechain", "תדרים", "לואו אנד"] },
+  { chNum:4, ch:"פרק 4", file:"chapter4.html", title:"פרוטוקול אבחון אקוסטי ו-QA כירורגי", keys:["אבחון", "אקוסטיקה", "qa", "כירורגי"] },
+  { chNum:5, ch:"פרק 5", file:"chapter5.html", title:"מיקרו-טיימינג, גרוב אנושי ו-Swing", keys:["גרוב", "טיימינג", "swing", "velocity", "אנושי", "humanization"] },
+  { chNum:5, ch:"פרק 5", file:"chapter5.html", title:"ארבעת המקאמות המרכזיים ורבעי טון", keys:["מקאם", "חיג'אז", "בייאתי", "ראסת", "נהוונד", "רבע טון", "חזנות"] },
+  { chNum:5, ch:"פרק 5", file:"chapter5.html", title:"מחזורי איקאעאת ופוליריתמיקה מזרחית", keys:["איקאעאת", "מקצב", "פוליריתמיקה", "מזרח"] },
+  { chNum:5, ch:"פרק 5", file:"chapter5.html", title:"מליסמות חזנותיות ושילוב פופ-האוס וטראנס", keys:["מליסמה", "חזנות", "פופ-האוס", "טראנס", "פיוז'ן"] }
 ];
 
-/* ── Badge class by chapter number ── */
-const BADGE = { 1:'b1', 2:'b2', 3:'b3', 4:'b4', 5:'b5', 6:'b6' };
+const TAG_CLASS = { 1:'tag-ch1', 2:'tag-ch2', 3:'tag-ch3', 4:'tag-ch4', 5:'tag-ch5' };
 
-/* ── Modal helpers ── */
-function openModal()  { document.getElementById('mbg').classList.add('on'); }
-function closeModal() { document.getElementById('mbg').classList.remove('on'); }
-function handleBgClick(e) { if (e.target === document.getElementById('mbg')) closeModal(); }
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+const input = document.getElementById('hubSearchInput');
+const modal = document.getElementById('searchModal');
 
-/* ── Search core ── */
-function search(query) {
+input.addEventListener('input', function() {
+  const q = input.value.trim();
+  if (q.length >= 2) {
+    openModal();
+    displayResults(q);
+  }
+});
+
+input.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    const q = input.value.trim();
+    if (q) {
+      openModal();
+      displayResults(q);
+    }
+  }
+});
+
+function quickSearch(term) {
+  input.value = term;
+  openModal();
+  displayResults(term);
+}
+
+function openModal() { modal.classList.add('active'); document.body.style.overflow = 'hidden'; }
+function closeModal() { modal.classList.remove('active'); document.body.style.overflow = ''; }
+function checkClose(e) { if(e.target === modal) closeModal(); }
+
+window.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModal();
+});
+
+function runSearch(query) {
   const q = query.toLowerCase().trim();
   if (!q) return [];
   const terms = q.split(/\s+/).filter(Boolean);
   return DB.filter(item => {
-    const hay = (item.title + ' ' + item.keys.join(' ')).toLowerCase();
-    return terms.every(t => hay.includes(t));
+    const haystack = (item.title + ' ' + item.keys.join(' ')).toLowerCase();
+    return terms.every(t => haystack.includes(t));
   });
 }
 
-function renderResults(query) {
-  const results = search(query);
-  const list   = document.getElementById('mlist');
-  const count  = document.getElementById('mcount');
-  const lbl    = document.getElementById('qlbl');
+function displayResults(query) {
+  const q = query.trim();
+  if (!q) return;
 
-  lbl.textContent = '← "' + query + '"';
-  list.innerHTML = '';
+  const results = runSearch(q);
+  const container = document.getElementById('modalResultsContainer');
+  const countEl   = document.getElementById('modalResultCount');
+  const queryEl   = document.getElementById('modalQueryDisplay');
 
-  if (!results.length) {
-    list.innerHTML = '<li class="modal-none">לא נמצאו תוצאות עבור "' + query + '"</li>';
-    count.textContent = '';
+  queryEl.textContent = '← "' + q + '"';
+  container.innerHTML = '';
+
+  if (results.length === 0) {
+    container.innerHTML = '<li class="modal-no-match">לא נמצאו תוצאות עבור "' + q + '"</li>';
+    countEl.textContent = '0 תוצאות';
   } else {
     results.forEach(item => {
       const li = document.createElement('li');
       li.className = 'modal-item';
-      li.innerHTML =
-        '<a href="' + item.file + '">' +
-          '<span class="m-badge ' + (BADGE[item.n] || 'b1') + '">' + item.ch + '</span>' +
-          '<div class="m-title">' + item.title + '</div>' +
-          '<div class="m-keys">' + item.keys.slice(0, 6).join(' · ') + '</div>' +
-        '</a>';
-      list.appendChild(li);
+      li.innerHTML = `
+        <a href="${item.file}" class="modal-link">
+          <span class="modal-ch-tag ${TAG_CLASS[item.chNum]}">${item.ch}</span>
+          <div class="modal-item-title">${item.title}</div>
+          <div class="modal-item-keys">${item.keys.slice(0, 7).join(' · ')}</div>
+        </a>`;
+      container.appendChild(li);
     });
-    count.textContent = results.length + ' תוצאות נמצאו';
+    countEl.textContent = results.length + ' תוצאות נמצאו';
   }
-  openModal();
-}
-
-function doSearch(e) {
-  e.preventDefault();
-  const q = document.getElementById('q').value.trim();
-  if (q) renderResults(q);
-}
-
-function qs(term) {
-  document.getElementById('q').value = term;
-  renderResults(term);
 }
 </script>
-
 </body>
 </html>

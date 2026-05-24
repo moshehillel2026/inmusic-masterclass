@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>פרק 2 — קצב מתקדם ואנרגיה | מאסטרקלאס לירון</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Heebo:wght@300;400;500;700&family=Frank+Ruhl+Libre:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── TOKENS ── */
+:root {
+  --gold:    #C9A84C;
+  --gold-lt: #E8D08A;
+  --gold-dk: #7A5F2A;
+  --bg:      #0A0A08;
+  --bg2:     #111109;
+  --bg3:     #181814;
+  --bg4:     #1E1C16;
+  --border:  rgba(201,168,76,0.18);
+  --text:    #E8E4D8;
+  --muted:   #8A8470;
+  --dim:     #5A5748;
+  --teal:    #2E9E85;
+  --blue:    #3A7BC8;
+  --purple:  #8A5ACA;
+  --red:     #C84040;
+  --orange:  #C87830;
+  --sans:  'Heebo', sans-serif;
+  --serif: 'Frank Ruhl Libre', serif;
+  --mono:  'IBM Plex Mono', monospace;
+}
+
+/* ── BASE ── */
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-weight: 300;
+  line-height: 1.85;
+  direction: rtl;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+body { padding: 0 0 8rem; }
+
+/* ── TOP NAV ── */
+.topnav {
+  background: rgba(10,10,8,0.94);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  padding: 0.7rem clamp(1rem, 4vw, 2.5rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.topnav-back {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--gold-dk);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.topnav-back:hover { color: var(--gold); }
+.topnav-title { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.14em; color: var(--dim); }
+.chapter-badge {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  padding: 0.25rem 0.65rem;
+  background: rgba(201,168,76,0.12);
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 2px;
+  color: var(--gold);
+}
+
+/* ── CENTER WRAPPER ── */
+.page { max-width: 960px; margin: 0 auto; width: 100%; padding: 0 clamp(1rem, 4vw, 2.5rem); }
+
+/* ── HERO ── */
+.hero {
+  padding: 4rem 0 3.5rem;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(201,168,76,0.07) 0%, transparent 70%),
+    repeating-linear-gradient(0deg, transparent, transparent 48px,
+      rgba(201,168,76,0.025) 48px, rgba(201,168,76,0.025) 49px);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.2em;
+  color: var(--gold-dk);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+.hero-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--gold-dk); }
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(2.2rem, 6vw, 3.8rem);
+  font-weight: 900;
+  color: var(--gold-lt);
+  line-height: 1.12;
+  position: relative;
+}
+.hero h1 em { font-style: normal; color: var(--text); font-weight: 300; }
+.hero-sub {
+  font-size: 1rem;
+  color: var(--muted);
+  max-width: 640px;
+  margin: 1rem 0 0;
+  font-weight: 300;
+  position: relative;
+}
+.toc-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 2rem; position: relative; }
+.toc-chip {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  padding: 0.28rem 0.7rem;
+  background: rgba(201,168,76,0.07);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  color: var(--gold-dk);
+}
+
+/* ── TOPIC ── */
+.topic { margin-top: 5rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+.topic-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+  flex-direction: row-reverse;
+  flex-wrap: wrap;
+}
+.topic-num-badge {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  color: var(--gold-dk);
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  padding: 0.35rem 0.6rem;
+  border-radius: 2px;
+  flex-shrink: 0;
+  margin-top: 5px;
+  text-align: center;
+}
+.topic-num-badge span {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--gold);
+  line-height: 1;
+  letter-spacing: 0;
+}
+.topic-title { font-family: var(--serif); font-size: clamp(1.4rem, 3.5vw, 2rem); font-weight: 700; color: var(--text); line-height: 1.2; }
+.topic-title em { color: var(--gold-lt); font-style: normal; }
+.topic-en { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.08em; margin-top: 0.35rem; direction: ltr; text-align: right; }
+
+/* ── TYPOGRAPHY ── */
+p { font-size: 0.96rem; margin-bottom: 1.2rem; font-weight: 300; line-height: 1.85; }
+p:last-child { margin-bottom: 0; }
+strong { color: var(--gold-lt); font-weight: 500; }
+em { color: var(--muted); font-style: italic; }
+
+.section-head {
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  color: var(--gold);
+  margin: 2.5rem 0 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-direction: row-reverse;
+}
+.section-head::before { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* ── CALLOUTS ── */
+.callout { margin: 1.25rem 0; padding: 0.9rem 1.15rem; border-radius: 4px; font-size: 0.875rem; line-height: 1.8; }
+.callout.gold   { background: rgba(201,168,76,0.07);  border: 1px solid rgba(201,168,76,0.25);  color: var(--gold-lt); }
+.callout.teal   { background: rgba(46,158,133,0.07);  border: 1px solid rgba(46,158,133,0.25);  color: #7DD4C0; }
+.callout.blue   { background: rgba(58,123,200,0.07);  border: 1px solid rgba(58,123,200,0.25);  color: #90BFEE; }
+.callout.red    { background: rgba(200,64,64,0.07);   border: 1px solid rgba(200,64,64,0.25);   color: #E09090; }
+.callout.orange { background: rgba(200,120,48,0.07);  border: 1px solid rgba(200,120,48,0.3);   color: #E0A870; }
+.callout.purple { background: rgba(138,90,202,0.07);  border: 1px solid rgba(138,90,202,0.25);  color: #C0A0E8; }
+.callout strong { font-weight: 600; }
+.callout-lbl { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.14em; opacity: 0.65; margin-bottom: 0.35rem; display: block; }
+
+/* ── EXAMPLE BOX ── */
+.example-box {
+  background: var(--bg3);
+  border: 1px solid rgba(201,168,76,0.2);
+  border-right: 3px solid var(--gold);
+  border-radius: 0 4px 4px 0;
+  padding: 1rem 1.25rem;
+  margin: 1rem 0;
+  font-size: 0.875rem;
+  line-height: 1.8;
+}
+.example-box .ex-lbl { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.14em; color: var(--gold-dk); margin-bottom: 0.5rem; display: block; }
+.example-box strong { color: var(--gold-lt); font-weight: 500; }
+.example-box ol, .example-box ul { padding-right: 1.2rem; margin-top: 0.3rem; }
+.example-box li { margin-bottom: 0.45rem; font-size: 0.86rem; }
+
+/* ── PROMPT BLOCK ── */
+.prompt-block {
+  background: var(--bg4);
+  border: 1px solid rgba(138,90,202,0.3);
+  border-radius: 4px;
+  padding: 1rem 1.25rem;
+  margin: 1rem 0;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  line-height: 1.75;
+  color: #C0A8E8;
+  direction: ltr;
+  text-align: left;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+.prompt-block .p-lbl { font-size: 0.58rem; letter-spacing: 0.14em; color: var(--purple); margin-bottom: 0.4rem; display: block; text-align: right; direction: rtl; }
+.prompt-block .s { color: #9060C0; }
+.prompt-block .l { color: #D4A843; }
+.prompt-block .c { color: #3A7BC8; font-style: italic; }
+.prompt-block .d { color: #2EB8A0; font-weight: 600; }
+
+/* ── GRID / CARDS ── */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(200px,100%), 1fr)); gap: 1rem; margin: 1.25rem 0; }
+.info-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; padding: 1.15rem; }
+.ic-tag { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em; color: var(--gold-dk); margin-bottom: 0.4rem; display: block; direction: ltr; text-align: right; }
+.ic-name { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.35rem; }
+.ic-desc { font-size: 0.83rem; color: var(--muted); line-height: 1.65; font-weight: 300; }
+.ic-suno { font-family: var(--mono); font-size: 0.65rem; color: var(--purple); margin-top: 0.6rem; padding-top: 0.5rem; border-top: 1px solid var(--border); direction: ltr; text-align: left; }
+
+/* ── TABLES ── */
+.tbl-wrap { overflow-x: auto; width: 100%; -webkit-overflow-scrolling: touch; margin: 1rem 0; }
+table { width: 100%; min-width: 480px; border-collapse: collapse; font-size: 0.855rem; }
+th { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em; color: var(--gold-dk); text-align: right; padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--border); font-weight: 400; }
+td { padding: 0.65rem 0.75rem; border-bottom: 1px solid rgba(201,168,76,0.06); vertical-align: top; font-weight: 300; }
+tr:hover td { background: rgba(201,168,76,0.025); }
+
+/* ── STEP LIST ── */
+.steps { list-style: none; margin: 1.25rem 0; }
+.steps li { display: grid; grid-template-columns: 1fr 2rem; gap: 0.9rem; margin-bottom: 1.1rem; align-items: start; }
+.sn { font-family: var(--mono); font-size: 0.68rem; color: var(--gold-dk); background: var(--bg3); border: 1px solid var(--border); width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center; border-radius: 2px; flex-shrink: 0; order: 2; margin-top: 2px; }
+.st { font-size: 0.91rem; order: 1; line-height: 1.8; }
+.st strong { color: var(--gold-lt); font-weight: 500; }
+
+/* ── ENERGY BAR VISUAL ── */
+.energy-map {
+  display: flex;
+  gap: 3px;
+  margin: 1.5rem 0;
+  align-items: flex-end;
+  height: 90px;
+  direction: ltr;
+  overflow-x: auto;
+  padding-bottom: 24px;
+  -webkit-overflow-scrolling: touch;
+}
+.e-col { flex: 1; min-width: 54px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; position: relative; }
+.e-bar { width: 100%; border-radius: 3px 3px 0 0; }
+.e-lbl { font-family: var(--mono); font-size: 0.52rem; color: var(--muted); white-space: nowrap; position: absolute; bottom: -20px; text-align: center; width: 100%; }
+.e-intro  .e-bar { height: 18%; background: rgba(90,85,70,0.5); }
+.e-verse  .e-bar { height: 38%; background: rgba(46,158,133,0.4); }
+.e-build  .e-bar { height: 68%; background: rgba(201,168,76,0.55); }
+.e-silent .e-bar { height: 5%;  background: rgba(200,64,64,0.2); }
+.e-drop   .e-bar { height: 100%; background: rgba(200,64,64,0.75); flex: 1.4; }
+.e-break  .e-bar { height: 22%; background: rgba(138,90,202,0.4); }
+.e-build2 .e-bar { height: 72%; background: rgba(201,168,76,0.6); }
+.e-drop2  .e-bar { height: 100%; background: rgba(200,64,64,0.85); flex: 1.4; }
+.e-outro  .e-bar { height: 14%; background: rgba(90,85,70,0.4); }
+.e-intro .e-lbl  { color: var(--dim); }
+.e-verse .e-lbl  { color: var(--teal); }
+.e-build .e-lbl  { color: var(--gold); }
+.e-silent .e-lbl { color: var(--red); }
+.e-drop .e-lbl   { color: var(--red); font-weight: 600; }
+.e-break .e-lbl  { color: var(--purple); }
+.e-build2 .e-lbl { color: var(--gold); }
+.e-drop2 .e-lbl  { color: var(--red); font-weight: 600; }
+.e-outro .e-lbl  { color: var(--dim); }
+
+/* ── RHYTHM GRID VISUAL ── */
+.rhythm-grid {
+  direction: ltr;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 1rem 0;
+  padding-bottom: 0.5rem;
+}
+.r-row { display: flex; align-items: center; gap: 3px; margin-bottom: 5px; min-width: 560px; }
+.r-label { font-family: var(--mono); font-size: 0.62rem; color: var(--muted); width: 80px; flex-shrink: 0; text-align: right; padding-right: 8px; }
+.r-beat {
+  width: 26px; height: 26px;
+  border-radius: 3px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 0.6rem; font-weight: 600;
+  flex-shrink: 0;
+}
+.r-on   { background: rgba(201,168,76,0.5);  color: var(--gold-lt); }
+.r-sub  { background: rgba(46,158,133,0.35); color: var(--teal); }
+.r-kick { background: rgba(200,64,64,0.45);  color: #F0A0A0; }
+.r-off  { background: rgba(40,38,30,0.6);    color: var(--dim); border: 1px solid var(--border); }
+.r-acc  { background: rgba(138,90,202,0.4);  color: #C8A8F0; }
+.r-bar  { width: 1px; height: 26px; background: rgba(201,168,76,0.25); margin: 0 2px; flex-shrink: 0; }
+
+/* ── COMPARE ── */
+.compare { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.25rem 0; }
+.cmp-box { background: var(--bg3); border: 1px solid var(--border); border-radius: 4px; padding: 1rem; }
+.cmp-box.bad  { border-color: rgba(200,64,64,0.3); }
+.cmp-box.good { border-color: rgba(46,158,133,0.3); }
+.cmp-label { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.12em; margin-bottom: 0.5rem; display: block; }
+.cmp-box.bad  .cmp-label { color: var(--red); }
+.cmp-box.good .cmp-label { color: var(--teal); }
+.cmp-box p { font-size: 0.83rem; margin: 0; }
+
+/* ── CODE ── */
+code { font-family: var(--mono); font-size: 0.82em; background: rgba(201,168,76,0.1); padding: 0.1em 0.35em; border-radius: 3px; color: var(--gold-lt); direction: ltr; display: inline-block; word-break: break-word; }
+
+/* ── CHAPTER FOOTER NAV ── */
+.chapter-nav {
+  margin-top: 5rem;
+  padding: 1.75rem 0;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.cnav-link { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; color: var(--gold-dk); text-decoration: none; transition: color 0.15s; }
+.cnav-link:hover { color: var(--gold); }
+.cnav-label { font-family: var(--mono); font-size: 0.58rem; color: var(--dim); letter-spacing: 0.12em; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  .topic-header { flex-direction: column; gap: 0.5rem; }
+  .card-grid { grid-template-columns: 1fr; }
+  .compare { grid-template-columns: 1fr; }
+  .steps li { grid-template-columns: 1fr; }
+  .sn { order: 0; width: 1.75rem; height: 1.75rem; }
+  .prompt-block { font-size: 0.7rem; }
+  .hero h1 { font-size: 2rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ TOP NAV ══ -->
+<nav class="topnav">
+  <a href="index.html" class="topnav-back">← חזרה למרכז השליטה הראשי</a>
+  <span class="topnav-title">ADVANCED MUSIC PRODUCTION MASTERCLASS</span>
+  <span class="chapter-badge">CHAPTER 02 · RHYTHM &amp; ENERGY</span>
+</nav>
+
+<div class="page">
+
+<!-- ══ HERO ══ -->
+<div class="hero">
+  <div class="hero-eyebrow">CHAPTER 02 OF 05 · RHYTHM, POLYRHYTHM &amp; ENERGY ARCHITECTURE</div>
+  <h1>קצב מתקדם<br><em>ואדריכלות אנרגיה</em></h1>
+  <p class="hero-sub">ממניעת Tempo Drift בפרומפטים ועד להזרקת פוליריתמיקה מורכבת — כֹּל כלי לבניית מתח, פיצוץ ושבירות קצב ב-SUNO ובסטודיו.</p>
+  <div class="toc-row">
+    <span class="toc-chip">2.1 · סנכרון ומניעת Tempo Drift</span>
+    <span class="toc-chip">2.2 · פוליריתמיקה ומשקלים מורכבים</span>
+    <span class="toc-chip">2.3 · ניהול אנרגיה ו-Drop</span>
+    <span class="toc-chip">2.4 · כלי הקשה מסורתיים × אלקטרוני</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- TOPIC 2.1 -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="topic" id="t1">
+  <div class="topic-header">
+    <div class="topic-num-badge"><span>2.1</span>נושא</div>
+    <div>
+      <div class="topic-title">הנדסת סנכרון מקצבי<br>ו<em>מניעת Tempo Drift</em></div>
+      <div class="topic-en">Rhythmic Synchronisation Engineering &amp; Tempo Drift Prevention</div>
+    </div>
+  </div>
+
+  <p>Tempo Drift הוא אחד מה"רצחים השקטים" של SUNO — מנוע ה-AI מייצר קצב שמתחיל ב-128 BPM ובאמצע השיר "מחליק" ל-126 או 130 BPM ללא הנחייה מפורשת. התוצאה: שיר שנשמע "חי" בצורה לא-נעימה, שאי-אפשר לשלב ב-Ableton עם קליפים אחרים, ושגורם לכֹּל אלמנט מסונכרן לחתוך ולנשור.</p>
+
+  <div class="callout red">
+    <span class="callout-lbl">הבעיה בפועל</span>
+    <strong>Tempo Drift ב-SUNO</strong> מתרחש כאשר: (א) לא מציינים BPM מדויק ב-Style Tag, (ב) הלירקה כוללת מילים ארוכות שה-AI "מתאים" אליהן את הקצב, (ג) SUNO עובר בין סקשנים ומשנה Grove בלי שביקשנו.
+  </div>
+
+  <div class="section-head">שיטות מניעה — 4 שכבות הגנה</div>
+
+  <ul class="steps">
+    <li>
+      <div class="st"><strong>שכבה 1 — BPM מפורש ב-Style Tag:</strong> תמיד ציין BPM מספרי מדויק. <code>134 BPM</code> עדיף על <code>fast</code>. <code>72 BPM half-time feel</code> עדיף על <code>slow groove</code>. SUNO מגיב לערכים מספריים בצורה יציבה בהרבה ממילות תיאור.</div>
+      <div class="sn">1</div>
+    </li>
+    <li>
+      <div class="st"><strong>שכבה 2 — Tempo Anchor בדירקטיב:</strong> הוסף בתחילת כֹּל סקשן: <code>[Maintain 134 BPM throughout]</code>. כאשר SUNO רואה זאת בכֹּל transition, הוא נועל את ה-Grid מחדש לאחר כֹּל מעבר.</div>
+      <div class="sn">2</div>
+    </li>
+    <li>
+      <div class="st"><strong>שכבה 3 — ניקוד עברי מלא:</strong> מילות שיר מנוקדות (כְּשֶׁ, לֵב, שָׁמַיִם) מונעות מ-SUNO "להמציא" הגייה שמשנה את הדגש וכתוצאה מכך את ה-Tempo feel. ניקוד = ציין לאי-בנאי הצליל היכן הדגש.</div>
+      <div class="sn">3</div>
+    </li>
+    <li>
+      <div class="st"><strong>שכבה 4 — Metronome Style Tag:</strong> הוסף לסגנון: <code>tight rhythmic grid, metronomic precision, locked BPM, no tempo rubato</code>. זה מונחה ה-AI להישאר על ה-Grid ולא "לנשום" מחוץ לקצב.</div>
+      <div class="sn">4</div>
+    </li>
+  </ul>
+
+  <div class="section-head">זיהוי Tempo Drift — 3 סימנים</div>
+
+  <div class="card-grid">
+    <div class="info-card">
+      <span class="ic-tag" style="color:var(--red);">סימן 01</span>
+      <div class="ic-name" style="color:var(--red);">Waveform Stretch</div>
+      <div class="ic-desc">ב-DAW: טעינת קובץ WAV ובדיקה אם Transients של קיק נמצאים על Grid. אם הם "חורגים" בהדרגה — יש Drift.</div>
+      <div class="ic-suno">Inpaint: "lock BPM at 134, metronomic kick, tight grid"</div>
+    </div>
+    <div class="info-card">
+      <span class="ic-tag" style="color:var(--red);">סימן 02</span>
+      <div class="ic-name" style="color:var(--red);">Vocal Phrase Stretch</div>
+      <div class="ic-desc">ווקאל שמאריך פרזות בין סקשנים — נשמע כמו "ריקוד עם הקצב". אם לא ביקשת זאת — זה Drift.</div>
+      <div class="ic-suno">Inpaint: "strict vocal timing, maintain BPM under vocals, no rubato"</div>
+    </div>
+    <div class="info-card">
+      <span class="ic-tag" style="color:var(--red);">סימן 03</span>
+      <div class="ic-name" style="color:var(--red);">Section Tempo Jump</div>
+      <div class="ic-desc">מעבר בין ורס לדרופ שנשמע "קפיצה" — הדרופ נשמע מהיר יותר. SUNO העלה BPM בשקט.</div>
+      <div class="ic-suno">Inpaint: "same BPM in drop as verse, no tempo increase, consistent grid"</div>
+    </div>
+  </div>
+
+  <div class="section-head">פרוטוקול Inpaint לתיקון Drift</div>
+
+  <div class="prompt-block">
+    <span class="p-lbl">Inpaint — תיקון Tempo Drift</span>
+<span class="c">// מה לתקן:</span>
+<span class="s">fix tempo drift at this section,</span>
+<span class="s">lock BPM to 134, metronomic precision,</span>
+<span class="s">tight kick on grid, no rubato, no tempo fluctuation</span>
+
+<span class="c">// מה לשמר:</span>
+<span class="s">preserve all musical content, melody, vocal style,</span>
+<span class="s">preserve arrangement density and energy level,</span>
+<span class="s">only fix the rhythmic timing stability</span>
+  </div>
+
+  <div class="section-head">Style Tag Boilerplate — כֹּל פרומפט קצבי ב-SUNO</div>
+
+  <div class="prompt-block">
+    <span class="p-lbl">BOILERPLATE — הוסף לכֹּל פרומפט</span>
+<span class="s">STYLE: [genre], [BPM exact number] BPM,</span>
+<span class="s">tight rhythmic grid, metronomic precision,</span>
+<span class="s">locked tempo throughout, no tempo drift,</span>
+<span class="s">four-on-the-floor kick anchor [if electronic]</span>
+
+<span class="c">// לדוגמה — Trance + שמירה על גריד:</span>
+<span class="s">STYLE: emotional trance, 136 BPM,</span>
+<span class="s">tight rhythmic grid, metronomic precision,</span>
+<span class="s">locked tempo throughout, no tempo drift,</span>
+<span class="s">four-on-the-floor kick, sidechain bass to kick</span>
+  </div>
+
+  <div class="callout teal">
+    <span class="callout-lbl">Post-Processing ב-DAW</span>
+    אחרי ייצוא WAV מ-SUNO — העבר את הקובץ דרך <strong>Warp בAbleton</strong> (Warp Mode: Complex Pro). Ableton ינרמל את כֹּל ה-Drift שנותר ויישר אותו ל-Grid מדויק. זהו הפתרון הסופי לכֹּל Drift שלא נפתר ב-Inpaint.
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- TOPIC 2.2 -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="topic" id="t2">
+  <div class="topic-header">
+    <div class="topic-num-badge"><span>2.2</span>נושא</div>
+    <div>
+      <div class="topic-title">הזרקת <em>פוליריתמיקה</em><br>ומשקלים מורכבים</div>
+      <div class="topic-en">Polyrhythm Injection &amp; Complex Time Signatures — 5/4, 7/8, 11/8</div>
+    </div>
+  </div>
+
+  <p>פוליריתמיקה היא הנשק הסודי של מוזיקה מזרח-תיכונית ואפריקאית — <strong>שני מחזורי קצב שרצים בו-זמנית ויוצרים מתח שה"גוף מנסה לרדוף אחרי שניהם ולא מצליח"</strong>. כאשר מזריקים פוליריתמיקה לתוך SUNO בצורה נכונה, התוצאה היא גרוב ממכר שאי-אפשר לפסיק לזוז אליו.</p>
+
+  <div class="callout gold">
+    <span class="callout-lbl">ההגדרה המדויקת</span>
+    <strong>פוליריתמיקה</strong> = שני קצבים שרצים בו-זמנית על אותו Tempo. דוגמה קלאסית: קיק 4/4 אלקטרוני + דארבוקה במחזור 3+2+3 (8/8). הם נפגשים בנקודה אחת בכֹּל 8 פגיעות — ובינתיים יוצרים מתח שמוח המאזין מנסה "לפתור".
+  </div>
+
+  <div class="section-head">ארבעת האיקאעאת — מחזורי קצב מרכזיים</div>
+
+  <div class="rhythm-grid">
+    <div class="r-row">
+      <span class="r-label">מקסום 4/4</span>
+      <div class="r-beat r-kick">D</div>
+      <div class="r-beat r-off">–</div>
+      <div class="r-beat r-on">T</div>
+      <div class="r-beat r-sub">K</div>
+      <div class="r-bar"></div>
+      <div class="r-beat r-kick">D</div>
+      <div class="r-beat r-kick">D</div>
+      <div class="r-beat r-on">T</div>
+      <div class="r-beat r-sub">K</div>
+    </div>
+    <div class="r-row">
+      <span class="r-label">וואחדה 4/4</span>
+      <div class="r-beat r-kick">D</div>
+      <div class="r-beat r-off">–</div>
+      <div class="r-beat r-off">–</div>
+      <div class="r-beat r-off">–</div>
+      <div class="r-bar"></div>
+      <div class="r-beat r-off">–</div>
+      <div class="r-beat r-on">T</div>
+      <div class="r-beat r-sub">K</div>
+      <div class="r-beat r-off">–</div>
+    </div>
+    <div class="r-row">
+      <span class="r-label">סמאעי 10/8</span>
+      <div class="r-beat r-kick">D</div>
+      <div class="r-beat r-off">–</div>
+      <div class="r-beat r-off">–</div>
+      <div class="r-beat r-on">T</div>
+      <div class="r-beat r-sub">K</div>
+      <div class="r-bar"></div>
+      <div class="r-beat r-kick">D</div>
+      <div class="r-beat r-sub">K</div>
+      <div class="r-beat r-kick">D</div>
+      <div class="r-beat r-off">–</div>
+      <div class="r-beat r-off">–</div>
+    </div>
+    <div class="r-row">
+      <span class="r-label">ג'ורגינה 6/8</span>
+      <div class="r-beat r-kick">D</div>
+      <div class="r-beat r-off">–</div>
+      <div class="r-beat r-on">T</div>
+      <div class="r-bar"></div>
+      <div class="r-beat r-kick">D</div>
+      <div class="r-beat r-on">T</div>
+      <div class="r-beat r-sub">K</div>
+    </div>
+    <div class="r-row">
+      <span class="r-label">קיק 4/4</span>
+      <div class="r-beat r-kick">K</div>
+      <div class="r-beat r-off">–</div>
+      <div class="r-beat r-off">–</div>
+      <div class="r-beat r-off">–</div>
+      <div class="r-bar"></div>
+      <div class="r-beat r-kick">K</div>
+      <div class="r-beat r-off">–</div>
+      <div class="r-beat r-off">–</div>
+      <div class="r-beat r-off">–</div>
+    </div>
+  </div>
+  <p style="font-family:var(--mono);font-size:0.62rem;color:var(--dim);direction:ltr;margin-top:0.5rem;">D=Dum (כבד) · T=Tek (בינוני) · K=Ka (קל) · –=מנוחה</p>
+
+  <div class="section-head">5 משקלים מורכבים — מדריך הזרקה לSUNO</div>
+
+  <div class="tbl-wrap">
+    <table>
+      <tr>
+        <th>משקל</th>
+        <th>מבנה</th>
+        <th>רגש / אפקט</th>
+        <th>Style Tag ל-SUNO</th>
+        <th>שימוש מומלץ</th>
+      </tr>
+      <tr>
+        <td><strong>5/4</strong></td>
+        <td>3+2 or 2+3</td>
+        <td>חוסר-נוחות ממכר, "ריצה שלא שווה"</td>
+        <td><code>5/4 time signature, odd meter, asymmetric groove</code></td>
+        <td>ברידג' מתוח, אינטרו יוצא-דופן</td>
+      </tr>
+      <tr>
+        <td><strong>7/8</strong></td>
+        <td>3+2+2 or 2+2+3</td>
+        <td>מסתורי, בלקני, לא-צפוי</td>
+        <td><code>7/8 meter, Bulgarian rhythm, asymmetric feel</code></td>
+        <td>ג'אם אתני, פרוגרסיב</td>
+      </tr>
+      <tr>
+        <td><strong>10/8</strong></td>
+        <td>3+2+2+3</td>
+        <td>מזרח-תיכוני קלאסי (סמאעי)</td>
+        <td><code>10/8 samai rhythm, Middle Eastern cycle, darbuka pattern</code></td>
+        <td>פיוזן ערבי-אלקטרוני</td>
+      </tr>
+      <tr>
+        <td><strong>11/8</strong></td>
+        <td>2+2+3+2+2</td>
+        <td>אינסופי, "מעגלי" — לא ניתן לחיזוי</td>
+        <td><code>11/8 complex meter, cyclic asymmetric, progressive</code></td>
+        <td>ג'אז פרוגרסיבי, פסיכדלי</td>
+      </tr>
+      <tr>
+        <td><strong>Poly 3:4</strong></td>
+        <td>3 מעל 4</td>
+        <td>גרוב אפריקאי, "Hemiola", "שני עולמות"</td>
+        <td><code>3 against 4 polyrhythm, hemiola, African groove, cross-rhythm</code></td>
+        <td>Afro-house, Afrobeats</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="section-head">הזרקת פוליריתמיקה — 3 אסטרטגיות</div>
+
+  <div class="card-grid">
+    <div class="info-card">
+      <span class="ic-tag">אסטרטגיה A</span>
+      <div class="ic-name" style="color:var(--teal);">Layer Under 4/4</div>
+      <div class="ic-desc">קיק 4/4 אלקטרוני נשאר מדויק. מחזור האיקאע רץ <em>מתחתיו</em> כשכבת פרקאשן נוספת. שני המחזורים נפגשים בנקודות מוגדרות — בינתיים: מתח פוליריתמי.</div>
+      <div class="ic-suno">"maqsum darbuka polyrhythm under electronic 4/4 kick, polyrhythmic tension"</div>
+    </div>
+    <div class="info-card">
+      <span class="ic-tag">אסטרטגיה B</span>
+      <div class="ic-name" style="color:var(--gold-lt);">Full Switch</div>
+      <div class="ic-desc">שינוי מלא של המשקל בין סקשנים. ורס ב-4/4, ברידג' ב-7/8, חזרה ל-4/4 בדרופ. יוצר "תנודה" שמלמדת את המאזין לצפות לשבירה.</div>
+      <div class="ic-suno">"verse in 4/4, bridge switches to 7/8 odd meter, drop returns to 4/4"</div>
+    </div>
+    <div class="info-card">
+      <span class="ic-tag">אסטרטגיה C</span>
+      <div class="ic-name" style="color:var(--purple);">Micro-Poly ב-DAW</div>
+      <div class="ic-desc">ב-Ableton/Logic: שים Clip של איקאע ב-6/8 על Track נפרד, ב-Clip Loop Length שאינו מתחלק שווה ב-4/4. הם "נפגשים" כֹּל 6 תיבות — זה הגרוב.</div>
+      <div class="ic-suno">N/A — עבודה ב-DAW בלבד. ייצא + שלב עם WAV של SUNO.</div>
+    </div>
+  </div>
+
+  <div class="prompt-block">
+    <span class="p-lbl">SUNO — פוליריתמיקה: מקסום מתחת לדרופ אלקטרוני</span>
+<span class="s">STYLE: trance fusion, 134 BPM, Maqam Hijaz on D,</span>
+<span class="s">maqsum darbuka polyrhythm under electronic four-on-the-floor kick,</span>
+<span class="s">polyrhythmic tension, arabic percussion with electronic grid,</span>
+<span class="s">addictive groove, ethnic electronic fusion,</span>
+<span class="s">metronomic precision, no tempo drift</span>
+
+<span class="d">[Intro — Darbuka Maqsum Pattern — 8 bars — no electronic kick]</span>
+<span class="l">(instrumental)</span>
+
+<span class="d">[Build — Add Electronic Kick on top of Darbuka — Polyrhythm begins]</span>
+<span class="l">(no lyrics — polyrhythmic tension build)</span>
+
+<span class="d">[Drop: Full Energy — Electronic Grid + Darbuka Polyrhythm — Maximum Density]</span>
+<span class="l">אַתָּה / פֹּה / עַכְשָׁו</span>
+  </div>
+
+  <div class="callout blue">
+    <span class="callout-lbl">INPAINT — תיקון פוליריתמיקה שאבדה</span>
+    אם SUNO "שכח" את הדארבוקה בדרופ והחזיר קיק סטנדרטי בלבד — Inpaint על הדרופ עם: <code>restore darbuka maqsum pattern under electronic kick, polyrhythm intact, arabic percussion layer maintained throughout drop</code>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- TOPIC 2.3 -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="topic" id="t3">
+  <div class="topic-header">
+    <div class="topic-num-badge"><span>2.3</span>נושא</div>
+    <div>
+      <div class="topic-title">ניהול רמות אנרגיה<br>ו<em>מבנה הדרגתי</em></div>
+      <div class="topic-en">Energy Level Management — Build-Up, Drop, Half-Time &amp; Double-Time</div>
+    </div>
+  </div>
+
+  <p>מבנה השיר הוא <strong>מניפולציה פסיכולוגית מחושבת</strong>. כֹּל שלב בנוי כדי לייצר ציפייה, ורק ציפייה שנבנתה ונשמרה — כשנשברת — יוצרת ריגוש פיזי. "הדרופ" לא עובד בגלל שהוא חזק. הוא עובד בגלל שמה שקדם לו היה כֹּל-כך ריק.</p>
+
+  <div class="section-head">מפת אנרגיה — הטיימליין המלא</div>
+
+  <div class="energy-map">
+    <div class="e-col e-intro"><div class="e-bar"></div><span class="e-lbl">Intro</span></div>
+    <div class="e-col e-verse"><div class="e-bar"></div><span class="e-lbl">Verse</span></div>
+    <div class="e-col e-build"><div class="e-bar"></div><span class="e-lbl">Build</span></div>
+    <div class="e-col e-silent"><div class="e-bar"></div><span class="e-lbl">Silence</span></div>
+    <div class="e-col e-drop"><div class="e-bar"></div><span class="e-lbl">DROP</span></div>
+    <div class="e-col e-break"><div class="e-bar"></div><span class="e-lbl">Breakdown</span></div>
+    <div class="e-col e-build2"><div class="e-bar"></div><span class="e-lbl">Build 2</span></div>
+    <div class="e-col e-drop2"><div class="e-bar"></div><span class="e-lbl">DROP 2</span></div>
+    <div class="e-col e-outro"><div class="e-bar"></div><span class="e-lbl">Outro</span></div>
+  </div>
+
+  <div class="section-head">כלל ה-40% — הורס</div>
+
+  <div class="compare">
+    <div class="cmp-box bad">
+      <span class="cmp-label">✗ ורס עמוס — גנרי</span>
+      <p>קיק + בס + סינת' + ווקאל + פאד + ארפג'יו + היהאט מתחילת השיר. המאזין "שבע" מהשנייה הראשונה — לדרופ אין לאן לעלות.</p>
+    </div>
+    <div class="cmp-box good">
+      <span class="cmp-label">✓ ורס 40% — מקצועי</span>
+      <p>קיק + פאד + ווקאל בלבד. 60% מהארסנל "מחכה". המאזין "מרגיש שמשהו חסר". הדרופ = כֹּל מה שחיכה מגיע בבת אחת.</p>
+    </div>
+  </div>
+
+  <div class="section-head">ה-Build-Up — 5 שלבים לבנייה מושלמת</div>
+
+  <ul class="steps">
+    <li>
+      <div class="st"><strong>תיבות 1–4:</strong> קיק + היהאט פשוט. פילטר Low-Pass על כֹּל הרכב ב-200Hz — הכֹּל מושתק מלבד בס. <code>[Build-Up: Low-pass filter opens gradually, 200Hz start]</code></div>
+      <div class="sn">1</div>
+    </li>
+    <li>
+      <div class="st"><strong>תיבות 5–8:</strong> פתח פילטר ל-500Hz. הוסף פאד מחוץ לקיק. <code>[Layer: Pad enters — filter at 500Hz — rising energy]</code></div>
+      <div class="sn">2</div>
+    </li>
+    <li>
+      <div class="st"><strong>תיבות 9–12:</strong> פתח פילטר ל-2kHz. הוסף אקורד סינת' על ה-1 של כֹּל תיבה. <code>[Layer: Chord stabs enter — filter at 2kHz]</code></div>
+      <div class="sn">3</div>
+    </li>
+    <li>
+      <div class="st"><strong>תיבות 13–15:</strong> פתח פילטר ל-8kHz. White Noise Riser מ-0 ל-100%. פרקאשן עמוס. <code>[Riser: White noise enters — full spectrum — maximum tension]</code></div>
+      <div class="sn">4</div>
+    </li>
+    <li>
+      <div class="st"><strong>תיבה 16 (Pre-Drop Silence):</strong> גזור <em>הכֹּל</em>. צליל אחד בלבד — נוט מוחזק או Reverb Tail. ואז — DROP. <code>[1 bar silence — then Drop: Full Energy — all elements enter simultaneously]</code></div>
+      <div class="sn">5</div>
+    </li>
+  </ul>
+
+  <div class="section-head">Half-Time ו-Double-Time — שבירות קצב</div>
+
+  <p><strong>Half-Time</strong> = תחושה שה-BPM "ירד לחצי" — אבל BPM לא השתנה. נוצר על ידי הזזת הסנייר מה-2+4 ל-3 בלבד. יוצר "כבידה", "שקיעה", תחושת Slow-Motion. <strong>Double-Time</strong> = הפוך — סנייר על כֹּל ¼, היהאט ב-16ths, תחושת "הכפלת מהירות".</p>
+
+  <div class="tbl-wrap">
+    <table>
+      <tr>
+        <th>טכניקה</th>
+        <th>מה משתנה</th>
+        <th>BPM בפועל</th>
+        <th>רגש</th>
+        <th>Directive ל-SUNO</th>
+      </tr>
+      <tr>
+        <td><strong>Half-Time</strong></td>
+        <td>סנייר עובר מ-2+4 ל-3 בלבד</td>
+        <td>לא משתנה</td>
+        <td>כבד, Slow-Motion, Hip-Hop feel</td>
+        <td><code>[Half-time feel — snare on 3 — heavy groove]</code></td>
+      </tr>
+      <tr>
+        <td><strong>Double-Time</strong></td>
+        <td>סנייר על כֹּל ¼, היהאט ב-16ths</td>
+        <td>לא משתנה</td>
+        <td>דחוף, מהיר, אנרגטי</td>
+        <td><code>[Double-time feel — snare every beat — urgent energy]</code></td>
+      </tr>
+      <tr>
+        <td><strong>Half→Double Switch</strong></td>
+        <td>מעבר Half לDouble בתוך שיר</td>
+        <td>לא משתנה</td>
+        <td>הפתעה, "פיצוץ אנרגיה"</td>
+        <td><code>[Switch: Half-time breaks into Double-time — explosive energy shift]</code></td>
+      </tr>
+      <tr>
+        <td><strong>Metric Modulation</strong></td>
+        <td>שינוי BPM שמורגש כשינוי משקל</td>
+        <td>משתנה בחישוב</td>
+        <td>סחרחורת, אקסטטי, פרוגרסיבי</td>
+        <td><code>[Metric modulation: ♩=♩. — feel shifts to triplet-based]</code></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="prompt-block">
+    <span class="p-lbl">SUNO — מבנה מלא עם Half-Time ו-Drop</span>
+<span class="s">STYLE: emotional trance pop-house fusion, 136 BPM,</span>
+<span class="s">tight rhythmic grid, locked tempo throughout,</span>
+<span class="s">four-on-the-floor kick in drops, half-time feel in breakdowns,</span>
+<span class="s">metronomic precision, no tempo drift,</span>
+<span class="s">Dorian mode, melancholic hopeful</span>
+
+<span class="d">[Verse — 40% energy — sparse arrangement — four-on-the-floor kick]</span>
+<span class="l">עוֹמֵד בַּשַּׁעַר שֶׁל הַלַּיְלָה / נוֹשֵׂא אֶת הַשֵּׁם בַּשְּׁקֵטָה</span>
+
+<span class="d">[Cinematic Build-Up — filter sweep — rising tension — 16 bars]</span>
+<span class="l">(no lyrics)</span>
+
+<span class="d">[1 bar silence — then Drop: Full Energy — all elements — maximum density]</span>
+<span class="l">אַתָּה / אַתָּה / פֹּה</span>
+
+<span class="d">[Breakdown — Half-Time Feel — snare on beat 3 — oud + vocal only — no kick]</span>
+<span class="l">כַּמָּה עוֹד לִנְסֹעַ / עַד שֶׁתָּבוֹא</span>
+
+<span class="d">[Switch: Double-Time Tension Build — urgent energy — rising pads]</span>
+<span class="l">עוֹד רֶגַע / עוֹד נְשִׁימָה</span>
+
+<span class="d">[Final Drop: Full Energy — Double-Time Feel — maximum impact]</span>
+<span class="l">אַתָּה / אַתָּה / פֹּה / עַכְשָׁו</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- TOPIC 2.4 -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="topic" id="t4">
+  <div class="topic-header">
+    <div class="topic-num-badge"><span>2.4</span>נושא</div>
+    <div>
+      <div class="topic-title">כלי הקשה מסורתיים<br>× <em>ביטים אלקטרוניים</em></div>
+      <div class="topic-en">Traditional Percussion × Modern Electronic Beats — Darbuka, Riq, Bendir</div>
+    </div>
+  </div>
+
+  <p>שילוב כלי הקשה מסורתיים עם ביטים אלקטרוניים מודרניים הוא <strong>אתגר של נדל"ן ספקטרלי ורגשי בו-זמנית</strong>. הדארבוקה לא "נכנסת" פשוט לתמהיל Psy-Trance — היא צריכה מקום, הגדרה, ומיקום מכוון.</p>
+
+  <div class="section-head">מדריך כלי הקשה מסורתיים — תדרים ומיקום מיקס</div>
+
+  <div class="tbl-wrap">
+    <table>
+      <tr>
+        <th>כלי</th>
+        <th>טווח תדרים</th>
+        <th>Dum (בס) / Tek (Mid)</th>
+        <th>מיקום ב-Mix</th>
+        <th>Style Tag ל-SUNO</th>
+      </tr>
+      <tr>
+        <td><strong>דארבוקה (Darbuka)</strong></td>
+        <td>80Hz–8kHz</td>
+        <td>Dum: 100–200Hz / Tek: 1.5–4kHz</td>
+        <td>Center, HPF 60Hz, נוכח בפרה-דרופ ובדרופ</td>
+        <td><code>darbuka percussion, crisp tek sound, deep dum</code></td>
+      </tr>
+      <tr>
+        <td><strong>רק (Riq)</strong></td>
+        <td>200Hz–12kHz</td>
+        <td>צלצולי מתכת: 5–10kHz</td>
+        <td>Pan קל שמאל, נוכחות בין הגנות</td>
+        <td><code>riq tambourine shimmer, jingles, metallic overtones</code></td>
+      </tr>
+      <tr>
+        <td><strong>בנדיר (Bendir)</strong></td>
+        <td>60Hz–5kHz</td>
+        <td>Dum: 80–150Hz / סנייר-דמוי: 500Hz–2kHz</td>
+        <td>מרכז-ימין, מחליף Snare בסקשני ברייקדאון</td>
+        <td><code>bendir frame drum, deep resonant boom, snare buzz</code></td>
+      </tr>
+      <tr>
+        <td><strong>טבל (Tabl)</strong></td>
+        <td>50Hz–3kHz</td>
+        <td>קיק-דמוי: 60–120Hz</td>
+        <td>מרכז, יכול להחליף קיק ב-World Music sections</td>
+        <td><code>tabl drum, ceremonial low drum, powerful beat</code></td>
+      </tr>
+      <tr>
+        <td><strong>זלזל / מצלתיים (Zills)</strong></td>
+        <td>1kHz–16kHz</td>
+        <td>כֹּל אנרגיה ב-High Mids</td>
+        <td>Wide Stereo, מוסיף "ניצוץ" עליון</td>
+        <td><code>finger cymbals, zills, bright metallic shimmer</code></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="section-head">כלל הזהב — מה נשמע יחד ומה לא</div>
+
+  <div class="callout gold">
+    <span class="callout-lbl">כלל ניגוד הפרקאשן</span>
+    <strong>כֹּל כלי הקשה מסורתי צריך "רגע" משלו.</strong> דארבוקה + Psy-Trance kick = מי מנצח? התשובה: <em>הדארבוקה מנצחת בברייקדאון</em>, הקיק האלקטרוני מנצח בדרופ. אל תכניס דארבוקה לתוך Drop מלא — היא תיקבר. תן לה את הבמה בברייקדאון ובפרה-דרופ.
+  </div>
+
+  <div class="section-head">3 פרוטוקולי שילוב — לפי ז'אנר</div>
+
+  <div class="card-grid">
+    <div class="info-card">
+      <span class="ic-tag">שילוב A</span>
+      <div class="ic-name" style="color:var(--teal);">Psy-Trance × Darbuka</div>
+      <div class="ic-desc">דארבוקה במחזור מקסום רץ <em>תחת</em> הקיק ה-Psy בבילד-אפ ובדרופ. בברייקדאון: קיק נעלם, דארבוקה מובילה. <strong>BPM:</strong> 140–148.</div>
+      <div class="ic-suno">"darbuka maqsum under psy-trance kick, 144 BPM, ethnic psy-trance fusion, darbuka leads breakdown"</div>
+    </div>
+    <div class="info-card">
+      <span class="ic-tag">שילוב B</span>
+      <div class="ic-name" style="color:var(--gold-lt);">Pop-House × Riq</div>
+      <div class="ic-desc">רק מוסיף "ניצוץ" High-Mid שמפריד Pop-House ממיקסים גנריים. מניח אותו ב-Off-Beats מתחת להיהאט. <strong>BPM:</strong> 120–130.</div>
+      <div class="ic-suno">"riq shimmer on off-beats, pop-house groove, 124 BPM, ethnic electronic pop"</div>
+    </div>
+    <div class="info-card">
+      <span class="ic-tag">שילוב C</span>
+      <div class="ic-name" style="color:var(--purple);">Trap × Bendir</div>
+      <div class="ic-desc">בנדיר מחליף סנייר ב-Trap. ה"Snare Buzz" של הבנדיר נותן טקסטורה עולמית לסאונד Trap. <strong>BPM:</strong> 70–90 (Half-Time feel).</div>
+      <div class="ic-suno">"bendir replaces snare, Middle Eastern trap, 80 BPM half-time, frame drum snare texture"</div>
+    </div>
+  </div>
+
+  <div class="prompt-block">
+    <span class="p-lbl">SUNO — Psy-Trance × Darbuka + חזנות</span>
+<span class="s">STYLE: Psy-trance cantorial fusion, 144 BPM,</span>
+<span class="s">darbuka maqsum polyrhythm under electronic kick,</span>
+<span class="s">riq shimmer on off-beats, bendir in breakdown,</span>
+<span class="s">Maqam Bayati on D, yearning cantorial vocal,</span>
+<span class="s">tight rhythmic grid, metronomic precision,</span>
+<span class="s">ethnic percussion leads breakdown, electronic kick leads drop,</span>
+<span class="s">no tempo drift, locked 144 BPM throughout</span>
+
+<span class="d">[Intro — Darbuka Maqsum Solo — 8 bars — no electronic elements]</span>
+<span class="l">(instrumental)</span>
+
+<span class="d">[Build — Electronic Kick Enters Under Darbuka — Polyrhythm begins]</span>
+<span class="l">(no lyrics — tension build)</span>
+
+<span class="d">[Psy-Trance Drop: Full Energy — Darbuka + Electronic Kick — Maximum Density]</span>
+<span class="l">אַהֲבָה / אַהֲבָה / עַכְשָׁו</span>
+
+<span class="d">[Breakdown: Darbuka + Bendir Only — Cantorial vocal — no electronic kick]</span>
+<span class="l">אַהֲבָה רַבָּה אֲהַבְתָּנוּ / ה' אֱלֹהֵינוּ</span>
+
+<span class="d">[Final Drop: All Elements — Double-Time Feel — Climax]</span>
+<span class="l">אַהֲבָה / אַהֲבָה / פֹּה / עַכְשָׁו</span>
+  </div>
+
+  <div class="callout purple">
+    <span class="callout-lbl">INPAINT — תיקון כלי הקשה שנקבר</span>
+    דארבוקה שנעלמה בדרופ: <code>restore darbuka maqsum pattern in drop, ethnic percussion audible alongside electronic kick, darbuka featured in mix, no masking</code>
+    <br>
+    בנדיר שנשמע כסנייר גנרי: <code>restore bendir texture, frame drum character, snare buzz quality, not generic electronic snare</code>
+  </div>
+
+  <div class="section-head">סיכום פרק 2 — טבלת הפניה מהירה</div>
+
+  <div class="tbl-wrap">
+    <table>
+      <tr>
+        <th>נושא</th>
+        <th>הכלל הליבתי</th>
+        <th>Directive / Style Tag מרכזי</th>
+      </tr>
+      <tr>
+        <td><strong>Tempo Drift</strong></td>
+        <td>BPM מספרי מדויק + "metronomic precision" בכֹּל פרומפט</td>
+        <td><code>[Maintain 134 BPM throughout]</code></td>
+      </tr>
+      <tr>
+        <td><strong>פוליריתמיקה</strong></td>
+        <td>איקאע מתחת לקיק — שניהם רצים, נפגשים בנקודות</td>
+        <td><code>maqsum under 4/4 kick, polyrhythmic tension</code></td>
+      </tr>
+      <tr>
+        <td><strong>כלל 40%</strong></td>
+        <td>ורס = 40% אלמנטים; שאר ממתין לדרופ</td>
+        <td><code>[Verse: sparse — 40% energy]</code></td>
+      </tr>
+      <tr>
+        <td><strong>Pre-Drop Silence</strong></td>
+        <td>1 תיבה שתיקה לפני דרופ = פי-3 אפקט</td>
+        <td><code>[1 bar silence — then Drop: Full Energy]</code></td>
+      </tr>
+      <tr>
+        <td><strong>Half-Time</strong></td>
+        <td>סנייר על Beat 3 בלבד — BPM לא השתנה</td>
+        <td><code>[Half-time feel — snare on 3 — heavy groove]</code></td>
+      </tr>
+      <tr>
+        <td><strong>כלי הקשה × אלקטרוני</strong></td>
+        <td>דארבוקה מובילה בברייקדאון, קיק מוביל בדרופ</td>
+        <td><code>darbuka leads breakdown, electronic kick leads drop</code></td>
+      </tr>
+    </table>
+  </div>
+</div><!-- /topic 2.4 -->
+
+<!-- ══ CHAPTER FOOTER NAV ══ -->
+<div class="chapter-nav">
+  <a href="chapter1.html" class="cnav-link">← פרק 1 — הרמוניה מתקדמת</a>
+  <span class="cnav-label">CHAPTER 02 OF 05</span>
+  <a href="chapter3.html" class="cnav-link">פרק 3 — מיזוג טמברים נועז →</a>
+</div>
+
+</div><!-- /page -->
+</body>
+</html>

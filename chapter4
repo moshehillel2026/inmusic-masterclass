@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>פרק 4 — אימון אוזן קריטי ו-QA כירורגי | מאסטרקלאס לירון</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Heebo:wght@300;400;500;700&family=Frank+Ruhl+Libre:wght@400;700;900&display=swap\" rel="stylesheet">
+<style>
+  /* ── RESET ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  /* ── TOKENS ── */
+  :root {
+    --gold:     #C9A84C;
+    --gold-lt:  #E8D08A;
+    --gold-dk:  #7A5F2A;
+    --bg:       #0A0A08;
+    --bg2:      #111109;
+    --bg3:      #181814;
+    --bg4:      #1E1C16;
+    --border:   rgba(201,168,76,0.18);
+    --text:     #E8E4D8;
+    --muted:    #8A8470;
+    --dim:      #5A5748;
+    --red:      #FF4A4A;
+    --red-bg:   rgba(255,74,74,0.08);
+    --mono:     'IBM Plex Mono', monospace;
+    --sans:     'Heebo', sans-serif;
+    --serif:    'Frank+Ruhl+Libre', serif;
+  }
+
+  html, body { background: var(--bg); color: var(--text); font-family: var(--sans); font-weight: 300; line-height: 1.85; width: 100%; max-width: 100vw; overflow-x: hidden; direction: rtl; }
+  body { padding: 3rem 2rem 6rem; }
+
+  /* ── CONTAINER ── */
+  .container { max-width: 960px; margin: 0 auto; width: 100%; }
+
+  /* ── NAV BAR ── */
+  .cnav-top { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; margin-bottom: 4rem; }
+  .cnav-back { text-decoration: none; color: var(--gold-lt); font-family: var(--sans); font-size: 0.9rem; font-weight: 400; transition: color 0.2s; }
+  .cnav-back:hover { color: var(--gold); }
+  .cnav-meta { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); letter-spacing: 0.05em; }
+
+  /* ── HEADINGS ── */
+  .ch-header { margin-bottom: 5rem; text-align: center; }
+  .ch-num { font-family: var(--mono); font-size: 0.8rem; color: var(--gold); letter-spacing: 0.15em; display: block; margin-bottom: 0.75rem; }
+  h1 { font-family: var(--serif); font-size: clamp(2.2rem, 5vw, 3.6rem); font-weight: 900; color: var(--gold-lt); line-height: 1.15; margin-bottom: 1.5rem; }
+  .ch-abstract { font-size: 1.15rem; color: var(--muted); max-width: 680px; margin: 0 auto; font-weight: 300; }
+
+  /* ── TOPICS (PILLARS) ── */
+  .topic-block { background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; padding: 3rem; margin-bottom: 3.5rem; position: relative; }
+  .topic-id { font-family: var(--mono); font-size: 0.75rem; color: var(--gold-dk); position: absolute; top: 1.5rem; left: 1.5rem; }
+  .topic-tag { font-family: var(--mono); font-size: 0.65rem; background: rgba(201,168,76,0.08); color: var(--gold-lt); padding: 0.25rem 0.6rem; border-radius: 20px; border: 1px solid rgba(201,168,76,0.15); display: inline-block; margin-bottom: 1.5rem; }
+  h2 { font-family: var(--serif); font-size: 1.8rem; font-weight: 700; color: var(--text); margin-bottom: 1.5rem; line-height: 1.3; }
+  p { margin-bottom: 1.5rem; color: var(--text); font-size: 1.02rem; }
+  p strong { font-weight: 500; color: var(--gold-lt); }
+
+  /* ── PROMPT & CODE BLOCK ARCHITECTURE ── */
+  .prompt-box { background: var(--bg3); border-right: 3px solid var(--gold); padding: 1.5rem; margin: 2rem 0; border-radius: 0 4px 4px 0; }
+  .prompt-label { font-family: var(--mono); font-size: 0.68rem; color: var(--gold-dk); text-transform: uppercase; margin-bottom: 0.5rem; display: block; }
+  .prompt-content { font-family: var(--mono); font-size: 0.95rem; color: var(--gold-lt); direction: ltr; text-align: left; white-space: pre-wrap; word-break: break-all; line-height: 1.5; }
+
+  .alert-box { background: var(--red-bg); border-right: 3px solid var(--red); padding: 1.25rem 1.5rem; margin: 2rem 0; border-radius: 0 4px 4px 0; }
+  .alert-title { font-size: 0.95rem; font-weight: 500; color: var(--red); margin-bottom: 0.25rem; }
+  .alert-desc { font-size: 0.9rem; color: var(--text); margin: 0; }
+
+  /* ── RESPONSIVE TABLES ── */
+  .table-container { width: 100%; overflow-x: auto; margin: 2.5rem 0 1rem; border: 1px solid var(--border); border-radius: 4px; background: var(--bg3); -webkit-overflow-scrolling: touch; }
+  table { width: 100%; border-collapse: collapse; text-align: right; min-width: 650px; }
+  th { background: var(--bg4); color: var(--gold-lt); font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.05em; padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); font-weight: 600; }
+  td { padding: 1.1rem 1.25rem; border-bottom: 1px solid rgba(201,168,76,0.06); font-size: 0.95rem; vertical-align: top; line-height: 1.6; }
+  tr:last-child td { border-bottom: none; }
+  td code { font-family: var(--mono); font-size: 0.85rem; color: var(--gold-lt); background: rgba(201,168,76,0.05); padding: 0.15rem 0.4rem; border-radius: 3px; direction: ltr; display: inline-block; }
+
+  /* ── FOOTER NAVIGATION ── */
+  .chapter-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 5rem; border-top: 1px solid var(--border); padding-top: 2rem; }
+  .cnav-link { text-decoration: none; color: var(--gold-lt); font-size: 0.95rem; font-weight: 400; transition: color 0.2s; display: flex; align-items: center; }
+  .cnav-link:hover { color: var(--gold); }
+  .cnav-label { font-family: var(--mono); font-size: 0.72rem; color: var(--dim); }
+
+  @media (max-width: 600px) {
+    body { padding: 1.5rem 1rem 4rem; }
+    .topic-block { padding: 1.75rem 1.2rem; }
+    .cnav-top { margin-bottom: 2.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  
+  <div class="cnav-top">
+    <a href="index.html" class="cnav-back">← חזרה למרכז השליטה הראשי</a>
+    <span class="cnav-meta">MASTERCLASS · WORKSPACE</span>
+  </div>
+
+  <div class="ch-header">
+    <span class="ch-num">פרק 04 // CRITICAL QA</span>
+    <h1>אימון אוזן קריטי<br>ו-QA כירורגי</h1>
+    <p class="ch-abstract">פרוטוקול האבחון האקוסטי והטכנולוגי לניקוי ארטיפקטים של AI, פתרון סכסוכי תדרים בלואו-אנד, והבטחת תאימות מונו מלאה בהפקות קולנועיות.</p>
+  </div>
+
+  <div class="topic-block">
+    <div class="topic-id">4.1</div>
+    <span class="topic-tag">PHASE & MONO</span>
+    <h2>בדיקת המונו — האבחון המהיר ביותר שלך</h2>
+    <p>אחת הרעות החולות של אלגוריתמי ייצור מוזיקה מבוססי בינה מלאכותית היא נטייתם לפזר אלמנטים בשדה הסטריאו בצורה אקראית כדי לייצר תחושת "רוחב" מלאכותית. ברוב המקרים, הפעולה הזו מתבצעת על חשבון תאימות הפאזות של הגל, מה שמוביל לתופעה ההרסנית של <strong>ביטול פאזה (Phase Cancellation)</strong>.</p>
+    <p>כאשר המיקס שלך יושמע במערכות מועדונים, סמארטפונים או כֹּל התקן שמע הפועל במונו, כֹּל האלמנטים שסבלו מבעיות פאזה פשוט ייעלמו מהמיקס או יישמעו חלולים, דקים ומרוחקים. מפיק ברמת הוליווד בודק את המיקס שלו במונו **בכֹּל שלב של ההפקה**.</p>
+    <p>כדי לאלץ את SUNO לייצר קבצי מקור בעלי קוהרנטיות פאזה גבוהה ויציבות מרכזית מושלמת (במיוחד בווקאלים ובקיק), יש להשתמש במטא-תגיות שמכתיבות הנדסת מיקס נקייה וממורכזת.</p>
+
+    <div class="prompt-box">
+      <span class="prompt-label">SUNO ADVANCED MIX TAG SYSTEM</span>
+      <div class="prompt-content">[Style: 126 BPM, mono compatible mix, centered lead vocal, solid center image, coherent phase, sharp transient response, tight spatial imaging]</div>
+    </div>
+
+    <div class="alert-box">
+      <div class="alert-title">פרוטוקול אבחון אקוסטי:</div>
+      <div class="alert-desc">העבר את ערוץ המאסטר של ה-DAW שלך למצב Mono. אם הווקאל המרכזי או כלי הנגינה המוביל (העוד או הקמנצ'ה) מאבדים מעל ל-3dB מהעוצמה שלהם או משנים את הגוון שלהם לצליל קופסתי, המודל ייצר עיוות סטריאופוני. במקרה כזה, אין להמשיך את ההרחבה (Extend) אלא לחתוך ולייצר מחדש.</div>
+    </div>
+  </div><div class="topic-block">
+    <div class="topic-id">4.2</div>
+    <span class="topic-tag">LOW-END WARFARE</span>
+    <h2>קיק מול בס: הסכסוך הליבתי בלואו-אנד</h2>
+    <p>במוזיקה אלקטרונית מודרנית, ובמיוחד בפיוז'נים קשוחים כמו פופ-האוס, טראנס או היפ-הופ, הנדל"ן של התדרים הנמוכים (20Hz - 120Hz) הוא האזור הרגיש ביותר. ה-AI נוטה לעיתים קרובות להדביק את הקיק (Kick) ואת תדרי הסאב-בס (Sub-Bass) יחד לכדי גוש בוצי אחד חסר דינמיקה, מה שמביא ל-Clipping דיגיטלי ומחרב את תחושת הפאנץ' וההדיפה ברמקולים.</p>
+    <p>כדי לפתור את הסכסוך הזה כירורגית בתוך המודל, עלינו להכתיב מראש את מערכת היחסים הדינמית ביניהם. הדרך המקצועית היא לדרוש <strong>הפרדה חדה ותגובת טרנזיינט מהירה (Punchy, Layered)</strong>, המאותתת לאלגוריתם לא לערבב את זנב הבס עם נקודת הפגיעה של הקיק.</p>
+    
+    <div class="prompt-box">
+      <span class="prompt-label">LOW-END MANAGEMENT DIRECITVE</span>
+      <div class="prompt-content">[Style: sidechained bass, punchy tight kick, 50Hz sub bass isolation, transient heavy kick, clear separation between bass and kick, no low-end mud, surgical frequency balance]</div>
+    </div>
+
+    <p>טקטיקה זו מאלצת את המערכת לבצע סימולציה מובנית של קומפרסור Sidechain, שבה כֹּל פגיעה של הקיק מנמיכה אוטומטית את אנרגיית הבס שמתחתיה, ומפנה מקום לרזולוציית נמוכים מושלמת.</p>
+  </div><div class="topic-block">
+    <div class="topic-id">4.3</div>
+    <span class="topic-tag">SURGICAL INPAINT</span>
+    <h2>זיהוי עיוותי AI ופרוטוקול Inpaint כירורגי</h2>
+    <p>כֹּל מפיק מוזיקלי מנוסה העובד עם בינה מלאכותית ייתקל במוקדם או במאוחר בארטיפקטים (Artifacts) — רעשים מתכתיים קטנים, "קליקים" דיגיטליים, או החלקה לא טבעית של תדרים גבוהים (Phase smearing). במקום לזרוק טראק שלם שבו רוב הבית או הפזמון יצאו פנומנליים, אנחנו מפעילים את פרוטוקול ה-<strong>Inpaint הכירורגי</strong>.</p>
+    <p>הסוד הגדול של הנדסת Inpaint הוא <strong>דיוק חלון הזמן</strong>. לעולם אל תנסה לתקן קטעים ארוכים בבת אחת. ככל שחלון התיקון קטן וממוקד יותר, כך רמת הדיוק והשמירה על האופי המקורי תהיה גבוהה יותר.</p>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>שלב בפרוטוקול</th>
+            <th>פעולה מעשית</th>
+            <th>חוק קשיח ברמת הוליווד</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1. איתור מיקרוסקופי</strong></td>
+            <td>זיהוי מיקום הגליץ' המדויק על ציר הזמן (לדוגמה: 01:22.4).</td>
+            <td>עבוד עם אוזניות אולפן סגורות בלבד כדי לזהות את תדרי השריקה.</td>
+          </tr>
+          <tr>
+            <td><strong>2. תיחום כירורגי</strong></td>
+            <td>פתיחת מברשת ה-Inpaint וסימון של **2 עד 4 שניות בלבד** סביב הרעש.</td>
+            <td>חריגה מעבר ל-4 שניות תגרום למודל להמציא מילים ולשנות את המלודיה המקורית.</td>
+          </tr>
+          <tr>
+            <td><strong>3. הגדרת פקודה</strong></td>
+            <td>ניקוי טקסט הלייבל הישן והזרקת פקודת תיזמור באנגלית קשיחה בלבד.</td>
+            <td>הפרד בין מה שצריך לתקן לבין מה שחובה לשמר.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="prompt-box">
+      <span class="prompt-label">INPAINT SURGICAL COMMAND EXAMPLE</span>
+      <div class="prompt-content">[Surgical Fix: clean audio source, remove digital click, preserve melody, keep identical male vocal timbre]</div>
+    </div>
+  </div><div class="topic-block">
+    <div class="topic-id">4.4</div>
+    <span class="topic-tag">PITCH DRIFT</span>
+    <h2>פתרון בעיות Pitch Drift וזיופי מודל</h2>
+    <p>תקלה נפוצה נוספת המתרחשת בעיקר בזמן הרחבות ארוכות (Extensions) היא סחיפת גובה הצליל — <strong>Pitch Drift</strong>. המודל מתחיל את השיר בטונאליות של Am (לה מינור), אך ככל שהשיר מתקדם הוא מאבד את נקודת הייחוס שלו ומתחיל לזייף בכמה סנטים (Cents) למעלה או למטה, מה שהופך את הטראק לבלתי ניתן לשילוב עם כלים אמיתיים באולפן (כמו עוד או בס).</p>
+    <p>כדי למנוע את הסחיפה הזו, אנחנו מטמיעים עוגנים טונאליים קשיחים בתוך כֹּל נקודת הרחבה, ומזכירים לאלגוריתם את סולם היעד המדויק ואת הצורך בכיוון תדרים אבסולוטי.</p>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>התופעה</th>
+            <th>הגורם הטכנולוגי</th>
+            <th>הפקודה העוקפת [SUNO TAG]</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Pitch Drift</strong></td>
+            <td>איבוד קוהרנטיות של מחולל התדרים לאורך זמן.</td>
+            <td><code>[Key: A minor, perfect tuning, 440Hz reference]</code></td>
+          </tr>
+          <tr>
+            <td><strong>Vocal Distortion</strong></td>
+            <td>עומס אנרגיה דיגיטלי בטווח תדרי ה-Mid הגבוהים.</td>
+            <td><code>[Clean vocal engineering, warm preamp saturation, no clipping]</code></td>
+          </tr>
+          <tr>
+            <td><strong>Muffled Highs</strong></td>
+            <td>נפילה של רזולוציית הדגימה (Sample Rate) בהרחבות מתקדמות.</td>
+            <td><code>[Crystal clear high-end, 48kHz sample simulation, crisp air]</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div><div class="chapter-nav">
+    <a href="chapter3.html" class="cnav-link">← פרק 3 — הנדסת ווקאל ושפות</a>
+    <span class="cnav-label">END OF CHAPTER 04</span>
+    <a href="chapter5.html" class="cnav-link">פרק 5 — מקצבים מתקדמים ומקאמים →</a>
+  </div>
+
+</div>
+
+</body>
+</html>

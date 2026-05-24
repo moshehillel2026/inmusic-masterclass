@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מאסטרקלאס הפקת מוזיקה — מרכז השליטה של לירון</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;600&family=Heebo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold:         #C9A84C;
+    --gold-light:   #E8D08A;
+    --gold-dim:     #7A5F2A;
+    --bg:           #0A0A08;
+    --bg2:          #111109;
+    --bg3:          #181814;
+    --border:       rgba(201,168,76,0.18);
+    --border-strong:rgba(201,168,76,0.45);
+    --text:         #E8E4D8;
+    --text-muted:   #8A8470;
+    --text-dim:     #5A5748;
+    --teal:         #2E9E85;
+    --purple:       #8B5CF6;
+    --red:          #EF4444;
+    --blue:         #3B82F6;
+    --mono:         'IBM Plex Mono', monospace;
+    --sans:         'Heebo', sans-serif;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.75;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body { padding: 4rem 2rem; }
+
+  .hub-container {
+    max-width: 960px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  /* ── HEADER ── */
+  .hub-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .hub-tagline {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    font-weight: 700;
+    color: var(--gold-light);
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+  }
+
+  .hub-desc {
+    font-size: 1.15rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* ── STATS STRIP ── */
+  .stats-strip {
+    display: flex;
+    justify-content: space-around;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 1.5rem 1rem;
+    border-radius: 4px;
+    margin-bottom: 3.5rem;
+    text-align: center;
+  }
+
+  .stat-box .num {
+    font-family: var(--mono);
+    font-size: 1.6rem;
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  .stat-box .lbl {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+  }
+
+  /* ── SEARCH ENGINE ── */
+  .search-wrapper {
+    margin-bottom: 3.5rem;
+    position: relative;
+  }
+
+  .search-input-box {
+    width: 100%;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.25rem 1.5rem;
+    font-family: var(--sans);
+    font-size: 1.1rem;
+    color: var(--text);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .search-input-box:focus {
+    outline: none;
+    border-color: var(--gold);
+    background: var(--bg3);
+    box-shadow: 0 0 15px rgba(201,168,76,0.06);
+  }
+
+  .search-input-box::placeholder { color: var(--text-dim); }
+
+  /* ── QUICK TAGS ── */
+  .quick-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+  }
+
+  .q-tag {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    background: var(--bg3);
+    border: 1px solid rgba(201,168,76,0.1);
+    color: var(--text-muted);
+    padding: 0.25rem 0.6rem;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .q-tag:hover {
+    border-color: var(--gold);
+    color: var(--gold-light);
+  }
+
+  /* ── GRID CORE ── */
+  .hub-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  /* ── CARD DESIGN ── */
+  .hub-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2.5rem;
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 250px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hub-card::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; left: 0;
+    height: 3px;
+  }
+
+  .hub-card:hover {
+    border-color: var(--gold);
+    background: var(--bg3);
+    transform: translateY(-2px);
+  }
+
+  /* Accent Stripes */
+  .c1::before { background: var(--teal); }
+  .c2::before { background: var(--gold); }
+  .c3::before { background: var(--purple); }
+  .c4::before { background: var(--red); }
+  .c5::before { background: var(--blue); }
+  .c6::before { background: linear-gradient(90deg, var(--gold), var(--gold-light)); }
+
+  .card-meta {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--gold-dim);
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .hub-card.generator-card .card-meta { color: var(--gold); }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+  }
+
+  .card-summary {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    flex-grow: 1;
+    margin-bottom: 1.5rem;
+  }
+
+  .card-action {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--gold-light);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* ── MODAL ARCHITECTURE ── */
+  .search-modal {
+    position: fixed;
+    top: 0; right: 0; bottom: 0; left: 0;
+    background: rgba(6,6,6,0.96);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    display: none;
+    padding: 4rem 2rem;
+    overflow-y: auto;
+  }
+
+  .search-modal.active { display: block; }
+
+  .modal-close {
+    position: absolute;
+    top: 2rem; left: 2rem;
+    background: none; border: none;
+    font-family: var(--mono);
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    cursor: pointer;
+  }
+  .modal-close:hover { color: var(--text); }
+
+  .modal-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  #modalQueryDisplay { font-family: var(--mono); font-size: 1rem; color: var(--gold); }
+  #modalResultCount { font-family: var(--mono); font-size: 0.85rem; color: var(--text-muted); }
+
+  .modal-list { list-style: none; }
+  .modal-item { margin-bottom: 1.5rem; border-bottom: 1px solid rgba(201,168,76,0.05); padding-bottom: 1.5rem; }
+  .modal-link { text-decoration: none; display: block; }
+
+  .modal-ch-tag {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 2px;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+  }
+
+  .tag-ch1 { background: rgba(46,158,133,0.15); color: #4ade80; }
+  .tag-ch2 { background: rgba(201,168,76,0.15); color: var(--gold-light); }
+  .tag-ch3 { background: rgba(139,92,246,0.15); color: #c084fc; }
+  .tag-ch4 { background: rgba(239,68,68,0.15); color: #fca5a5; }
+  .tag-ch5 { background: rgba(59,130,246,0.15); color: #93c5fd; }
+
+  .modal-item-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--text);
+    margin-bottom: 0.25rem;
+  }
+
+  .modal-item-keys {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .modal-no-match {
+    color: var(--text-dim);
+    font-size: 1.1rem;
+    text-align: center;
+    padding: 4rem 0;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    body { padding: 2rem 1rem; }
+    .hub-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    .stats-strip { flex-direction: column; gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hub-container">
+  
+  <header class="hub-header">
+    <span class="hub-tagline">INMUSIC STUDIO · WORKSPACE</span>
+    <h1>מרכז השליטה והניווט</h1>
+    <p class="hub-desc">גישה ישירה ומיידית לחמשת פרקי המאסטרקלאס, המתודיקות הקולנועיות ומנוע הפיתוח הייעודי שלך.</p>
+  </header>
+
+  <section class="stats-strip">
+    <div class="stat-box"><div class="num">05</div><div class="lbl">פרקי לימוד</div></div>
+    <div class="stat-box"><div class="num">23</div><div class="lbl">מתודולוגיות ליבה</div></div>
+    <div class="stat-box"><div class="num">100%</div><div class="lbl">רספונסיביות מובייל</div></div>
+    <div class="stat-box"><div class="num">V5</div><div class="lbl">מנוע SUNO STUDIO</div></div>
+  </section>
+
+  <div class="search-wrapper">
+    <input type="text" id="hubSearchInput" class="search-input-box" placeholder="חפש מונח, פקודה או תגית (לדוגמה: פאזה, חזנות, קיק, [Key:])...">
+    <div class="quick-tags">
+      <span class="q-tag" onclick="quickSearch('פאזה')">פאזה</span>
+      <span class="q-tag" onclick="quickSearch('קיק')">קיק</span>
+      <span class="q-tag" onclick="quickSearch('בס')">בס</span>
+      <span class="q-tag" onclick="quickSearch('מונו')">מונו</span>
+      <span class="q-tag" onclick="quickSearch('חזנות')">חזנות</span>
+      <span class="q-tag" onclick="quickSearch('מקאם')">מקאם</span>
+      <span class="q-tag" onclick="quickSearch('עוד')">עוד</span>
+      <span class="q-tag" onclick="quickSearch('קמנצ\'ה')">קמנצ'ה</span>
+      <span class="q-tag" onclick="quickSearch('ווקאל')">ווקאל</span>
+      <span class="q-tag" onclick="quickSearch('[Key:]')">[Key:]</span>
+    </div>
+  </div>
+
+  <main class="hub-grid">
+    
+    <a href="chapter1.html" class="hub-card c1">
+      <div>
+        <span class="card-meta">CHAPTER 01 // THEORY</span>
+        <h2>הרמוניה ותיאוריה מתקדמת</h2>
+        <p class="card-summary">הינדוס מתח רגשי, מודוסים מסורתיים, מהלכים הרמוניים מורכבים ונוסחאות עקיפה לשינויי סולמות דינמיים.</p>
+      </div>
+      <span class="card-action">OPEN CHAPTER →</span>
+    </a>
+
+    <a href="chapter2.html" class="hub-card c2">
+      <div>
+        <span class="card-meta">CHAPTER 02 // STRUCTURE</span>
+        <h2>ארכיטקטורה ומבנה שיר</h2>
+        <p class="card-summary">ניהול אנרגיה ורמת דחיסות, חוקי ה-40%, הינדוס מעברים וברייקדאונים, ובניית דרופ הוליוודי שובר מוסכמות.</p>
+      </div>
+      <span class="card-action">OPEN CHAPTER →</span>
+    </a>
+
+    <a href="chapter3.html" class="hub-card c3">
+      <div>
+        <span class="card-meta">CHAPTER 03 // TIMBRE</span>
+        <h2>כלי נגינה ומיזוג טמברים</h2>
+        <p class="card-summary">שילוב כירורגי של עוד, קמנצ'ה וניי בתוך סינתסייזרים וטקסטורות אלקטרוניות מודרניות ליצירת סאונד היברידי.</p>
+      </div>
+      <span class="card-action">OPEN CHAPTER →</span>
+    </a>
+
+    <a href="chapter4.html" class="hub-card c4">
+      <div>
+        <span class="card-meta">CHAPTER 04 // CRITICAL QA</span>
+        <h2>אימון אוזן קריטי ו-QA כירורגי</h2>
+        <p class="card-summary">פרוטוקול אבחון אקוסטי לאיתור בעיות פאזה ותאימות מונו, ופתרון מלחמת הלאו-אנד בין הקיק לבס.</p>
+      </div>
+      <span class="card-action">OPEN CHAPTER →</span>
+    </a>
+
+    <a href="chapter5.html" class="hub-card c5">
+      <div>
+        <span class="card-meta">CHAPTER 05 // MAQAM</span>
+        <h2>מקצבים, מקאמים ופיוז'ן</h2>
+        <p class="card-summary">הזרקת מחזורי איקאעאת מסורתיים, פוליריתמיקה, רבעי טון ומליסמות חזנותיות לתוך הפקות פופ-האוס וטראנס.</p>
+      </div>
+      <span class="card-action">OPEN CHAPTER →</span>
+    </a>
+
+    <a href="https://moshehillel2026.github.io/Oinkdes.Studio/" target="_blank" class="hub-card generator-card c6">
+      <div>
+        <span class="card-meta">ONLINE ENGINE // MAX CONTROL</span>
+        <h2>מחולל הפקודות SUNO STUDIO</h2>
+        <p class="card-summary">גישה חיה וישירה אל מערכת הפיתוח הדינמית שלך ב-GitHub. יצירה, הרכבה והזרקה של תגיות הנדסיות בזמן אמת.</p>
+      </div>
+      <span class="card-action" style="color:var(--gold);">LAUNCH ENGINE (LIVE) ↗</span>
+    </a>
+
+  </main>
+</div>
+
+<div id="searchModal" class="search-modal" onclick="checkClose(event)">
+  <button class="modal-close" onclick="closeModal()">[ CLOSE ESC ]</button>
+  <div class="hub-container" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <div id="modalQueryDisplay">← "שאילתה"</div>
+      <div id="modalResultCount">0 תוצאות נמצאו</div>
+    </div>
+    <ul id="modalResultsContainer" class="modal-list"></ul>
+  </div>
+</div>
+
+<script>
+const DB = [
+  { chNum:1, ch:"פרק 1", file:"chapter1.html", title:"מהלכים הרמוניים מורכבים ומתח קולנועי", keys:["secondary dominant", "pachelbel", "modal interchange", "מתח", "אקורד", "סולם"] },
+  { chNum:1, ch:"פרק 1", file:"chapter1.html", title:"סולמות ומודוסים מסורתיים בפיוז'ן", keys:["מודוס", "פריגי", "דורני", "מיקסולידי", "סולם", "הרמוניה"] },
+  { chNum:1, ch:"פרק 1", file:"chapter1.html", title:"נוסחאות עקיפה לשינויי סולמות דינמיים", keys:["סולמות", "מעבר", "מודולציה", "עקיפה"] },
+  { chNum:2, ch:"פרק 2", file:"chapter2.html", title:"חוק ה-40% וניהול שכבות האנרגיה בטראק", keys:["אנרגיה", "שכבות", "ווליום", "מיקס", "מבנה", "ורס", "דרופ"] },
+  { chNum:2, ch:"פרק 2", file:"chapter2.html", title:"הנדסת מעברים, עליות ו-Pre-Drop Silence", keys:["מעבר", "עלייה", "שתיקה", "pre-drop", "silence", "ברייקדאון"] },
+  { chNum:2, ch:"פרק 2", file:"chapter2.html", title:"בניית דרופ הוליוודי שובר מוסכמות", keys:["דרופ", "הוליווד", "drop", "אנרגיה"] },
+  { chNum:3, ch:"פרק 3", file:"chapter3.html", title:"שילוב עוד, קמנצ'ה וכלים אתניים", keys:["עוד", "קמנצ'ה", "ניי", "כלי נגינה", "טמבר", "אתני"] },
+  { chNum:3, ch:"פרק 3", file:"chapter3.html", title:"הנדסת ווקאלים רב-לשונית ומבטא יציב", keys:["ווקאל", "שפה", "עברית", "מבטא", "pronunciation", "הגייה"] },
+  { chNum:3, ch:"פרק 3", file:"chapter3.html", title:"הגדרת שכבות הרמוניות ו-Vocal Stack", keys:["שכבות", "ווקאל", "הרמוניה", "stack"] },
+  { chNum:4, ch:"פרק 4", file:"chapter4.html", title:"בדיקת מונו (Mono Compatibility) וביטולי פאזה", keys:["מונו", "פאזה", "סטריאו", "phase", "mono", "ביטול"] },
+  { chNum:4, ch:"פרק 4", file:"chapter4.html", title:"מלחמת הלאו-אנד: הפרדת קיק ובס דינמית", keys:["קיק", "בס", "kick", "bass", "sidechain", "תדרים", "לואו אנד"] },
+  { chNum:4, ch:"פרק 4", file:"chapter4.html", title:"פרוטוקול אבחון אקוסטי ו-QA כירורגי", keys:["אבחון", "אקוסטיקה", "qa", "כירורגי"] },
+  { chNum:5, ch:"פרק 5", file:"chapter5.html", title:"מיקרו-טיימינג, גרוב אנושי ו-Swing", keys:["גרוב", "טיימינג", "swing", "velocity", "אנושי", "humanization"] },
+  { chNum:5, ch:"פרק 5", file:"chapter5.html", title:"ארבעת המקאמות המרכזיים ורבעי טון", keys:["מקאם", "חיג'אז", "בייאתי", "ראסת", "נהוונד", "רבע טון", "חזנות"] },
+  { chNum:5, ch:"פרק 5", file:"chapter5.html", title:"מחזורי איקאעאת ופוליריתמיקה מזרחית", keys:["איקאעאת", "מקצב", "פוליריתמיקה", "מזרח"] },
+  { chNum:5, ch:"פרק 5", file:"chapter5.html", title:"מליסמות חזנותיות ושילוב פופ-האוס וטראנס", keys:["מליסמה", "חזנות", "פופ-האוס", "טראנס", "פיוז'ן"] }
+];
+
+const TAG_CLASS = { 1:'tag-ch1', 2:'tag-ch2', 3:'tag-ch3', 4:'tag-ch4', 5:'tag-ch5' };
+
+const input = document.getElementById('hubSearchInput');
+const modal = document.getElementById('searchModal');
+
+input.addEventListener('input', function() {
+  const q = input.value.trim();
+  if (q.length >= 2) {
+    openModal();
+    displayResults(q);
+  }
+});
+
+input.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    const q = input.value.trim();
+    if (q) {
+      openModal();
+      displayResults(q);
+    }
+  }
+});
+
+function quickSearch(term) {
+  input.value = term;
+  openModal();
+  displayResults(term);
+}
+
+function openModal() { modal.classList.add('active'); document.body.style.overflow = 'hidden'; }
+function closeModal() { modal.classList.remove('active'); document.body.style.overflow = ''; }
+function checkClose(e) { if(e.target === modal) closeModal(); }
+
+window.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModal();
+});
+
+function runSearch(query) {
+  const q = query.toLowerCase().trim();
+  if (!q) return [];
+  const terms = q.split(/\s+/).filter(Boolean);
+  return DB.filter(item => {
+    const haystack = (item.title + ' ' + item.keys.join(' ')).toLowerCase();
+    return terms.every(t => haystack.includes(t));
+  });
+}
+
+function displayResults(query) {
+  const q = query.trim();
+  if (!q) return;
+
+  const results = runSearch(q);
+  const container = document.getElementById('modalResultsContainer');
+  const countEl   = document.getElementById('modalResultCount');
+  const queryEl   = document.getElementById('modalQueryDisplay');
+
+  queryEl.textContent = '← "' + q + '"';
+  container.innerHTML = '';
+
+  if (results.length === 0) {
+    container.innerHTML = '<li class="modal-no-match">לא נמצאו תוצאות עבור "' + q + '"</li>';
+    countEl.textContent = '0 תוצאות';
+  } else {
+    results.forEach(item => {
+      const li = document.createElement('li');
+      li.className = 'modal-item';
+      li.innerHTML = `
+        <a href="${item.file}" class="modal-link">
+          <span class="modal-ch-tag ${TAG_CLASS[item.chNum]}">${item.ch}</span>
+          <div class="modal-item-title">${item.title}</div>
+          <div class="modal-item-keys">${item.keys.slice(0, 7).join(' · ')}</div>
+        </a>`;
+      container.appendChild(li);
+    });
+    countEl.textContent = results.length + ' תוצאות נמצאו';
+  }
+}
+</script>
+</body>
+</html>

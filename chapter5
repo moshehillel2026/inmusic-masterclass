@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>פרק 5 — מקאמים, קצב ופיוז'ן תרבותי | מאסטרקלאס לירון</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Heebo:wght@300;400;500;700&family=Frank+Ruhl+Libre:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── TOKENS ── */
+:root {
+  --gold:    #C9A84C;
+  --gold-lt: #E8D08A;
+  --gold-dk: #7A5F2A;
+  --bg:      #0A0A08;
+  --bg2:     #111109;
+  --bg3:     #181814;
+  --bg4:     #1E1C16;
+  --border:  rgba(201,168,76,0.18);
+  --text:    #E8E4D8;
+  --muted:   #8A8470;
+  --dim:     #5A5748;
+  --teal:    #2E9E85;
+  --blue:    #3A7BC8;
+  --purple:  #8A5ACA;
+  --red:     #C84040;
+  --orange:  #C87830;
+  --sans:  'Heebo', sans-serif;
+  --serif: 'Frank Ruhl Libre', serif;
+  --mono:  'IBM Plex Mono', monospace;
+}
+
+/* ── BASE ── */
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-weight: 300;
+  line-height: 1.85;
+  direction: rtl;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+body { padding: 0 0 8rem; }
+
+/* ── TOP NAV ── */
+.topnav {
+  background: rgba(10,10,8,0.94);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  padding: 0.7rem clamp(1rem, 4vw, 2.5rem);
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 0.5rem;
+  position: sticky; top: 0; z-index: 100;
+}
+.topnav-back { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; color: var(--gold-dk); text-decoration: none; transition: color 0.15s; }
+.topnav-back:hover { color: var(--gold); }
+.topnav-title { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.14em; color: var(--dim); }
+.chapter-badge { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.12em; padding: 0.25rem 0.65rem; background: rgba(58,123,200,0.12); border: 1px solid rgba(58,123,200,0.3); border-radius: 2px; color: var(--blue); }
+
+/* ── CENTER WRAPPER ── */
+.page { max-width: 960px; margin: 0 auto; width: 100%; padding: 0 clamp(1rem, 4vw, 2.5rem); }
+
+/* ── HERO ── */
+.hero { padding: 4rem 0 3.5rem; border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(58,123,200,0.06) 0%, transparent 70%),
+    repeating-linear-gradient(0deg, transparent, transparent 48px, rgba(201,168,76,0.025) 48px, rgba(201,168,76,0.025) 49px);
+  pointer-events: none;
+}
+.hero-eyebrow { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.2em; color: var(--gold-dk); display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; position: relative; }
+.hero-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--gold-dk); }
+.hero h1 { font-family: var(--serif); font-size: clamp(2.2rem, 6vw, 3.8rem); font-weight: 900; color: var(--gold-lt); line-height: 1.12; position: relative; }
+.hero h1 em { font-style: normal; color: var(--text); font-weight: 300; }
+.hero-sub { font-size: 1rem; color: var(--muted); max-width: 640px; margin: 1rem 0 0; font-weight: 300; position: relative; }
+.toc-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 2rem; position: relative; }
+.toc-chip { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.08em; padding: 0.28rem 0.7rem; background: rgba(201,168,76,0.07); border: 1px solid var(--border); border-radius: 2px; color: var(--gold-dk); }
+
+/* ── TOPIC ── */
+.topic { margin-top: 5rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+.topic-header { display: flex; align-items: flex-start; gap: 1.25rem; margin-bottom: 2.5rem; flex-direction: row-reverse; flex-wrap: wrap; }
+.topic-num-badge { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.1em; color: var(--gold-dk); background: var(--bg3); border: 1px solid var(--border); padding: 0.35rem 0.6rem; border-radius: 2px; flex-shrink: 0; margin-top: 5px; text-align: center; }
+.topic-num-badge span { display: block; font-size: 1.5rem; font-weight: 600; color: var(--gold); line-height: 1; letter-spacing: 0; }
+.topic-title { font-family: var(--serif); font-size: clamp(1.4rem, 3.5vw, 2rem); font-weight: 700; color: var(--text); line-height: 1.2; }
+.topic-title em { color: var(--gold-lt); font-style: normal; }
+.topic-en { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.08em; margin-top: 0.35rem; direction: ltr; text-align: right; }
+
+/* ── TYPOGRAPHY ── */
+p { font-size: 0.96rem; margin-bottom: 1.2rem; font-weight: 300; line-height: 1.85; }
+p:last-child { margin-bottom: 0; }
+strong { color: var(--gold-lt); font-weight: 500; }
+em { color: var(--muted); font-style: italic; }
+.section-head { font-family: var(--sans); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.14em; color: var(--gold); margin: 2.5rem 0 1rem; display: flex; align-items: center; gap: 0.75rem; flex-direction: row-reverse; }
+.section-head::before { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* ── CALLOUTS ── */
+.callout { margin: 1.25rem 0; padding: 0.9rem 1.15rem; border-radius: 4px; font-size: 0.875rem; line-height: 1.8; }
+.callout.gold   { background: rgba(201,168,76,0.07);  border: 1px solid rgba(201,168,76,0.25);  color: var(--gold-lt); }
+.callout.teal   { background: rgba(46,158,133,0.07);  border: 1px solid rgba(46,158,133,0.25);  color: #7DD4C0; }
+.callout.blue   { background: rgba(58,123,200,0.07);  border: 1px solid rgba(58,123,200,0.25);  color: #90BFEE; }
+.callout.red    { background: rgba(200,64,64,0.07);   border: 1px solid rgba(200,64,64,0.25);   color: #E09090; }
+.callout.purple { background: rgba(138,90,202,0.07);  border: 1px solid rgba(138,90,202,0.25);  color: #C0A0E8; }
+.callout.orange { background: rgba(200,120,48,0.07);  border: 1px solid rgba(200,120,48,0.3);   color: #E0A870; }
+.callout strong { font-weight: 600; }
+.callout-lbl { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.14em; opacity: 0.65; margin-bottom: 0.35rem; display: block; }
+
+/* ── EXAMPLE BOX ── */
+.example-box { background: var(--bg3); border: 1px solid rgba(201,168,76,0.2); border-right: 3px solid var(--gold); border-radius: 0 4px 4px 0; padding: 1rem 1.25rem; margin: 1rem 0; font-size: 0.875rem; line-height: 1.8; }
+.example-box .ex-lbl { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.14em; color: var(--gold-dk); margin-bottom: 0.5rem; display: block; }
+.example-box strong { color: var(--gold-lt); font-weight: 500; }
+.example-box ol, .example-box ul { padding-right: 1.2rem; margin-top: 0.3rem; }
+.example-box li { margin-bottom: 0.45rem; font-size: 0.86rem; }
+
+/* ── PROMPT BLOCK ── */
+.prompt-block { background: var(--bg4); border: 1px solid rgba(138,90,202,0.3); border-radius: 4px; padding: 1rem 1.25rem; margin: 1rem 0; font-family: var(--mono); font-size: 0.78rem; line-height: 1.75; color: #C0A8E8; direction: ltr; text-align: left; white-space: pre-wrap; word-break: break-word; overflow-wrap: break-word; max-width: 100%; }
+.prompt-block .p-lbl { font-size: 0.58rem; letter-spacing: 0.14em; color: var(--purple); margin-bottom: 0.4rem; display: block; text-align: right; direction: rtl; }
+.prompt-block .s { color: #9060C0; }
+.prompt-block .l { color: #D4A843; }
+.prompt-block .c { color: #3A7BC8; font-style: italic; }
+.prompt-block .d { color: #2EB8A0; font-weight: 600; }
+
+/* ── GRID / CARDS ── */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(200px,100%), 1fr)); gap: 1rem; margin: 1.25rem 0; }
+.info-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; padding: 1.15rem; }
+.ic-tag { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em; color: var(--gold-dk); margin-bottom: 0.4rem; display: block; direction: ltr; text-align: right; }
+.ic-name { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.35rem; }
+.ic-desc { font-size: 0.83rem; color: var(--muted); line-height: 1.65; font-weight: 300; }
+.ic-suno { font-family: var(--mono); font-size: 0.65rem; color: var(--purple); margin-top: 0.6rem; padding-top: 0.5rem; border-top: 1px solid var(--border); direction: ltr; text-align: left; }
+
+/* ── TABLES ── */
+.tbl-wrap { overflow-x: auto; width: 100%; -webkit-overflow-scrolling: touch; margin: 1rem 0; }
+table { width: 100%; min-width: 480px; border-collapse: collapse; font-size: 0.855rem; }
+th { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em; color: var(--gold-dk); text-align: right; padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--border); font-weight: 400; }
+td { padding: 0.65rem 0.75rem; border-bottom: 1px solid rgba(201,168,76,0.06); vertical-align: top; font-weight: 300; }
+tr:hover td { background: rgba(201,168,76,0.025); }
+
+/* ── STEP LIST ── */
+.steps { list-style: none; margin: 1.25rem 0; }
+.steps li { display: grid; grid-template-columns: 1fr 2rem; gap: 0.9rem; margin-bottom: 1.1rem; align-items: start; }
+.sn { font-family: var(--mono); font-size: 0.68rem; color: var(--gold-dk); background: var(--bg3); border: 1px solid var(--border); width: 2rem; height: 2rem; display: flex; align-items: center; justify-content: center; border-radius: 2px; flex-shrink: 0; order: 2; margin-top: 2px; }
+.st { font-size: 0.91rem; order: 1; line-height: 1.8; }
+.st strong { color: var(--gold-lt); font-weight: 500; }
+
+/* ── GROOVE GRID ── */
+.groove-grid {
+  display: flex; gap: 3px; margin: 1.5rem 0; direction: ltr;
+  align-items: flex-end; height: 60px; overflow-x: auto;
+  padding-bottom: 20px; -webkit-overflow-scrolling: touch;
+}
+.g-col { flex: 1; min-width: 38px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; position: relative; }
+.g-bar { width: 100%; border-radius: 3px 3px 0 0; }
+.g-lbl { font-family: var(--mono); font-size: 0.5rem; color: var(--muted); position: absolute; bottom: -18px; white-space: nowrap; text-align: center; width: 100%; }
+.g-on   .g-bar { height: 100%; background: rgba(201,168,76,0.55); }
+.g-off  .g-bar { height: 58%; background: rgba(46,158,133,0.35); transform: translateX(3px); }
+.g-kick .g-bar { height: 80%; background: rgba(200,64,64,0.5); }
+.g-sub  .g-bar { height: 42%; background: rgba(138,90,202,0.35); transform: translateX(5px); }
+.g-on   .g-lbl { color: var(--gold-dk); }
+.g-off  .g-lbl { color: var(--teal); }
+.g-kick .g-lbl { color: var(--red); }
+.g-sub  .g-lbl { color: var(--purple); }
+
+/* ── RHYTHM BLOCKS ── */
+.rhythm-grid { direction: ltr; overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 1.25rem 0; padding-bottom: 0.5rem; }
+.r-row { display: flex; align-items: center; gap: 3px; margin-bottom: 6px; min-width: 520px; }
+.r-label { font-family: var(--mono); font-size: 0.6rem; color: var(--muted); width: 90px; flex-shrink: 0; text-align: right; padding-right: 8px; direction: rtl; }
+.r-beat { width: 26px; height: 26px; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 0.58rem; font-weight: 600; flex-shrink: 0; }
+.r-D  { background: rgba(201,168,76,0.45);  color: var(--gold-lt); }
+.r-T  { background: rgba(46,158,133,0.3);   color: var(--teal); }
+.r-K  { background: rgba(138,90,202,0.3);   color: var(--purple); }
+.r-O  { background: rgba(40,38,30,0.55);    color: var(--dim); border: 1px solid var(--border); }
+.r-E  { background: rgba(200,64,64,0.4);    color: #F0A0A0; }
+.r-bar { width: 1px; height: 26px; background: rgba(201,168,76,0.22); margin: 0 2px; flex-shrink: 0; }
+
+/* ── MAQAM CARDS ── */
+.maqam-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px,100%), 1fr)); gap: 1rem; margin: 1.25rem 0; }
+.maqam-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; padding: 1.2rem; position: relative; overflow: hidden; }
+.maqam-card::after { content: ''; position: absolute; top: 0; right: 0; width: 4px; height: 100%; }
+.mq-rast::after     { background: var(--teal); }
+.mq-bayati::after   { background: var(--purple); }
+.mq-hijaz::after    { background: var(--gold); }
+.mq-nahawand::after { background: var(--blue); }
+.mq-name { font-family: var(--serif); font-size: 1.1rem; font-weight: 700; margin-bottom: 0.2rem; }
+.mq-rast .mq-name     { color: var(--teal); }
+.mq-bayati .mq-name   { color: var(--purple); }
+.mq-hijaz .mq-name    { color: var(--gold-lt); }
+.mq-nahawand .mq-name { color: var(--blue); }
+.mq-arabic { font-size: 1.05rem; color: var(--muted); margin-bottom: 0.4rem; }
+.mq-scale { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); margin: 0.5rem 0; direction: ltr; text-align: left; line-height: 1.5; }
+.mq-badge { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em; padding: 0.2rem 0.5rem; border-radius: 2px; display: inline-block; margin-bottom: 0.5rem; }
+.mq-rast .mq-badge     { background: rgba(46,158,133,0.12); color: var(--teal); border: 1px solid rgba(46,158,133,0.25); }
+.mq-bayati .mq-badge   { background: rgba(138,90,202,0.12); color: var(--purple); border: 1px solid rgba(138,90,202,0.25); }
+.mq-hijaz .mq-badge    { background: rgba(201,168,76,0.12); color: var(--gold); border: 1px solid rgba(201,168,76,0.25); }
+.mq-nahawand .mq-badge { background: rgba(58,123,200,0.12); color: var(--blue); border: 1px solid rgba(58,123,200,0.25); }
+.mq-feel { font-size: 0.83rem; color: var(--text); font-weight: 300; line-height: 1.65; }
+.mq-use  { font-size: 0.78rem; color: var(--muted); margin-top: 0.4rem; font-style: italic; }
+.mq-suno { font-family: var(--mono); font-size: 0.63rem; color: var(--purple); margin-top: 0.6rem; padding-top: 0.5rem; border-top: 1px solid var(--border); direction: ltr; text-align: left; }
+
+/* ── NUSACH CARDS ── */
+.nusach-grid { display: flex; flex-direction: column; gap: 1rem; margin: 1.25rem 0; }
+.nusach-card { background: var(--bg3); border: 1px solid var(--border); border-radius: 4px; padding: 1.1rem 1.25rem; }
+.nusach-head { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; flex-wrap: wrap; }
+.nusach-he { font-family: var(--serif); font-size: 1.15rem; font-weight: 700; color: var(--gold-lt); }
+.nusach-en { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.08em; color: var(--gold-dk); }
+.nusach-mode { font-family: var(--mono); font-size: 0.6rem; color: var(--purple); background: rgba(138,90,202,0.1); border: 1px solid rgba(138,90,202,0.25); padding: 0.18rem 0.5rem; border-radius: 2px; }
+.nusach-body { font-size: 0.875rem; font-weight: 300; line-height: 1.75; color: var(--text); }
+.nusach-body strong { color: var(--gold-lt); font-weight: 500; }
+.nusach-fusion { margin-top: 0.75rem; padding: 0.65rem 0.9rem; background: rgba(201,168,76,0.06); border: 1px solid rgba(201,168,76,0.2); border-radius: 3px; font-size: 0.83rem; color: var(--gold-lt); line-height: 1.65; }
+.nusach-fusion::before { content: '⚡ שבירת הכלל: '; font-weight: 600; }
+
+/* ── METHOD FLOW ── */
+.method-flow { display: flex; flex-direction: column; gap: 0; margin: 1.25rem 0; }
+.method-step { display: flex; align-items: stretch; gap: 0; flex-direction: row-reverse; }
+.method-connector { display: flex; flex-direction: column; align-items: center; width: 40px; flex-shrink: 0; }
+.method-node { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 0.72rem; font-weight: 600; flex-shrink: 0; z-index: 1; border: 2px solid; }
+.method-line { width: 2px; flex: 1; min-height: 24px; background: var(--border); }
+.method-step:last-child .method-line { display: none; }
+.method-content { flex: 1; padding: 0.2rem 0 1.5rem; padding-right: 1rem; }
+.method-title { font-size: 0.92rem; font-weight: 600; color: var(--gold-lt); margin-bottom: 0.3rem; line-height: 1.35; margin-top: 6px; }
+.method-desc { font-size: 0.875rem; color: var(--text); font-weight: 300; line-height: 1.75; }
+.method-desc strong { color: var(--gold-lt); font-weight: 500; }
+.step-n1 .method-node { background: rgba(46,158,133,0.15); border-color: var(--teal); color: var(--teal); }
+.step-n2 .method-node { background: rgba(201,168,76,0.12); border-color: var(--gold); color: var(--gold); }
+.step-n3 .method-node { background: rgba(138,90,202,0.15); border-color: var(--purple); color: var(--purple); }
+.step-n4 .method-node { background: rgba(200,64,64,0.12); border-color: var(--red); color: var(--red); }
+.step-n5 .method-node { background: rgba(58,123,200,0.15); border-color: var(--blue); color: var(--blue); }
+
+/* ── MICROTONE VISUAL ── */
+.micro-scale { display: flex; align-items: flex-end; gap: 2px; direction: ltr; margin: 1rem 0; overflow-x: auto; padding-bottom: 22px; -webkit-overflow-scrolling: touch; height: 80px; }
+.ms-note { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; min-width: 40px; flex: 1; position: relative; }
+.ms-bar { width: 100%; border-radius: 3px 3px 0 0; }
+.ms-lbl { font-family: var(--mono); font-size: 0.5rem; position: absolute; bottom: -20px; white-space: nowrap; text-align: center; width: 100%; }
+.ms-whole    .ms-bar { height: 72%; background: rgba(201,168,76,0.5); }   .ms-whole    .ms-lbl { color: var(--gold); }
+.ms-half     .ms-bar { height: 58%; background: rgba(201,168,76,0.35); }  .ms-half     .ms-lbl { color: var(--gold-dk); }
+.ms-quarter  .ms-bar { height: 40%; background: rgba(138,90,202,0.45); }  .ms-quarter  .ms-lbl { color: var(--purple); }
+.ms-west-eq  .ms-bar { height: 72%; background: rgba(46,158,133,0.45); }  .ms-west-eq  .ms-lbl { color: var(--teal); }
+.ms-missing  .ms-bar { height: 8%;  background: rgba(200,64,64,0.2); border: 1px dashed rgba(200,64,64,0.4); } .ms-missing .ms-lbl { color: var(--red); }
+
+/* ── CODE ── */
+code { font-family: var(--mono); font-size: 0.82em; background: rgba(201,168,76,0.1); padding: 0.1em 0.35em; border-radius: 3px; color: var(--gold-lt); direction: ltr; display: inline-block; word-break: break-word; }
+
+/* ── SEAL / COMPLETION BOX ── */
+.completion-seal {
+  margin-top: 4rem;
+  padding: 3rem 2rem;
+  background: var(--bg3);
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 8px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.completion-seal::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, rgba(201,168,76,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.seal-title { font-family: var(--serif); font-size: clamp(1.4rem, 4vw, 2rem); font-weight: 900; color: var(--gold-lt); margin-bottom: 0.75rem; position: relative; }
+.seal-sub { font-size: 0.95rem; color: var(--muted); max-width: 540px; margin: 0 auto 1.5rem; line-height: 1.85; position: relative; font-weight: 300; }
+.seal-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; position: relative; }
+.seal-tag { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em; padding: 0.28rem 0.7rem; background: rgba(201,168,76,0.08); border: 1px solid var(--border); border-radius: 2px; color: var(--gold-dk); }
+
+/* ── CHAPTER FOOTER NAV ── */
+.chapter-nav { margin-top: 5rem; padding: 1.75rem 0; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+.cnav-link { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; color: var(--gold-dk); text-decoration: none; transition: color 0.15s; }
+.cnav-link:hover { color: var(--gold); }
+.cnav-label { font-family: var(--mono); font-size: 0.58rem; color: var(--dim); letter-spacing: 0.12em; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  .topic-header { flex-direction: column; gap: 0.5rem; }
+  .card-grid, .maqam-grid { grid-template-columns: 1fr; }
+  .steps li { grid-template-columns: 1fr; }
+  .sn { order: 0; width: 1.75rem; height: 1.75rem; }
+  .prompt-block { font-size: 0.7rem; }
+  .hero h1 { font-size: 2rem; }
+  .method-step { flex-direction: column; }
+  .method-connector { display: none; }
+  .r-beat { width: 22px; height: 22px; font-size: 0.52rem; }
+  .nusach-head { gap: 0.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ TOP NAV ══ -->
+<nav class="topnav">
+  <a href="index.html" class="topnav-back">← חזרה למרכז השליטה הראשי</a>
+  <span class="topnav-title">ADVANCED MUSIC PRODUCTION MASTERCLASS</span>
+  <span class="chapter-badge">CHAPTER 05 · CULTURAL FUSION ★</span>
+</nav>
+
+<div class="page">
+
+<!-- ══ HERO ══ -->
+<div class="hero">
+  <div class="hero-eyebrow">CHAPTER 05 OF 05 · MAQAM, RHYTHM &amp; ORGANIC CULTURAL FUSION</div>
+  <h1>מקצבים מתקדמים,<br><em>מקאמים ופיוז'ן תרבותי</em></h1>
+  <p class="hero-sub">מגרוב אנושי מחוץ לגריד דרך מחזורי איקאעאת ואנטומיית ארבעת המקאמות — ועד לשבירה מכוונת של חוקי הנוסח החזנותי ומתודולוגיית הפיוז'ן האורגני בחמישה שלבים.</p>
+  <div class="toc-row">
+    <span class="toc-chip">5.1 · מיקרו-טיימינג וגרוב</span>
+    <span class="toc-chip">5.2 · איקאעאת ופוליריתמיקה</span>
+    <span class="toc-chip">5.3 · ארבעת המקאמות</span>
+    <span class="toc-chip">5.4 · חזנות ומתודולוגיית פיוז'ן</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- TOPIC 5.1 -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="topic" id="t1">
+  <div class="topic-header">
+    <div class="topic-num-badge"><span>5.1</span>נושא</div>
+    <div>
+      <div class="topic-title">מיקרו-טיימינג,<br><em>גרוב אנושי ו-Swing</em></div>
+      <div class="topic-en">Micro-Timing, Human Groove &amp; Velocity Humanization</div>
+    </div>
+  </div>
+
+  <p>MIDI מקוונט ל-100% נשמע <strong>"מדויק כמו רובוט ומשעמם כמו מטרונום"</strong>. ביצועים אנושיים סוטים מהגריד ב-2–20 מילי-שניות בדרכים שיוצרות Groove, Feel ו-Soul. מפיק שלא מכניס אנושיות לתוך הרשת — מייצר מוזיקה שה-AI אמנם יצר, אבל לא אחד שגרם לאנשים לנוע.</p>
+
+  <div class="callout gold">
+    <span class="callout-lbl">ההגדרה</span>
+    <strong>Groove = דיוק ב-On-Beats + אנושיות ב-Off-Beats.</strong> הקיק נשאר מדויק. כֹּל שאר — Off-Beats, Snare, כלים אתניים — "נושם" קצת מחוץ לרשת. זה הפרש שמוח לא שומע אבל גוף מרגיש.
+  </div>
+
+  <div class="section-head">ויזואל גרוב — On-Beat מול Off-Beat</div>
+
+  <div class="groove-grid">
+    <div class="g-col g-kick"><div class="g-bar"></div><span class="g-lbl">1 (קיק)</span></div>
+    <div class="g-col g-off"><div class="g-bar"></div><span class="g-lbl">+ Swing</span></div>
+    <div class="g-col g-on"><div class="g-bar"></div><span class="g-lbl">2</span></div>
+    <div class="g-col g-sub"><div class="g-bar"></div><span class="g-lbl">+ micro</span></div>
+    <div class="g-col g-kick"><div class="g-bar"></div><span class="g-lbl">3 (קיק)</span></div>
+    <div class="g-col g-off"><div class="g-bar"></div><span class="g-lbl">+ Swing</span></div>
+    <div class="g-col g-on"><div class="g-bar"></div><span class="g-lbl">4</span></div>
+    <div class="g-col g-sub"><div class="g-bar"></div><span class="g-lbl">+ micro</span></div>
+  </div>
+  <p style="font-family:var(--mono);font-size:0.6rem;color:var(--dim);direction:ltr;margin-top:0.5rem;">זהב=On-Beat מדויק · ירוק=Off-Beat+8ms · סגול=Micro-variation ±12ms</p>
+
+  <div class="section-head">4 טכניקות Humanization ב-DAW + SUNO</div>
+
+  <ul class="steps">
+    <li>
+      <div class="st"><strong>Swing / Shuffle ב-Ableton:</strong> Clip Groove → Swing Amount 50–62%. כֹּל Off-Beat נוחת +5–12ms מאוחר יותר מהגריד. 50% = עדין. 62%+ = Hip-Hop/Afrobeat. <strong>לעולם לא על הקיק</strong> — הקיק נשאר מדויק. <code>[Humanized shuffle feel — swing 55% on ethnic elements only]</code></div>
+      <div class="sn">A</div>
+    </li>
+    <li>
+      <div class="st"><strong>Velocity Humanization:</strong> בחר כֹּל MIDI Notes בכלי אתני → Edit → Randomize Velocity ±10–15%. אין שני תווים עם Velocity זהה בדיוק בביצוע חי. SUNO Style: <code>expressive velocity variation, natural dynamics, no robotic equal velocity</code></div>
+      <div class="sn">B</div>
+    </li>
+    <li>
+      <div class="st"><strong>Micro-Shift ידני על Off-Beats:</strong> זהה כֹּל Off-Beat → הזז ±8–15ms (ב-Ableton: Nudge). לכלים אתניים: 12–20ms מקובל — הם "נוחים" יותר לאחר מהגריד. בדיקה: נגן עם קיק. האם "מושך" לנוע?</div>
+      <div class="sn">C</div>
+    </li>
+    <li>
+      <div class="st"><strong>Pitch Micro-Variation לכלים אתניים:</strong> הוסף Pitch Automation על MIDI Output — עקומה עדינה ±15–25 Cents בין תווים. לא Vibrato — גלישה אנושית. SUNO Style: <code>natural microtonal pitch variation, expressive intonation, human pitch nuance</code></div>
+      <div class="sn">D</div>
+    </li>
+  </ul>
+
+  <div class="section-head">SUNO — Human Groove Style Tags</div>
+
+  <div class="tbl-wrap">
+    <table>
+      <tr><th>מה רוצים</th><th>Style Tag ל-SUNO</th></tr>
+      <tr><td>גרוב כללי</td><td><code>human feel, loose groove, slightly behind the beat</code></td></tr>
+      <tr><td>כלי אתני "חי"</td><td><code>organic ethnic playing, natural imperfections, expressive timing</code></td></tr>
+      <tr><td>Swing על כלי אתני</td><td><code>swung ethnic rhythms, laid-back groove on melodic elements</code></td></tr>
+      <tr><td>קיק מדויק + שאר נזיל</td><td><code>tight electronic kick, loose organic feel on melodic parts</code></td></tr>
+      <tr><td>ווקאל נזיל</td><td><code>free-flowing vocal, slightly off-grid phrasing, human breath timing</code></td></tr>
+    </table>
+  </div>
+
+  <div class="prompt-block">
+    <span class="p-lbl">SUNO — Humanized Psy-Trance Fusion</span>
+<span class="s">STYLE: psy-trance fusion, 144 BPM, Maqam Hijaz,</span>
+<span class="s">tight electronic kick (metronomic grid),</span>
+<span class="s">humanized darbuka (loose groove, human feel, ±12ms variation),</span>
+<span class="s">organic oud improvisation (expressive timing, natural micro-timing),</span>
+<span class="s">swung ethnic rhythms — not robotic, not quantized,</span>
+<span class="s">velocity variation on all ethnic elements, natural dynamics</span>
+
+<span class="d">[Humanized Shuffle Feel — ethnic elements off-grid — kick stays on-grid]</span>
+<span class="l">עוֹמֵד בַּשַּׁעַר / נוֹשֵׂא אֶת הַשֵּׁם</span>
+  </div>
+
+  <div class="callout teal">
+    <span class="callout-lbl">INPAINT — תיקון "רובוטי"</span>
+    <code>more human feel on ethnic elements, natural timing variations, expressive playing, organic groove — not quantized, not metronomic on ethnic parts</code>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- TOPIC 5.2 -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="topic" id="t2">
+  <div class="topic-header">
+    <div class="topic-num-badge"><span>5.2</span>נושא</div>
+    <div>
+      <div class="topic-title">איקאעאת<br>ו<em>פוליריתמיקה</em></div>
+      <div class="topic-en">Iqa'at — Middle Eastern Rhythmic Cycles &amp; Polyrhythmic Integration</div>
+    </div>
+  </div>
+
+  <p>האיקאע הוא <strong>מחזור הקצב של המוזיקה הערבית</strong> — לא "סגנון" אלא מבנה מתמטי ורגשי שלם. שם המחזור, מבנה ה-Dum/Tek/Ka, ואורכו קובעים את כֹּל אופי ה"שרשרת קצבית". הזרקת איקאע מתחת לביט אלקטרוני מודרני יוצרת פוליריתמיקה ממכרת שה"גוף מנסה לרדוף אחרי שני מחזורים ולא מצליח לבחור".</p>
+
+  <div class="section-head">מגדיר — D=Dum (כבד) · T=Tek (בינוני) · K=Ka (קל) · O=מנוחה · E=קיק אלקטרוני</div>
+
+  <div class="rhythm-grid">
+    <div class="r-row">
+      <span class="r-label">מקסום 4/4</span>
+      <div class="r-beat r-D">D</div><div class="r-beat r-O">O</div><div class="r-beat r-T">T</div><div class="r-beat r-K">K</div>
+      <div class="r-bar"></div>
+      <div class="r-beat r-D">D</div><div class="r-beat r-D">D</div><div class="r-beat r-T">T</div><div class="r-beat r-K">K</div>
+    </div>
+    <div class="r-row">
+      <span class="r-label">וואחדה 4/4</span>
+      <div class="r-beat r-D">D</div><div class="r-beat r-O">O</div><div class="r-beat r-O">O</div><div class="r-beat r-O">O</div>
+      <div class="r-bar"></div>
+      <div class="r-beat r-O">O</div><div class="r-beat r-T">T</div><div class="r-beat r-K">K</div><div class="r-beat r-O">O</div>
+    </div>
+    <div class="r-row">
+      <span class="r-label">סמאעי 10/8</span>
+      <div class="r-beat r-D">D</div><div class="r-beat r-O">O</div><div class="r-beat r-O">O</div><div class="r-beat r-T">T</div><div class="r-beat r-K">K</div>
+      <div class="r-bar"></div>
+      <div class="r-beat r-D">D</div><div class="r-beat r-K">K</div><div class="r-beat r-D">D</div><div class="r-beat r-O">O</div><div class="r-beat r-O">O</div>
+    </div>
+    <div class="r-row">
+      <span class="r-label">ג'ורגינה 6/8</span>
+      <div class="r-beat r-D">D</div><div class="r-beat r-O">O</div><div class="r-beat r-T">T</div>
+      <div class="r-bar"></div>
+      <div class="r-beat r-D">D</div><div class="r-beat r-T">T</div><div class="r-beat r-K">K</div>
+    </div>
+    <div class="r-row">
+      <span class="r-label">קיק אלקטרוני</span>
+      <div class="r-beat r-E">E</div><div class="r-beat r-O">O</div><div class="r-beat r-O">O</div><div class="r-beat r-O">O</div>
+      <div class="r-bar"></div>
+      <div class="r-beat r-E">E</div><div class="r-beat r-O">O</div><div class="r-beat r-O">O</div><div class="r-beat r-O">O</div>
+    </div>
+  </div>
+
+  <div class="section-head">ארבעת האיקאעאת — מדריך מלא</div>
+
+  <div class="card-grid">
+    <div class="info-card">
+      <span class="ic-tag">MAQSUM · 4/4</span>
+      <div class="ic-name" style="color:var(--gold-lt);">מקסום</div>
+      <div class="ic-desc">הנפוץ ביותר — D-O-T-K-D-D-T-K. אנרגטי, מהיר, קל לזיהוי. בסיס כֹּל מוזיקה ערבית פופולרית. מושלם לשילוב עם Psy-Trance וPop-House.</div>
+      <div class="ic-suno">"maqsum darbuka pattern, Arabic groove 4/4, energetic maqsum"</div>
+    </div>
+    <div class="info-card">
+      <span class="ic-tag">WAHDA · 4/4</span>
+      <div class="ic-name" style="color:var(--teal);">וואחדה</div>
+      <div class="ic-desc">מחזור "מרווח" — Dum בודד + רוגע + Tek בסוף. יוצר "משיכת כובד" — הגוף מחכה לפגיעה הבאה. אידיאלי לברייקדאון איטי ועמוק.</div>
+      <div class="ic-suno">"wahda slow groove, heavy one-beat cycle, deep darbuka pulse"</div>
+    </div>
+    <div class="info-card">
+      <span class="ic-tag">SAMAI · 10/8</span>
+      <div class="ic-name" style="color:var(--purple);">סמאעי ת'קיל</div>
+      <div class="ic-desc">10/8 — (3+2+2+3). מחזור מורכב, בלתי-צפוי. יוצר "ריצה שלא שווה". מרגש ולא צפוי. בDAW: שים על Clip 10/8 מתחת לקיק 4/4 — פוליריתמיקה מיידית.</div>
+      <div class="ic-suno">"samai thaqil 10/8, complex Arabic cycle, darbuka irregular pattern"</div>
+    </div>
+    <div class="info-card">
+      <span class="ic-tag">JURJINA · 6/8</span>
+      <div class="ic-name" style="color:var(--blue);">ג'ורגינה</div>
+      <div class="ic-desc">שישה שמיניות — נדנדה 6/8. יוצר תנועת "נדנדה" מול "דחיפה" של 4/4 אלקטרוני. קרוב ל-Compound Time בלוז/קלטי. לאינטרואים אורגניים.</div>
+      <div class="ic-suno">"jurjina 6/8 compound groove, rocking Arabic beat, Levantine rhythm"</div>
+    </div>
+  </div>
+
+  <div class="prompt-block">
+    <span class="p-lbl">SUNO — Polyrhythm: מקסום + קיק 4/4 אלקטרוני</span>
+<span class="s">STYLE: trance fusion, 134 BPM, Maqam Hijaz on D,</span>
+<span class="s">maqsum darbuka polyrhythm under electronic four-on-the-floor kick,</span>
+<span class="s">polyrhythmic tension — two cycles running simultaneously,</span>
+<span class="s">arabic percussion addictive groove, humanized darbuka timing,</span>
+<span class="s">tight electronic kick (metronomic) + loose darbuka (organic)</span>
+
+<span class="d">[Intro — Darbuka Maqsum Solo — 8 bars — no electronic kick]</span>
+<span class="l">(instrumental)</span>
+
+<span class="d">[Build — Electronic Kick Enters — Maqsum Continues — Polyrhythm Begins]</span>
+<span class="l">(no lyrics — polyrhythmic tension)</span>
+
+<span class="d">[Drop: Full Energy — Kick + Maqsum Together — Maximum Polyrhythmic Drive]</span>
+<span class="l">אַתָּה / פֹּה / עַכְשָׁו</span>
+  </div>
+
+  <div class="callout blue">
+    <span class="callout-lbl">INPAINT — פוליריתמיקה שנעלמה</span>
+    <code>restore darbuka maqsum pattern, polyrhythm must be audible under kick, arabic percussion layer maintained, two rhythmic cycles running simultaneously</code>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- TOPIC 5.3 -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="topic" id="t3">
+  <div class="topic-header">
+    <div class="topic-num-badge"><span>5.3</span>נושא</div>
+    <div>
+      <div class="topic-title">ארבעת ה<em>מקאמות</em><br>המרכזיים להפקה</div>
+      <div class="topic-en">The Four Core Maqamat — Intervallic Analysis &amp; Microtone Engineering</div>
+    </div>
+  </div>
+
+  <p>מקאם אינו "סולם" — הוא <strong>אישיות מוזיקלית שלמה</strong>: כֹּל מקאם נושא שם, מרחב רגשי, גַ'מַּאז (צליל ציר), ואופן פיתוח מלודי אופייני. מפיק שבוחר מקאם <em>בכוונה</em> — לא רק "כי נשמע מזרחי" — מדויק פי עשר בתוצאה.</p>
+
+  <div class="section-head">ויזואל מיקרוטונים — המרחב בין הצלילים</div>
+
+  <div class="micro-scale">
+    <div class="ms-note ms-whole"><div class="ms-bar"></div><span class="ms-lbl">D (שורש)</span></div>
+    <div class="ms-note ms-quarter"><div class="ms-bar"></div><span class="ms-lbl">E♭+30¢ (בייאתי)</span></div>
+    <div class="ms-note ms-missing"><div class="ms-bar"></div><span class="ms-lbl">E♮ (לא קיים)</span></div>
+    <div class="ms-note ms-west-eq"><div class="ms-bar"></div><span class="ms-lbl">E♭ (12-TET)</span></div>
+    <div class="ms-note ms-whole"><div class="ms-bar"></div><span class="ms-lbl">F (מז'ור שלישי)</span></div>
+    <div class="ms-note ms-half"><div class="ms-bar"></div><span class="ms-lbl">F♯ (חיג'אז)</span></div>
+    <div class="ms-note ms-whole"><div class="ms-bar"></div><span class="ms-lbl">G (קווינטה)</span></div>
+    <div class="ms-note ms-whole"><div class="ms-bar"></div><span class="ms-lbl">A (גַ'מַּאז)</span></div>
+  </div>
+  <p style="font-family:var(--mono);font-size:0.6rem;color:var(--dim);direction:ltr;margin-top:0.5rem;">זהב=צלילים שלמים · סגול=¼ טון (לא ב-12-TET) · אדום מקווקו=צליל שלא קיים במקאם</p>
+
+  <div class="section-head">ארבעת המקאמות — אנטומיה מלאה</div>
+
+  <div class="maqam-grid">
+    <div class="maqam-card mq-rast">
+      <div class="mq-name">מקאם ראסת</div>
+      <div class="mq-arabic">مقام راست</div>
+      <span class="mq-badge">TONAL CENTER: C</span>
+      <div class="mq-scale">C – D – E♭(+50¢) – F – G – A – B♭ – C<br>E בין ♭3 ל-♮3 — רבע-טון מיקרוטונלי</div>
+      <div class="mq-feel"><strong>רגש:</strong> בטחון עמוק, יציבות, חיוביות ענוגה. "הכֹּל בסדר ואני יודע." לא שמחה פשוטה — נינוחות שרגשה.</div>
+      <div class="mq-use">שימוש: מלודיות ורס, אינטרו תקסים, חלק ש"בית".</div>
+      <div class="mq-suno">"maqam rast, stable Middle Eastern tone, confident balanced mood"</div>
+    </div>
+    <div class="maqam-card mq-bayati">
+      <div class="mq-name">מקאם בייאתי</div>
+      <div class="mq-arabic">مقام بياتي</div>
+      <span class="mq-badge">TONAL CENTER: D</span>
+      <div class="mq-scale">D – E♭(+30¢) – F – G – A – B♭ – C – D<br>E♭ נמוך = "צחצוח" רגשי</div>
+      <div class="mq-feel"><strong>רגש:</strong> כיסופים עזים, תפילה, ייאוש עם ניצוץ תקווה. <strong>קרוב לנוסח "אהבה רבה".</strong> ברייקדאון שגורם לאנשים לבכות = בייאתי.</div>
+      <div class="mq-use">שימוש: ברייקדאון עמוק, ווקאל חזנותי, שיא רגשי.</div>
+      <div class="mq-suno">"maqam bayati, yearning Arabic scale, cantorial feel, emotional depth"</div>
+    </div>
+    <div class="maqam-card mq-hijaz">
+      <div class="mq-name">מקאם חיג'אז</div>
+      <div class="mq-arabic">مقام حجاز</div>
+      <span class="mq-badge">TONAL CENTER: D</span>
+      <div class="mq-scale">D – E♭ – F♯ – G – A – B♭ – C – D<br>Aug2nd (E♭→F♯) = הסמן התרבותי</div>
+      <div class="mq-feel"><strong>רגש:</strong> מסתורי, מזרחי מיידי, דרמטי. ה-F♯ אחרי ה-E♭ — <strong>ה"ריח" שכֹּל עולם מזהה כ"מזרח תיכון"</strong> ב-100ms.</div>
+      <div class="mq-use">שימוש: מלודיית ליד בדרופ, קו עוד בולט, אינטרו.</div>
+      <div class="mq-suno">"maqam hijaz, augmented second, dramatic Eastern melody, instantly recognizable"</div>
+    </div>
+    <div class="maqam-card mq-nahawand">
+      <div class="mq-name">מקאם נהוונד</div>
+      <div class="mq-arabic">مقام نهاوند</div>
+      <span class="mq-badge">TONAL CENTER: C</span>
+      <div class="mq-scale">C – D – E♭ – F – G – A♭ – B♮ – C<br>קרוב למינור הרמוני מערבי</div>
+      <div class="mq-feel"><strong>רגש:</strong> מתוק-מר, קולנועי, נוסטלגי. <strong>הכי תואם עם הרמוניה מערבית</strong> — "Sad Banger". עצוב אך יפה.</div>
+      <div class="mq-use">שימוש: גשר בין עולמות, ורס פופ-האוס, Chord Stabs.</div>
+      <div class="mq-suno">"maqam nahawand, bittersweet cinematic, harmonic minor, Western-compatible"</div>
+    </div>
+  </div>
+
+  <div class="section-head">Microtones ב-SUNO — כיצד לשמר אותנטיות</div>
+
+  <div class="example-box">
+    <span class="ex-lbl">הבעיה: SUNO מ-"נרמל" מיקרוטונים ל-12-TET</span>
+    <p>כאשר מבקשים עוד בMaqam Bayati, ה-AI עלול "לתקן" את ה-E♭(+30¢) ל-E♭ טהור — ומאבד את הגרן המיקרוטונלי האופייני. <strong>שלושה Style Tags שמונעים זאת:</strong></p>
+    <ol>
+      <li><code>authentic maqam intonation, preserve microtonal character</code></li>
+      <li><code>do not temper to western 12-TET, natural maqam pitch bends</code></li>
+      <li><code>raw ethnic instrument intonation, quarter-tone slides preserved</code></li>
+    </ol>
+    <p><strong>Inpaint לתיקון:</strong> <code>restore authentic maqam intonation here, natural microtonal character, not westernized</code></p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <tr>
+        <th>מקאם</th>
+        <th>צליל שורש</th>
+        <th>גַ'מַּאז (ציר)</th>
+        <th>אינטרוול ייחודי</th>
+        <th>Style Tag SUNO</th>
+        <th>שימוש בשיר</th>
+      </tr>
+      <tr>
+        <td><strong>ראסת</strong></td>
+        <td>C (דו)</td>
+        <td>G (גָּ)</td>
+        <td>E♭+50¢ (¼ טון)</td>
+        <td><code>maqam rast, stable tone, confident</code></td>
+        <td>ורס, אינטרו</td>
+      </tr>
+      <tr>
+        <td><strong>בייאתי</strong></td>
+        <td>D (רֵ)</td>
+        <td>A (לָ)</td>
+        <td>E♭+30¢ (¼ טון)</td>
+        <td><code>maqam bayati, yearning, cantorial</code></td>
+        <td>ברייקדאון, שיא</td>
+      </tr>
+      <tr>
+        <td><strong>חיג'אז</strong></td>
+        <td>D (רֵ)</td>
+        <td>G (גָּ)</td>
+        <td>Aug2nd E♭→F♯</td>
+        <td><code>maqam hijaz, augmented second, dramatic</code></td>
+        <td>ליד, אינטרו, דרופ</td>
+      </tr>
+      <tr>
+        <td><strong>נהוונד</strong></td>
+        <td>C (דו)</td>
+        <td>G (גָּ)</td>
+        <td>A♭ + ♮7</td>
+        <td><code>maqam nahawand, bittersweet, cinematic</code></td>
+        <td>ורס, גשר</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="prompt-block">
+    <span class="p-lbl">SUNO — Maqam Hijaz Lead + Electronic Drop</span>
+<span class="s">STYLE: trance fusion, 136 BPM,</span>
+<span class="s">Maqam Hijaz on D (augmented second, dramatic Eastern feel),</span>
+<span class="s">authentic microtonal intonation preserved, not westernized,</span>
+<span class="s">oud lead melody in intro and breakdown (Maqam Hijaz improvisation),</span>
+<span class="s">heavy electronic drop — no ethnic instruments in drop section</span>
+
+<span class="d">[Intro — Oud Taqsim — Maqam Hijaz — free meter — 8 bars]</span>
+<span class="l">(instrumental)</span>
+
+<span class="d">[Maqam Hijaz Improvisation — melodic development — tension build]</span>
+<span class="l">(no lyrics)</span>
+
+<span class="d">[Electronic Drop: Full Energy — Maqam Hijaz theme in synth lead]</span>
+<span class="l">אַתָּה / פֹּה / עַכְשָׁו</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- TOPIC 5.4 -->
+<!-- ══════════════════════════════════════════════ -->
+<div class="topic" id="t4">
+  <div class="topic-header">
+    <div class="topic-num-badge"><span>5.4</span>נושא</div>
+    <div>
+      <div class="topic-title">חוקי ווקאל חזנותי<br>ו<em>מתודולוגיית הפיוז'ן האורגני</em></div>
+      <div class="topic-en">Cantorial Nusach Laws &amp; The 5-Step Organic Fusion Methodology</div>
+    </div>
+  </div>
+
+  <p>החזנות פועלת במסגרת מערכת קפדנית של <strong>נוסח</strong> — מסגרות מודליות ומוטיבים מלודיים שנקבעו לפי יום, זמן והקשר ליטורגי. חזן שחורג מהנוסח "מדבר בניב שגוי". ואולם — שבירת הנוסח <em>בכוונה ובידיעה</em> היא אמנות. שבירתו מבורות היא פרובוקציה ריקה.</p>
+
+  <div class="section-head">שלושת הנוסחים המרכזיים לפיוזן</div>
+
+  <div class="nusach-grid">
+    <div class="nusach-card">
+      <div class="nusach-head">
+        <div class="nusach-he">אהבה רבה</div>
+        <div class="nusach-en">Ahavah Rabbah</div>
+        <span class="nusach-mode">Phrygian Dom. / Hijaz</span>
+      </div>
+      <div class="nusach-body">
+        <strong>מתי:</strong> שחרית — שיא הבקשה. <strong>אופי:</strong> ♭2 + ♮3 יוצרים מתח גבוה שאינו נפתר — תחושת "מחכה לתשובה שלא באה". הז'אנר הליטורגי של העמידה בפני האין-סוף.
+      </div>
+      <div class="nusach-fusion">שים מלודיית "אהבה רבה" כמלודיית הברייקדאון מעל Trance-Pad ב-138 BPM. כיסופים ליטורגיים + ריחוף אלקטרוני = שילוב שמגרה ורוחני בו-זמנית.</div>
+    </div>
+    <div class="nusach-card">
+      <div class="nusach-head">
+        <div class="nusach-he">מגן אבות</div>
+        <div class="nusach-en">Magen Avot</div>
+        <span class="nusach-mode">Melodic Minor (↑6↑7)</span>
+      </div>
+      <div class="nusach-body">
+        <strong>מתי:</strong> קבלת שבת — שינוי ממצב חול לקדוש. <strong>אופי:</strong> מינור מלודי עם ♮6 ו-♮7 — יוצר תנועה "פנימה" שקטה. אין דרמה — יש כבוד עמוק. כניסה לזמן אחר.
+      </div>
+      <div class="nusach-fusion">קיק Four-on-the-Floor קל ב-80 BPM + היהאט שמיניות מתחת למלודיית מגן אבות = "מדיטציה מחוברת". שלווה ליטורגית + מצע ריתמי = אינטרו מושלם.</div>
+    </div>
+    <div class="nusach-card">
+      <div class="nusach-head">
+        <div class="nusach-he">ה' מלך</div>
+        <div class="nusach-en">Adonai Malach</div>
+        <span class="nusach-mode">Ionian / Major</span>
+      </div>
+      <div class="nusach-body">
+        <strong>מתי:</strong> ימים נוראים — הכרזת המלכות. <strong>אופי:</strong> מז'ור טהור, מנצח, מלכותי. לא שמחה פשוטה — <em>הכרזה קוסמית</em>. הנוסח "הגדול" ביותר אנרגטית.
+      </div>
+      <div class="nusach-fusion">מלודיית "ה' מלך" כקו ווקאל ב-DROP 2 מעל הסינת' המלא. "ניצחון" ליטורגי + "ניצחון" אלקטרוני = גוף מגיב פיזית. שניהם מז'ורי, שניהם גדולים.</div>
+    </div>
+  </div>
+
+  <div class="section-head">מתודולוגיית הפיוז'ן האורגני — 5 שלבים</div>
+
+  <div class="method-flow">
+    <div class="method-step step-n1">
+      <div class="method-connector">
+        <div class="method-node">1</div>
+        <div class="method-line"></div>
+      </div>
+      <div class="method-content">
+        <div class="method-title">בחר מרכז טונלי אחד — מקאם אחד לכֹּל השיר</div>
+        <div class="method-desc">לפני שפותחים DAW — בחר מקאם. שאל: <em>מה הרגש?</em> כיסופים ותפילה → בייאתי. זיהוי מזרחי מיידי → חיג'אז. מתוק-מר קולנועי → נהוונד. <strong>כֹּל השיר — ורס, ברייקדאון, דרופ — מבוסס על אותו מרכז טונלי.</strong> חריגה = מודולציה מכוונת, לא שינוי ספונטני. עקביות נשמעת כחתימה; חוסר-עקביות נשמע כטעות.</div>
+      </div>
+    </div>
+    <div class="method-step step-n2">
+      <div class="method-connector">
+        <div class="method-node">2</div>
+        <div class="method-line"></div>
+      </div>
+      <div class="method-content">
+        <div class="method-title">הקלט / פרסם כלי אתני ראשון — לפני הכֹּל</div>
+        <div class="method-desc">בDAW: הקלט עוד, נַי, קמנצ'ה <em>לפני</em> שבונים כלום אחר. בSUNO: צור גרסה ברייקדאון אתני בלבד תחילה. <strong>הכלי האתני הוא הלב.</strong> כֹּל שאר האריגמנט נבנה סביבו — לא הוא מסתגל לאריגמנט. שיר שנבנה "מהדרופ החוצה" עם כלי אתני שנדחס בהמשך — תמיד נשמע כ-Afterthought.</div>
+      </div>
+    </div>
+    <div class="method-step step-n3">
+      <div class="method-connector">
+        <div class="method-node">3</div>
+        <div class="method-line"></div>
+      </div>
+      <div class="method-content">
+        <div class="method-title">זהה את הגַ'מַּאז — נקודת הציר של המקאם</div>
+        <div class="method-desc">הגַ'מַּאז הוא דרגת הסולם שאליה המלודיה "חוזרת" ו"נחה" — הדומיננטה של המקאם. <strong>בMaqam Hijaz (D) → גַ'מַּאז = G. בMaqam Bayati (D) → גַ'מַּאז = A.</strong> בנה את מלודיית הסינת'-ליד בדרופ כך שתנחה לגַ'מַּאז — ולא לטוניקה. יוצר תחושה ש"השיר לא גמור" עד שהדרופ 2 מסיים על הטוניקה.</div>
+      </div>
+    </div>
+    <div class="method-step step-n4">
+      <div class="method-connector">
+        <div class="method-node">4</div>
+        <div class="method-line"></div>
+      </div>
+      <div class="method-content">
+        <div class="method-title">מפה האיקאע לרשת — קרוס-ריתמיקה</div>
+        <div class="method-desc">בחר האיקאע הנכון לרגש המקאם: <strong>בייאתי + מקסום = אנרגטי-כיסוף. ראסת + וואחדה = נינוח-כבד. חיג'אז + סמאעי 10/8 = מסתורי-בלתי-צפוי.</strong> בDAW: הכנס פרקאשן-איקאע בClip נפרד, אותו BPM, רץ מתחת לקיק. <em>אל תנסה לייצב אותם</em> — הפוליריתמיקה היא התכלית.</div>
+      </div>
+    </div>
+    <div class="method-step step-n5">
+      <div class="method-connector">
+        <div class="method-node">5</div>
+        <div class="method-line"></div>
+      </div>
+      <div class="method-content">
+        <div class="method-title">כתוב פקודות בימוי כירורגיות — אנגלית בסוגריים מרובעים</div>
+        <div class="method-desc">השלב האחרון — הלירקה של SUNO. <strong>כֹּל פקודת בימוי = אנגלית בסוגריים מרובעים.</strong> כֹּל לירקה = עברית מנוקדת מלאה. מעולם לא מערבבים. מטרה כפולה: (א) שליטה מבנית מלאה, (ב) שבירת רציפות סריקת Copyright ב-AI Model. Style → מה ה-AI מרגיש. [Structure Tags] → מה ה-AI עושה. ניקוד מלא בלירקה → כיצד ה-AI שר.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-head">הפרומפט הסופי — כֹּל 5 השלבים יחד</div>
+
+  <div class="prompt-block">
+    <span class="p-lbl">MASTER FUSION PROMPT — Cantorial Trance × Maqam Bayati × Maqsum</span>
+<span class="s">STYLE: cantorial trance pop-house fusion, 136 BPM,</span>
+<span class="s">— STEP 1: TONAL CENTER —</span>
+<span class="s">Maqam Bayati on D (yearning, prayer-like, cantorial depth),</span>
+<span class="s">ghammaz on A — resolve to D on final drop,</span>
+<span class="s">authentic microtonal intonation, not westernized,</span>
+<span class="s">— STEP 2: ETHNIC FIRST —</span>
+<span class="s">dry close-miked oud (raw fretless, Maqam Bayati phrasing, featured),</span>
+<span class="s">airy ney flute (breathy, natural microtonal, center),</span>
+<span class="s">male hazzan (ahavah rabbah nusach, melismatic, free-time phrasing),</span>
+<span class="s">no synth harmony in breakdown — ethnic instruments featured,</span>
+<span class="s">— STEP 4: RHYTHM —</span>
+<span class="s">maqsum darbuka polyrhythm under electronic four-on-the-floor kick,</span>
+<span class="s">humanized darbuka timing (organic groove, not quantized),</span>
+<span class="s">— DROP —</span>
+<span class="s">heavy trance supersaw (Maqam Bayati tuning), punchy kick,</span>
+<span class="s">no ethnic instruments in drop, tight low end, mono-compatible</span>
+
+<span class="d">[Intro — Oud Taqsim — Maqam Bayati — free meter — 8 bars]</span>
+<span class="l">(instrumental)</span>
+
+<span class="d">[Verse — sparse arrangement — humanized maqsum darbuka]</span>
+<span class="l">עוֹמֵד בַּשַּׁעַר שֶׁל הַלַּיְלָה / נוֹשֵׂא אֶת הַשֵּׁם</span>
+
+<span class="d">[Cinematic Build — filter sweep — no vocals — rising tension]</span>
+<span class="l">(no lyrics)</span>
+
+<span class="d">[Electronic Shofar Blast — 2 beats — then 1 bar silence — then Heavy Drop]</span>
+
+<span class="d">[Drop: Full Energy — Electronic Only — Maqam Bayati Synth Lead — maximum density]</span>
+<span class="l">אַהֲבָה / אַהֲבָה / פֹּה</span>
+
+<span class="d">[Extended Cantorial Breakdown — 48 bars — Oud + Ney + Hazzan — no kick]</span>
+<span class="l">אַהֲבָה רַבָּה אֲהַבְתָּנוּ / ה' אֱלֹהֵינוּ</span>
+<span class="l">כַּמָּה עוֹד לִנְסֹעַ / עַד שֶׁתָּבוֹא</span>
+
+<span class="d">[Hazzan Ad-Lib — free time — Oud taqsim — Maqam Bayati — resolve to ghammaz A]</span>
+<span class="l">(improvisation)</span>
+
+<span class="d">[Tension Build — hi-hat enters — rising pads — intensifying maqsum]</span>
+<span class="l">עוֹד רֶגַע / עוֹד נְשִׁימָה</span>
+
+<span class="d">[Electronic Shofar — silence — Final Drop: resolve to D — climax]</span>
+<span class="l">אַהֲבָה / אַהֲבָה / פֹּה / עַכְשָׁו</span>
+
+<span class="d">[Outro — Oud returns quietly — fade — 8 bars]</span>
+<span class="l">(instrumental)</span>
+
+<span class="c">// Step 1: Maqam Bayati "yearning, prayer-like"</span>
+<span class="c">// Step 2: oud first — "dry close-miked oud, featured"</span>
+<span class="c">// Step 3: ghammaz — "resolve to ghammaz A... resolve to D on final drop"</span>
+<span class="c">// Step 4: iqa — "maqsum darbuka polyrhythm under 4/4 kick"</span>
+<span class="c">// Step 5: surgical [Directives] + full vowelized Hebrew lyrics</span>
+  </div>
+
+  <div class="section-head">סיכום מאסטרקלאס — טבלת הפניה מהירה</div>
+
+  <div class="tbl-wrap">
+    <table>
+      <tr>
+        <th>נושא / פרק</th>
+        <th>הכלל הליבתי</th>
+        <th>Style Tag / Directive מרכזי</th>
+      </tr>
+      <tr>
+        <td><strong>פ׳1 — מודים</strong></td>
+        <td>בחר מוד לפי רגש — לא לפי "נשמע טוב"</td>
+        <td><code>melancholic hopeful, Dorian mode</code></td>
+      </tr>
+      <tr>
+        <td><strong>פ׳2 — מבנה</strong></td>
+        <td>ורס=40%, Pre-Drop Silence, כלי אתני בברייקדאון בלבד</td>
+        <td><code>[1 bar silence — then Drop: Full Energy]</code></td>
+      </tr>
+      <tr>
+        <td><strong>פ׳3 — ווקאל</strong></td>
+        <td>ניקוד מלא + 3 שכבות אפיון + FIX/PRESERVE</td>
+        <td><code>cantorial hazzan tenor, melismatic, raw emotional</code></td>
+      </tr>
+      <tr>
+        <td><strong>פ׳4 — QA</strong></td>
+        <td>Mono Test + Inpaint 2–4s + Phase + BPM/Pitch Lock</td>
+        <td><code>mono-compatible, stable pitch, no drift</code></td>
+      </tr>
+      <tr>
+        <td><strong>גרוב</strong></td>
+        <td>קיק מדויק + אתני נזיל + Swing 52–58%</td>
+        <td><code>humanized loose groove, tight kick, off-grid ethnic</code></td>
+      </tr>
+      <tr>
+        <td><strong>איקאעאת</strong></td>
+        <td>מקסום/וואחדה/סמאעי מתחת לקיק = פוליריתמיקה</td>
+        <td><code>maqsum polyrhythm under 4/4 kick, organic darbuka</code></td>
+      </tr>
+      <tr>
+        <td><strong>מקאמות</strong></td>
+        <td>בייאתי=כיסוף, חיג'אז=זיהוי מזרחי, נהוונד=מתוק-מר</td>
+        <td><code>maqam bayati, authentic microtonal, not westernized</code></td>
+      </tr>
+      <tr>
+        <td><strong>פיוז'ן</strong></td>
+        <td>מקאם → כלי אתני → גמאז → איקאע → [Directives]</td>
+        <td>5 שלבים בסדר — לעולם לא הפוך</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- COMPLETION SEAL -->
+  <div class="completion-seal">
+    <div class="seal-title">Advanced Music Production Masterclass</div>
+    <p class="seal-sub">חמשת פרקי הקורס הושלמו. מתיאוריה הרמונית ועד לפיוז'ן תרבותי — כֹּל כלי, כֹּל מתודולוגיה, כֹּל Style Tag. עכשיו זה בידיים שלך, לירון.</p>
+    <div class="seal-tags">
+      <span class="seal-tag">CHAPTER 1 · HARMONY &amp; MODES</span>
+      <span class="seal-tag">CHAPTER 2 · RHYTHM &amp; ENERGY</span>
+      <span class="seal-tag">CHAPTER 3 · VOCAL ENGINEERING</span>
+      <span class="seal-tag">CHAPTER 4 · SURGICAL QA</span>
+      <span class="seal-tag">CHAPTER 5 · MAQAM &amp; FUSION ★</span>
+    </div>
+  </div>
+</div><!-- /topic 5.4 -->
+
+<!-- ══ CHAPTER FOOTER NAV ══ -->
+<div class="chapter-nav">
+  <a href="chapter4.html" class="cnav-link">← פרק 4 — QA כירורגי ואימון שמיעה</a>
+  <span class="cnav-label">CHAPTER 05 OF 05 — FINAL</span>
+  <a href="index.html" class="cnav-link">מרכז השליטה הראשי →</a>
+</div>
+
+</div><!-- /page -->
+</body>
+</html>
